@@ -6,6 +6,6 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.IndividualCustomer;
 
 public interface IndividualCustomerDao extends JpaRepository<IndividualCustomer, Integer>{
-
+	// finds individual customer by email
 	IndividualCustomer findByEmail(String email);
 }

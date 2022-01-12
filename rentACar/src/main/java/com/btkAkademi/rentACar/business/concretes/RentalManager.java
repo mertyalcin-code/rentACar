@@ -44,8 +44,9 @@ public class RentalManager implements RentalService {
 	public Result add(createRentalRequest createRentalRequest) {
 		Result result = BusinessRules.run(
 				checkIfDatesCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()),
-				checkIfKilometerCorrect(createRentalRequest.getRentedKilometer(),
-						createRentalRequest.getReturnedKilometer()));
+				checkIfKilometerCorrect(createRentalRequest.getRentedKilometer(),createRentalRequest.getReturnedKilometer()),
+				checkIfCustomerExist(createRentalRequest.getCustomer().getId())
+				);
 
 		if (result != null) {
 			return result;
@@ -76,5 +77,12 @@ public class RentalManager implements RentalService {
 
 		return new SuccessResult();
 	}
+	// Checks customer exist in the database
+	private Result checkIfCustomerExist(int customerId) {
+		if (!customerService.findCustomerById(customerId).isSuccess()) {
+			return new ErrorResult(Messages.customerNotFound);
+		}
 
+		return new SuccessResult();
+	}
 }

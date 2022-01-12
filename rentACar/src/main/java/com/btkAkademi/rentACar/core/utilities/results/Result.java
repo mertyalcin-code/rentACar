@@ -1,5 +1,5 @@
 package com.btkAkademi.rentACar.core.utilities.results;
-
+//Custom response
 public class Result {
    private boolean success;
    private String message;

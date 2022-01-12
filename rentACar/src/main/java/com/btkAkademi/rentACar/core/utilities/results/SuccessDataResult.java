@@ -1,5 +1,5 @@
 package com.btkAkademi.rentACar.core.utilities.results;
-
+//Custom response with successful data 
 public class SuccessDataResult<T> extends DataResult<T> {
 
 	public SuccessDataResult(T data, String message) {

@@ -1,5 +1,5 @@
 package com.btkAkademi.rentACar.core.utilities.results;
-
+// Custom response with data 
 public class DataResult<T> extends Result {
 
 	private T data;

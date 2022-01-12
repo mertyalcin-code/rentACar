@@ -24,6 +24,4 @@ public class Customer extends User{
 	@JsonIgnore
 	private List<Rental> rentals;
 }
-// return date rentat date den önce olamaz olamaz
-// return km rentat km dan az olamaz
-// müşteri sistemde olmak zorunda
+
