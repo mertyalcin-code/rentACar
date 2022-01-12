@@ -20,31 +20,26 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 @RestController
 @RequestMapping("/api/cars")
 public class CarsController {
+	// Dependencies
 	private CarService carService;
-
+	// Dependency Injection
 	public CarsController(CarService carService) {
 		super();
 		this.carService = carService;
 	}
-	
+	// lists all cars
 	@GetMapping("getall")
-	public  DataResult<List<CarListDto>> getall(){
-		
+	public DataResult<List<CarListDto>> getall() {
 		return this.carService.getAll();
 	}
-
-	
-@PostMapping("add")
-	
+	// adds a new car
+	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {
-		
 		return this.carService.add(createCarRequest);
 	}
-
-@PostMapping("update")
-
-public Result update(@RequestBody @Valid UpdateCarRequest updateCarRequest) {
-	
-	return this.carService.update(updateCarRequest);
-}
+	// updates a current car
+	@PostMapping("update")
+	public Result update(@RequestBody @Valid UpdateCarRequest updateCarRequest) {
+		return this.carService.update(updateCarRequest);
+	}
 }

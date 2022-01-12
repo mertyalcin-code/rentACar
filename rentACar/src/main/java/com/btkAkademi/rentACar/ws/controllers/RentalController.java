@@ -16,15 +16,18 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 @RestController
 @RequestMapping("/api/rental")
 public class RentalController {
-private RentalService rentalService;
-@Autowired
-public RentalController(RentalService rentalService) {
-	super();
-	this.rentalService = rentalService;
-}
-@PostMapping("add")	
-public Result add(@RequestBody @Valid createRentalRequest createRentalRequest) {
-	
-	return this.rentalService.add(createRentalRequest);
-}
+	//Dependencies
+	private RentalService rentalService;
+	//Dependency Injection
+	@Autowired
+	public RentalController(RentalService rentalService) {
+		super();
+		this.rentalService = rentalService;
+	}
+	//Adds a new rental
+	@PostMapping("add")
+	public Result add(@RequestBody @Valid createRentalRequest createRentalRequest) {
+
+		return this.rentalService.add(createRentalRequest);
+	}
 }

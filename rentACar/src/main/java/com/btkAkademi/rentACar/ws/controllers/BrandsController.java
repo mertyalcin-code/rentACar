@@ -20,32 +20,32 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 @RestController
 @RequestMapping("/api/brands")
 public class BrandsController {
-
+	// Dependencies
 	private BrandService brandService;
 
+	// Dependency Injection
 	public BrandsController(BrandService brandService) {
 		super();
 		this.brandService = brandService;
 	}
-	
+
+	// lists all brands
 	@GetMapping("getall")
-	public DataResult<List<BrandListDto>> getall(){
+	public DataResult<List<BrandListDto>> getall() {
 		return this.brandService.getAll();
 	}
-	
+
+	// adds a new brand
 	@PostMapping("add")
-	
 	public Result add(@RequestBody @Valid CreateBrandRequest createBrandRequest) {
-		
+
 		return this.brandService.add(createBrandRequest);
 	}
-@PostMapping("update")
-	
+	// updates a current brand
+	@PostMapping("update")
 	public Result update(@RequestBody @Valid UpdateBrandRequest updateBrandRequest) {
-		
+
 		return this.brandService.update(updateBrandRequest);
 	}
-
-
 
 }

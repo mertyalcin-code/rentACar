@@ -11,7 +11,8 @@ public class RentACarApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(RentACarApplication.class, args);
 	}
-
+	
+	//To create an instance of Model Mapper
 	@Bean
 	public ModelMapper getModelMapper() {
 		return new ModelMapper();

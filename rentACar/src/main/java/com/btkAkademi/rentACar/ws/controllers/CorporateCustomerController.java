@@ -17,19 +17,19 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 @RestController
 @RequestMapping("/api/corporatecustomer")
 public class CorporateCustomerController {
-private CorporateCustomerService corporateCustomerService;
-	
+	// Dependencies
+	private CorporateCustomerService corporateCustomerService;
+	// Dependency Injection
 	@Autowired
 	public CorporateCustomerController(CorporateCustomerService corporateCustomerService) {
 		super();
 		this.corporateCustomerService = corporateCustomerService;
 	}
-
-	@PostMapping("add")	
+	// adds a new corporate customer
+	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCorporateCustomerRequest createCorporateCustomerRequest) {
-		
+
 		return this.corporateCustomerService.add(createCorporateCustomerRequest);
 	}
-
 
 }
