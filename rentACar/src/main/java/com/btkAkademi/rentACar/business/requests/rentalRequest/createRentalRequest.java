@@ -1,7 +1,6 @@
-package com.btkAkademi.rentACar.business.requests;
+package com.btkAkademi.rentACar.business.requests.rentalRequest;
 
 import java.time.LocalDate;
-
 
 import com.btkAkademi.rentACar.entities.concretes.Customer;
 
@@ -15,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class createRentalRequest {
 
 	private LocalDate rentDate;
-	
+
 	private LocalDate returnDate;
-	
+
 	private int rentedKilometer;
 
 	private int returnedKilometer;

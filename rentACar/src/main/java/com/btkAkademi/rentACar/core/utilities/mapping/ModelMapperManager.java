@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 
 public class ModelMapperManager implements ModelMapperService {
-
+	//Dependencies
 	private ModelMapper modelMapper;
+	//Dependency Injection
 	@Autowired
 	public ModelMapperManager(ModelMapper modelMapper) {
 		this.modelMapper = modelMapper;
