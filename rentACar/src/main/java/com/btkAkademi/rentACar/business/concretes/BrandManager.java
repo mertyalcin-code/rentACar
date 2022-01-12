@@ -20,7 +20,7 @@ import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.BrandDao;
 import com.btkAkademi.rentACar.entities.concretes.Brand;
-
+ 
 @Service
 public class BrandManager implements BrandService {
 	// Dependencies
