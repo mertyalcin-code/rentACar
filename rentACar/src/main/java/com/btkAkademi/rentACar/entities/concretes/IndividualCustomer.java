@@ -23,8 +23,7 @@ public class IndividualCustomer extends Customer{
 	@Column(name="last_name")
 	private String lastName;
 	@Column(name="birth_Date")
-	private LocalDate birthDate;
-	
+	private LocalDate birthDate;	
 	
 
 }

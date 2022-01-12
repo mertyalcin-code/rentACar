@@ -1,18 +1,29 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-//@AllArgsConstructor
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name="customers")
 public class Customer extends User{
-
+	
+	@OneToMany(mappedBy = "customer")
+	@JsonIgnore
+	private List<Rental> rentals;
 }
+// return date rentat date den önce olamaz olamaz
+// return km rentat km dan az olamaz
+// müşteri sistemde olmak zorunda
