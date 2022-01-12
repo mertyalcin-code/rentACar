@@ -15,14 +15,17 @@ import com.btkAkademi.rentACar.entities.concretes.Customer;
 @Service
 
 public class CustomerManager implements CustomerService {
+	// Dependencies
 	private CustomerDao customerDao;
 	
+	// Dependency Injection
 	@Autowired
 	public CustomerManager(CustomerDao customerDao) {
 		super();
 		this.customerDao = customerDao;
 	}
-
+	
+	//Finds Customer with that id
 	@Override
 	public DataResult<Customer> findCustomerById(int id) {
 		if(!customerDao.existsById(id)) {

@@ -1,4 +1,4 @@
-package com.btkAkademi.rentACar.business.dtos;
+package com.btkAkademi.rentACar.dataAccess.abstracts;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

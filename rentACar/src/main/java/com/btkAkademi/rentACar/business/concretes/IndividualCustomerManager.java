@@ -22,10 +22,14 @@ import com.btkAkademi.rentACar.entities.concretes.Color;
 import com.btkAkademi.rentACar.entities.concretes.IndividualCustomer;
 @Service
 public class IndividualCustomerManager implements IndividualCustomerService{
+	//constants
+	private static final int ageLimit=18;
+	
+	// Dependencies
 	private IndividualCustomerDao individualCustomerDao;
 	private ModelMapperService modelMapperService;
 	
-
+	// Dependency Injection
 	@Autowired
 	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao,
 			ModelMapperService modelMapperService) {
@@ -34,7 +38,10 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 		this.modelMapperService = modelMapperService;
 	}
 
-
+	// Lists all individual customers
+	
+	
+	// Adds a new individual customer
 	@Override
 	public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 		Result result = BusinessRules.run(
@@ -51,16 +58,20 @@ public class IndividualCustomerManager implements IndividualCustomerService{
 		return new SuccessResult(Messages.individualCustomerAdded);
 	}
 	
+	//Helpers
 	
+	// Checks anyone registered with that email before
 	private Result checkIfEmailExists(String email) {
 		if(individualCustomerDao.findByEmail(email)!=null) {
 			return new ErrorResult(Messages.emailExist);
 		}
 		return new SuccessResult();
 	}
+	
+	//Checks the age limitation 
 	private Result checkIfUserInAgeLimit(LocalDate birthDate) {
 		int Age = Period.between(birthDate, LocalDate.now()).getYears();
-		if(Age<18 ) {
+		if(Age<ageLimit ) {
 			return new ErrorResult(Messages.ageNotInLimit);
 		}
 		return new SuccessResult();

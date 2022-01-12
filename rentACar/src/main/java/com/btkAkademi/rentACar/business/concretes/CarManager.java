@@ -24,17 +24,17 @@ import com.btkAkademi.rentACar.entities.concretes.Color;
 
 @Service
 public class CarManager implements CarService {
-
+	// Dependencies
 	private CarDao carDao;
 	private ModelMapperService modelMapperService;
-	
+	// Dependency Injection
 	@Autowired
 	public CarManager(CarDao carDao, ModelMapperService modelMapperService) {
 		
 		this.carDao = carDao;
 		this.modelMapperService = modelMapperService;
 	}
-
+	// Lists all cars
 	@Override
 	public DataResult<List<CarListDto>> getAll() {
 		List<Car> carList = this.carDao.findAll();
@@ -45,7 +45,7 @@ public class CarManager implements CarService {
 		
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
-
+	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
 
@@ -54,7 +54,7 @@ public class CarManager implements CarService {
 		
 		return new SuccessResult(Messages.carAdded);
 	}
-
+	// Updates current car
 	@Override
 	public Result update(UpdateCarRequest updateCarRequest) {
 		
@@ -72,7 +72,9 @@ public class CarManager implements CarService {
 		return new SuccessResult(Messages.carUpdated);
 	}
 	
+	//Helpers
 	
+	//Checks is there a car with that id
 	private Result checkIfCarIdExists(int id)
 	{
 		   if(!this.carDao.existsById(id)) {

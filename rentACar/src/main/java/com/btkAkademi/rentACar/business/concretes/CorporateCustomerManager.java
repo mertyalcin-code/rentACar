@@ -17,15 +17,20 @@ import com.btkAkademi.rentACar.entities.concretes.IndividualCustomer;
 
 @Service
 public class CorporateCustomerManager implements CorporateCustomerService{
+	// Dependencies
 	private CorporateCustomerDao corporateCustomerDao;
 	private ModelMapperService modelMapperService;
-	
+	// Dependency Injection
 	@Autowired
 	public CorporateCustomerManager(CorporateCustomerDao corporateCustomerDao, ModelMapperService modelMapperService) {
 		super();
 		this.corporateCustomerDao = corporateCustomerDao;
 		this.modelMapperService = modelMapperService;
 	}
+	// Lists all corporate customer
+	
+	
+	// Adds a new corporate customer
 	@Override
 	public Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest) {
 		Result result = BusinessRules.run(
@@ -39,6 +44,13 @@ public class CorporateCustomerManager implements CorporateCustomerService{
 		this.corporateCustomerDao.save(corporateCustomer);
 		return new SuccessResult(Messages.corporateCustomerAdded);
 	}
+	
+	
+	//Helpers
+	
+	
+
+	// Checks company name exists in the database
 	private Result checkIfCompanyNameExists(String companyName) {
 		if(corporateCustomerDao.findByCompanyName(companyName)!=null ) {
 			return new ErrorResult(Messages.companyNameExists);
