@@ -80,8 +80,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 			return true;
 		}
 		else return false;
-	}
-	
+	}	
 	private Result checkIfCarIsRented(int carId) {
 		if(rentalService.isCarRented(carId)) {
 			return new ErrorResult(Messages.carRented);

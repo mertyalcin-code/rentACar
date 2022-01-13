@@ -36,6 +36,10 @@ public class Rental {
 	private int rentedKilometer;
 	@Column(name="returned_kilometer")
 	private int returnedKilometer;
+	@Column(name="pick_up_city_id")
+	private int pickUpCityId;
+	@Column(name="return_city_id")
+	private int returnCityId;
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")

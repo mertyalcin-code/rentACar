@@ -2,6 +2,8 @@ package com.btkAkademi.rentACar.business.concretes;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -11,15 +13,20 @@ import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.dtos.ColorListDto;
+import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.rentalRequest.createRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.IndividualCustomerDao;
 import com.btkAkademi.rentACar.dataAccess.abstracts.RentalDao;
+import com.btkAkademi.rentACar.entities.concretes.Color;
 import com.btkAkademi.rentACar.entities.concretes.IndividualCustomer;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
 
@@ -42,12 +49,19 @@ public class RentalManager implements RentalService {
 	}
 
 
-	
+	// araba kiralarken hangi şehirde alıp hangi şehire bırakıcaz bilgisine ihtiyaç oldu
 
 
 	// Lists all retals
-
 	
+	@Override
+	public DataResult<List<RentalListDto>> getAll() {
+		List<Rental> rentalList = this.rentalDao.findAll();
+		List<RentalListDto> response = rentalList.stream()
+				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class)).collect(Collectors.toList());
+		return new SuccessDataResult<List<RentalListDto>>(response);
+	}
+
 	// Adds a new rental
 	@Override
 	public Result add(createRentalRequest createRentalRequest) {
@@ -109,6 +123,11 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
+
+
+
+
+
 
 
 

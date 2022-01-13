@@ -35,6 +35,7 @@ public class Messages {
 	public static final String carInMaintanance = "car.in.maintanance";
 	public static final String carDamageAdded = "car.damage.added";
 	public static final String carRented = "car.rented";
+	public static final String cityNameExists = "city.name.exists";
 	
 	
 	
