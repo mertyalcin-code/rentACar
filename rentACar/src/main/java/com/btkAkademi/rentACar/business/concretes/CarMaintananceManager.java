@@ -59,10 +59,10 @@ public class CarMaintananceManager implements CarMaintananceService{
 	}
 
 	@Override
-	public boolean checkIfCarNotInMaintanance(int carId) {
+	public boolean checkIfCarIsInMaintanance(int carId) {
 		if(carMaintananceDao.findByCarIdAndReturnDateIsNull(carId)!=null) {
-			return false;
+			return true;
 		}
-		else return true;
+		else return false;
 }
 }
