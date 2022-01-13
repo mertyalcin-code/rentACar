@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,7 +52,10 @@ public class Car {
 	private Color color;
 	
 	@OneToMany(mappedBy = "car")
+	@JsonIgnore
 	private List<CarMaintanance> maintanances;
-	
+	@JsonIgnore
+	@OneToMany(mappedBy = "car")
+	private List<Rental> rentals;
 
 }
