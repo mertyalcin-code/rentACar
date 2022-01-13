@@ -1,6 +1,7 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.annotation.Generated;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ManyToAny;
@@ -57,6 +59,10 @@ public class Rental {
 	@ManyToOne
 	@JoinColumn(name="car_id")
 	private Car car;
+	
+	@OneToMany(mappedBy = "rental")
+	private List<AdditionalService> addtionalServices;
+	
 }
 // müşteriler kiralama sürecinde ek hizmetlerde satın alabilmeli
-// additionalServace
+// additionalService

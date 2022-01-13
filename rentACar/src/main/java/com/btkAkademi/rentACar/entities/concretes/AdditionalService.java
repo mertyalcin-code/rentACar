@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -16,10 +19,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="additional_service")
-public class additionalService {
+public class AdditionalService {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	private String name;
+	
+	@ManyToOne
+	@JoinColumn(name="rental_id")
+	private Rental rental;
 }
+
+//arabalar listelenirken default olarak 10 arlı sayfalar halinde gelmelidir.
+//kullanıcı sayfa numarası istiyecek
