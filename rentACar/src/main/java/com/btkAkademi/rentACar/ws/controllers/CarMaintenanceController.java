@@ -28,11 +28,11 @@ public class CarMaintenanceController {
 		super();
 		this.carMaintenanceService = carMaintenanceService;
 	}
-	@GetMapping("getallinmaintenance")
+	@GetMapping("getall")
 	public DataResult<List<CarMaintenanceDto>> getall() {
 		return this.carMaintenanceService.getAll();
 	}
-	@PostMapping
+	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCarMaintenanceRequest createCarMaintananceRequest) {
 
 		return this.carMaintenanceService.add(createCarMaintananceRequest);
