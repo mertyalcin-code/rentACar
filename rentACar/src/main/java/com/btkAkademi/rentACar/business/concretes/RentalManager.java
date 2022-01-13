@@ -93,7 +93,7 @@ public class RentalManager implements RentalService {
 	}
 	//check
 	private Result checkIfCarInMaintanance(int carId) {
-		if(!carMaintananceManager.isCarInMaintanance(carId).isSuccess()) {
+		if(!carMaintananceManager.checkIfCarNotInMaintanance(carId)) {
 			return new ErrorResult(Messages.carInMaintanance);
 		}
 		return new SuccessResult();

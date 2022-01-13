@@ -16,5 +16,5 @@ public interface CarMaintananceService {
 
 	Result add(@Valid CreateCarMaintananceRequest createCarMaintananceRequest);
 	
-	Result isCarInMaintanance (int carId) ;
+	boolean checkIfCarNotInMaintanance (int carId) ;
 }
