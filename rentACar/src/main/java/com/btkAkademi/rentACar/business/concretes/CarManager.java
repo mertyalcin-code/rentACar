@@ -1,11 +1,14 @@
 package com.btkAkademi.rentACar.business.concretes;
 
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CarService;
@@ -38,8 +41,9 @@ public class CarManager implements CarService {
 	}
 	// Lists all cars
 	@Override
-	public DataResult<List<CarListDto>> getAll() {
-		List<Car> carList = this.carDao.findAll();
+	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
+		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream()
 				.map(car->modelMapperService.forDto()
 				.map(car, CarListDto.class))

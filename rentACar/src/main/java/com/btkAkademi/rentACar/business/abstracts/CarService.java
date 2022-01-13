@@ -13,8 +13,10 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 public interface CarService {
 
 	
-	DataResult<List<CarListDto>> getAll();
-
+	DataResult<List<CarListDto>> getAll(int pageNo, int pageSize);
+	
+	
+	
 	Result add(CreateCarRequest createCarRequest);
 	
 	Result update(UpdateCarRequest updateCarRequest);
