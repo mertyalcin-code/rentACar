@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.CarMaintananceService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
-import com.btkAkademi.rentACar.business.dtos.CarMaintananceListDto;
+import com.btkAkademi.rentACar.business.dtos.CarMaintananceDto;
 import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintananceRequest;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
@@ -38,14 +39,14 @@ public class CarMaintananceManager implements CarMaintananceService{
 	}
 
 	@Override
-	public DataResult<List<CarMaintananceListDto>> getAll() {
+	public DataResult<List<CarMaintananceDto>> getAll() {
 		List<CarMaintanance> carMaintananceList = this.carMaintananceDao.findAll();
-		List<CarMaintananceListDto> response = carMaintananceList.stream()
+		List<CarMaintananceDto> response = carMaintananceList.stream()
 				.map(carMaintanance->modelMapperService.forDto()
-				.map(carMaintanance, CarMaintananceListDto.class))
+				.map(carMaintanance, CarMaintananceDto.class))
 				.collect(Collectors.toList());
 		
-		return new SuccessDataResult<List<CarMaintananceListDto>>(response);
+		return new SuccessDataResult<List<CarMaintananceDto>>(response);
 	}
 
 	@Override
@@ -59,9 +60,22 @@ public class CarMaintananceManager implements CarMaintananceService{
 
 	@Override
 	public Result isCarInMaintanance(int carId) {
-		List<CarMaintanance> maintanances = carMaintananceDao.findAllByCarId(carId);
-		maintanances.sort(Comparator.comparing(CarMaintanance::getReturnDate).reversed());
-		if(LocalDate.now().)
+		if(carMaintananceDao.existsById(carId)) {
+		List<CarMaintanance> carMaintanances = carMaintananceDao.findAllByCarId(carId);
+		boolean isInMaintanance = false;
+		
+		for(CarMaintanance maintanance: carMaintanances) {
+			if(maintanance.getReturnDate()==null) {
+				isInMaintanance=true;
+				break;
+			}
+		}
+		if(isInMaintanance) {
+			return new ErrorResult();
+		}
+		else return new SuccessResult();
 	}
+		return new SuccessResult();
 	
+}
 }

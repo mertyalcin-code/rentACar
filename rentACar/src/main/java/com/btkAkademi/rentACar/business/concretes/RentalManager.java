@@ -27,15 +27,19 @@ public class RentalManager implements RentalService {
 	private RentalDao rentalDao;
 	private ModelMapperService modelMapperService;
 	private CustomerService customerService;
-
+	private CarMaintananceManager carMaintananceManager;
+	
 	// Dependency Injection
 	@Autowired
-	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService) {
+	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
+			CarMaintananceManager carMaintananceManager) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
 		this.customerService = customerService;
+		this.carMaintananceManager = carMaintananceManager;
 	}
+
 	// Lists all retals
 
 	
@@ -45,7 +49,8 @@ public class RentalManager implements RentalService {
 		Result result = BusinessRules.run(
 				checkIfDatesCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()),
 				checkIfKilometerCorrect(createRentalRequest.getRentedKilometer(),createRentalRequest.getReturnedKilometer()),
-				checkIfCustomerExist(createRentalRequest.getCustomer().getId())
+				checkIfCustomerExist(createRentalRequest.getCustomer().getId()),
+				checkIfCarInMaintanance(createRentalRequest.getCar().getId())
 				);
 
 		if (result != null) {
@@ -56,6 +61,7 @@ public class RentalManager implements RentalService {
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.rentalAdded);
 	}
+
 
 	// Helpers
 
@@ -83,6 +89,13 @@ public class RentalManager implements RentalService {
 			return new ErrorResult(Messages.customerNotFound);
 		}
 
+		return new SuccessResult();
+	}
+	//check
+	private Result checkIfCarInMaintanance(int carId) {
+		if(!carMaintananceManager.isCarInMaintanance(carId).isSuccess()) {
+			return new ErrorResult(Messages.carInMaintanance);
+		}
 		return new SuccessResult();
 	}
 }

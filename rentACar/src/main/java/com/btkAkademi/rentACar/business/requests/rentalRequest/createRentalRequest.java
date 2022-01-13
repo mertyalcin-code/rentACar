@@ -2,6 +2,7 @@ package com.btkAkademi.rentACar.business.requests.rentalRequest;
 
 import java.time.LocalDate;
 
+import com.btkAkademi.rentACar.entities.concretes.Car;
 import com.btkAkademi.rentACar.entities.concretes.Customer;
 
 import lombok.AllArgsConstructor;
@@ -22,4 +23,6 @@ public class createRentalRequest {
 	private int returnedKilometer;
 
 	private Customer customer;
+	
+	private Car car;
 }

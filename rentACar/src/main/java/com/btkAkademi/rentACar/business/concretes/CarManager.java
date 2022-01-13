@@ -1,5 +1,6 @@
 package com.btkAkademi.rentACar.business.concretes;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,7 +50,7 @@ public class CarManager implements CarService {
 	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-
+	
 		Car car = this.modelMapperService.forRequest().map(createCarRequest,Car.class);
 		this.carDao.save(car);
 		
@@ -93,9 +94,6 @@ public class CarManager implements CarService {
 	}
 
 
-	private Result checkIfCarInMaintanance(int carId) {
-		
-		return null;
-	}
+
 	
 }
