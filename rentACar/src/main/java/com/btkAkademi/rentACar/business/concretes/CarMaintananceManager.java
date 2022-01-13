@@ -60,22 +60,9 @@ public class CarMaintananceManager implements CarMaintananceService{
 
 	@Override
 	public Result isCarInMaintanance(int carId) {
-		if(carMaintananceDao.existsById(carId)) {
-		List<CarMaintanance> carMaintanances = carMaintananceDao.findAllByCarId(carId);
-		boolean isInMaintanance = false;
-		
-		for(CarMaintanance maintanance: carMaintanances) {
-			if(maintanance.getReturnDate()==null) {
-				isInMaintanance=true;
-				break;
-			}
-		}
-		if(isInMaintanance) {
+		if(carMaintananceDao.findByCarIdAndReturnDateIsNull(carId)!=null) {
 			return new ErrorResult();
 		}
 		else return new SuccessResult();
-	}
-		return new SuccessResult();
-	
 }
 }

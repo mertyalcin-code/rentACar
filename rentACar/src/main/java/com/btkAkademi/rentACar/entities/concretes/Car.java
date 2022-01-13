@@ -54,6 +54,7 @@ public class Car {
 	@OneToMany(mappedBy = "car")
 	@JsonIgnore
 	private List<CarMaintanance> maintanances;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
