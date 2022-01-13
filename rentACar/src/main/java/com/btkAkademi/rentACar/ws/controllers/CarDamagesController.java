@@ -15,10 +15,10 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/cardamage")
-public class CarDamageController {
+public class CarDamagesController {
 	private CarDamageService carDamageService;
 	@Autowired
-	public CarDamageController(CarDamageService carDamageService) {
+	public CarDamagesController(CarDamageService carDamageService) {
 		super();
 		this.carDamageService = carDamageService;
 	}

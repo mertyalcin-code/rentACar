@@ -28,11 +28,12 @@ public class CarsController {
 		super();
 		this.carService = carService;
 	}
-	// lists all cars 
+	// lists all cars with pageSize
 	@GetMapping("getall")
 	public DataResult<List<CarListDto>> getall(@RequestParam int pageNo,@RequestParam int pageSize) {
 		return this.carService.getAll(pageNo,pageSize);
 	}
+
 	// adds a new car
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {

@@ -20,12 +20,12 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/city")
-public class CityController {
+public class CitiesController {
 	//Dependencies
 	private CityService cityService;
 	//Dependency Injection
 	@Autowired
-	public CityController(CityService cityService) {
+	public CitiesController(CityService cityService) {
 		super();
 		this.cityService = cityService;
 	}

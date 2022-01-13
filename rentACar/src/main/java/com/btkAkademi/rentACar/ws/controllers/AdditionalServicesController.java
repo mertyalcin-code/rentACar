@@ -16,10 +16,10 @@ import com.btkAkademi.rentACar.entities.concretes.AdditionalService;
 
 @RestController
 @RequestMapping("/api/additionalservice")
-public class AdditionalServiceController {
+public class AdditionalServicesController {
 	private AdditionalServiceService additionalServiceService;
 	@Autowired
-	public AdditionalServiceController(AdditionalServiceService additionalServiceService) {
+	public AdditionalServicesController(AdditionalServiceService additionalServiceService) {
 		super();
 		this.additionalServiceService = additionalServiceService;
 	}

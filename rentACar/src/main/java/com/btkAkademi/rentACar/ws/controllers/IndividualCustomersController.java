@@ -22,12 +22,12 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/individualcustomer")
-public class IndividualCustomerController {
+public class IndividualCustomersController {
 	//dependencies
 	private IndividualCustomerService individualCustomerService;
 	//dependency injection
 	@Autowired
-	public IndividualCustomerController(IndividualCustomerService individualCustomerService) {
+	public IndividualCustomersController(IndividualCustomerService individualCustomerService) {
 		super();
 		this.individualCustomerService = individualCustomerService;
 	}

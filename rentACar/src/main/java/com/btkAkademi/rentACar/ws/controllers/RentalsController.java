@@ -21,12 +21,12 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/rental")
-public class RentalController {
+public class RentalsController {
 	//Dependencies
 	private RentalService rentalService;
 	//Dependency Injection
 	@Autowired
-	public RentalController(RentalService rentalService) {
+	public RentalsController(RentalService rentalService) {
 		super();
 		this.rentalService = rentalService;
 	}

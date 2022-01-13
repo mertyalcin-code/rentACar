@@ -28,4 +28,9 @@ public class City {
 	@Column(name ="city_name")
 	private String cityName;
 	
+	@OneToMany(mappedBy = "pickUpCity")
+	private List<Rental> pickUpCityRentals;
+	
+	@OneToMany(mappedBy = "returnCity")
+	private List<Rental> returnCityRentals;
 }

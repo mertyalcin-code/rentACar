@@ -41,7 +41,8 @@ public class CarManager implements CarService {
 	}
 	// Lists all cars with pageNo and Page Size
 	@Override
-	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {
+	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {	
+		
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream()
@@ -51,6 +52,7 @@ public class CarManager implements CarService {
 		
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
+
 	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
