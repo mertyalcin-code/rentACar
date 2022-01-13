@@ -36,17 +36,27 @@ public class Rental {
 	private int rentedKilometer;
 	@Column(name="returned_kilometer")
 	private int returnedKilometer;
+	
+/*
+	@ManyToOne
+	@JoinColumn(name="pick_up_city_id")
+	private City pickUpCity;
+	
+	@ManyToOne
+	@JoinColumn(name="return_city_id")
+	private City returnCity;
+	*/
 	@Column(name="pick_up_city_id")
 	private int pickUpCityId;
 	@Column(name="return_city_id")
 	private int returnCityId;
-	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
 	private Customer customer;
-
-
+	
 	@ManyToOne
 	@JoinColumn(name="car_id")
 	private Car car;
 }
+// müşteriler kiralama sürecinde ek hizmetlerde satın alabilmeli
+// additionalServace

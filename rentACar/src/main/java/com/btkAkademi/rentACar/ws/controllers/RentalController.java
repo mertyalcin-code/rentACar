@@ -27,7 +27,6 @@ public class RentalController {
 	//Adds a new rental
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid createRentalRequest createRentalRequest) {
-
 		return this.rentalService.add(createRentalRequest);
 	}
 }

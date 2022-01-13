@@ -3,6 +3,7 @@ package com.btkAkademi.rentACar.business.concretes;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.constants.Messages;
@@ -15,7 +16,7 @@ import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.CityDao;
 import com.btkAkademi.rentACar.entities.concretes.Car;
 import com.btkAkademi.rentACar.entities.concretes.City;
-
+@Service
 public class CityManager implements CityService{
 	private CityDao cityDao;
 	private ModelMapperService modelMapperService;
