@@ -33,6 +33,8 @@ public class Messages {
 	public static final String returnedKilometerShouldNotBeLowerThanRentedKilometer = "returned.kilometer.should.not.be.lower.than.rented.kilometer";
 	public static final String carMaintananceAdded = "car.maintanance.added";
 	public static final String carInMaintanance = "car.in.maintanance";
+	public static final String carDamageAdded = "car.damage.added";
+	public static final String carRented = "car.rented";
 	
 	
 	

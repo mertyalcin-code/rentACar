@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
@@ -32,7 +33,7 @@ public class RentalManager implements RentalService {
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
-			CarMaintenanceService carMaintananceService) {
+			@Lazy CarMaintenanceService carMaintananceService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
@@ -51,8 +52,7 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result add(createRentalRequest createRentalRequest) {
 		Result result = BusinessRules.run(
-				checkIfDatesCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()),
-				checkIfKilometerCorrect(createRentalRequest.getRentedKilometer(),createRentalRequest.getReturnedKilometer()),
+				
 				checkIfCustomerExist(createRentalRequest.getCustomerId()),
 				checkIfCarInMaintanance(createRentalRequest.getCarId())
 				);
@@ -66,6 +66,13 @@ public class RentalManager implements RentalService {
 		return new SuccessResult(Messages.rentalAdded);
 	}
 
+	@Override
+	public boolean isCarRented(int carId) {
+		if(rentalDao.findByCarIdAndReturnDateIsNull(carId)!=null) {
+			return true;
+		}
+		else return false;
+	}
 
 	// Helpers
 
@@ -102,4 +109,9 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
+
+
+
+
+
 }

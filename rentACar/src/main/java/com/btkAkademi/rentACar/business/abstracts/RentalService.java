@@ -9,5 +9,6 @@ public interface RentalService {
 
 	Result add( createRentalRequest createRentalRequest);
 	
+	boolean isCarRented(int carId);
 
 }

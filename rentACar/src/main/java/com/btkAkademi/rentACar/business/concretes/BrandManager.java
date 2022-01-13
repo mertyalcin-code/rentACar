@@ -109,3 +109,5 @@ public class BrandManager implements BrandService {
 	}
 
 }
+
+//kirada olanı bakıma göndereme
