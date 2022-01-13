@@ -17,18 +17,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CarListDto{
-
-	private double dailyPrice;
 	
+	private int id;
+	private double dailyPrice;	
 	private int model;
-
 	private String description;
-
-	private int findexScore;
-	
-	private int kilometer;
-
-//	private Brand brand;
-	
-//	private Color color;
+	private int findexScore;	
+	private int kilometer;	
+	private String brandName;	
+	private String colorName;
 }

@@ -13,18 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class createRentalRequest {
-
+	
 	private LocalDate rentDate;
-
-	//private LocalDate returnDate;
-
 	private int rentedKilometer;
 	private int pickUpCityId;
 	private int returnCityId;
-
-//	private int returnedKilometer;
-
-	private int customerId;
-	
+	private int customerId;	
 	private int carId;
 }

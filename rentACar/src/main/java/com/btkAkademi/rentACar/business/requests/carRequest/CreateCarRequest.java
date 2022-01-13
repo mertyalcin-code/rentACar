@@ -1,6 +1,7 @@
 package com.btkAkademi.rentACar.business.requests.carRequest;
 
 import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
 
 import com.btkAkademi.rentACar.entities.concretes.Brand;
 import com.btkAkademi.rentACar.entities.concretes.Color;
@@ -18,5 +19,6 @@ public class CreateCarRequest {
 	private int model;
 	private int findexScore;
 	private int kilometer;
+	@NotBlank
 	private String description;
 }

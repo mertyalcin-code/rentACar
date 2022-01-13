@@ -15,21 +15,19 @@ import com.btkAkademi.rentACar.entities.concretes.CarMaintenance;
 
 @Service
 public class CarDamageManager implements CarDamageService{
+	//Dependencies
 	private CarDamageDao carDamageDao;
 	private ModelMapperService modelMapperService;
 	
-	
+	//Dependency Injection
 	@Autowired
 	public CarDamageManager(CarDamageDao carDamageDao, ModelMapperService modelMapperService) {
 		super();
 		this.carDamageDao = carDamageDao;
 		this.modelMapperService = modelMapperService;
 	}
-
-
-
-
-
+	
+	//Adds a damage to car
 	@Override
 	public Result add(CreateCarDamageRequest createCarDamageRequest) {
 		CarDamage carDamage = this.modelMapperService.forRequest()

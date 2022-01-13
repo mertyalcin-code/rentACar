@@ -10,9 +10,8 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 public interface RentalService {
-	DataResult<List<RentalListDto>>  getAll();
-	Result add( createRentalRequest createRentalRequest);
-	
+	DataResult<List<RentalListDto>>  getAll(int pageNo,int pageSize);
+	Result add( createRentalRequest createRentalRequest);	
 	boolean isCarRented(int carId);
 
 }

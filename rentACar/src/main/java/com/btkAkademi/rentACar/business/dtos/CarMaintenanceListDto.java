@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarMaintenanceDto {
+public class CarMaintenanceListDto {
 	private int id;
 	private int carId ;		
 	private LocalDate maintenanceStart;

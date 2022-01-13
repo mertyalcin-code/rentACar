@@ -28,8 +28,8 @@ public class CarsController {
 		super();
 		this.carService = carService;
 	}
-	// lists all cars
-	@PostMapping("getall")
+	// lists all cars 
+	@GetMapping("getall")
 	public DataResult<List<CarListDto>> getall(@RequestParam int pageNo,@RequestParam int pageSize) {
 		return this.carService.getAll(pageNo,pageSize);
 	}

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
-import com.btkAkademi.rentACar.business.dtos.CarMaintenanceDto;
+import com.btkAkademi.rentACar.business.dtos.CarMaintenanceListDto;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
 import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
 import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
@@ -29,7 +29,7 @@ public class CarMaintenanceController {
 		this.carMaintenanceService = carMaintenanceService;
 	}
 	@GetMapping("getall")
-	public DataResult<List<CarMaintenanceDto>> getall() {
+	public DataResult<List<CarMaintenanceListDto>> getall() {
 		return this.carMaintenanceService.getAll();
 	}
 	@PostMapping("add")

@@ -15,7 +15,7 @@ import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
-import com.btkAkademi.rentACar.business.dtos.CarMaintenanceDto;
+import com.btkAkademi.rentACar.business.dtos.CarMaintenanceListDto;
 import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
@@ -29,13 +29,13 @@ import com.btkAkademi.rentACar.entities.concretes.Car;
 import com.btkAkademi.rentACar.entities.concretes.CarMaintenance;
 @Service
 public class CarMaintenanceManager implements CarMaintenanceService{
+	//Dependencies
 	private CarMaintenanceDao carMaintananceDao;
 	private ModelMapperService modelMapperService;
 	private RentalService rentalService;
 	
-	
+	//Dependency injection
 	@Autowired
-
 	public CarMaintenanceManager(CarMaintenanceDao carMaintananceDao, ModelMapperService modelMapperService,
 			RentalService rentalService) {
 		super();
@@ -44,18 +44,18 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		this.rentalService = rentalService;
 	}
 
-
+	//Lists cars in maintenance or cars that have been maintained before
 	@Override
-	public DataResult<List<CarMaintenanceDto>> getAll() {
+	public DataResult<List<CarMaintenanceListDto>> getAll() {
 		List<CarMaintenance> carMaintananceList = this.carMaintananceDao.findAll();
-		List<CarMaintenanceDto> response = carMaintananceList.stream()
+		List<CarMaintenanceListDto> response = carMaintananceList.stream()
 				.map(carMaintanance->modelMapperService.forDto()
-				.map(carMaintanance, CarMaintenanceDto.class))
+				.map(carMaintanance, CarMaintenanceListDto.class))
 				.collect(Collectors.toList());
 		
-		return new SuccessDataResult<List<CarMaintenanceDto>>(response);
+		return new SuccessDataResult<List<CarMaintenanceListDto>>(response);
 	}
-
+	//Sends the car to maintenance
 	@Override
 	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
 		Result result = BusinessRules.run(
@@ -73,7 +73,8 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		this.carMaintananceDao.save(carMaintanance);		
 		return new SuccessResult(Messages.carMaintananceAdded);
 	}
-
+	
+	//Returns true if car is in maintenance
 	@Override
 	public boolean checkIfCarIsInMaintanance(int carId) {
 		if(carMaintananceDao.findByCarIdAndMaintenanceEndIsNull(carId)!=null) {
@@ -81,6 +82,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		}
 		else return false;
 	}	
+	//Checks if car is actively rented 
 	private Result checkIfCarIsRented(int carId) {
 		if(rentalService.isCarRented(carId)) {
 			return new ErrorResult(Messages.carRented);

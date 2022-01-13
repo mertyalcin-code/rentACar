@@ -13,9 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateColorRequest {
-
-	
+public class CreateColorRequest {	
 	@NotBlank
 	@Size( message = Messages.invalidColorName)
 	private String name;

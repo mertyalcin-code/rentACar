@@ -30,6 +30,3 @@ public class AdditionalService {
 	@JoinColumn(name="rental_id")
 	private Rental rental;
 }
-
-//arabalar listelenirken default olarak 10 arlı sayfalar halinde gelmelidir.
-//kullanıcı sayfa numarası istiyecek

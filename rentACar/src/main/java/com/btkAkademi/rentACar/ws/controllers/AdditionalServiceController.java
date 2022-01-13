@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
-import com.btkAkademi.rentACar.business.requests.additionalService.createAdditionalService;
+import com.btkAkademi.rentACar.business.requests.additionalService.CreateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.AdditionalService;
@@ -24,7 +24,7 @@ public class AdditionalServiceController {
 		this.additionalServiceService = additionalServiceService;
 	}
 	@PostMapping("add")
-	public Result add(@RequestBody @Valid createAdditionalService createAdditionalService) {
+	public Result add(@RequestBody @Valid CreateAdditionalServiceRequest createAdditionalService) {
 
 		return this.additionalServiceService.add(createAdditionalService);
 	}

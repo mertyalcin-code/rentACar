@@ -64,5 +64,3 @@ public class Rental {
 	private List<AdditionalService> addtionalServices;
 	
 }
-// müşteriler kiralama sürecinde ek hizmetlerde satın alabilmeli
-// additionalService

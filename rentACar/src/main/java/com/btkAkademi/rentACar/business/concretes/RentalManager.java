@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
@@ -37,6 +39,7 @@ public class RentalManager implements RentalService {
 	private ModelMapperService modelMapperService;
 	private CustomerService customerService;
 	private CarMaintenanceService carMaintananceService;
+
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
@@ -48,17 +51,14 @@ public class RentalManager implements RentalService {
 		this.carMaintananceService = carMaintananceService;
 	}
 
-
-	// araba kiralarken hangi şehirde alıp hangi şehire bırakıcaz bilgisine ihtiyaç oldu
-
-
 	// Lists all retals
-	
 	@Override
-	public DataResult<List<RentalListDto>> getAll() {
-		List<Rental> rentalList = this.rentalDao.findAll();
+	public DataResult<List<RentalListDto>> getAll(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
+		List<Rental> rentalList = this.rentalDao.findAll(pageable).getContent();
 		List<RentalListDto> response = rentalList.stream()
-				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class)).collect(Collectors.toList());
+				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
+				.collect(Collectors.toList());
 		return new SuccessDataResult<List<RentalListDto>>(response);
 	}
 
@@ -66,10 +66,9 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result add(createRentalRequest createRentalRequest) {
 		Result result = BusinessRules.run(
-				
+
 				checkIfCustomerExist(createRentalRequest.getCustomerId()),
-				checkIfCarInMaintanance(createRentalRequest.getCarId())
-				);
+				checkIfCarInMaintanance(createRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
@@ -82,10 +81,10 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public boolean isCarRented(int carId) {
-		if(rentalDao.findByCarIdAndReturnDateIsNull(carId)!=null) {
+		if (rentalDao.findByCarIdAndReturnDateIsNull(carId) != null) {
 			return true;
-		}
-		else return false;
+		} else
+			return false;
 	}
 
 	// Helpers
@@ -108,6 +107,7 @@ public class RentalManager implements RentalService {
 
 		return new SuccessResult();
 	}
+
 	// Checks customer exist in the database
 	private Result checkIfCustomerExist(int customerId) {
 		if (!customerService.findCustomerById(customerId).isSuccess()) {
@@ -116,21 +116,13 @@ public class RentalManager implements RentalService {
 
 		return new SuccessResult();
 	}
-	//checks car is in maintanance 
+
+	// checks car is in maintanance
 	private Result checkIfCarInMaintanance(int carId) {
-		if(carMaintananceService.checkIfCarIsInMaintanance(carId)) {
+		if (carMaintananceService.checkIfCarIsInMaintanance(carId)) {
 			return new ErrorResult(Messages.carInMaintanance);
 		}
 		return new SuccessResult();
 	}
-
-
-
-
-
-
-
-
-
 
 }

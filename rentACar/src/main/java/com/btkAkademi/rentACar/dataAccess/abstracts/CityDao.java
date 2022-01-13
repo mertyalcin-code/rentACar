@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.btkAkademi.rentACar.entities.concretes.City;
 
 public interface CityDao extends JpaRepository<City, Integer> {
+	//Finds city by name
 	City findByCityName(String CityName);
 }

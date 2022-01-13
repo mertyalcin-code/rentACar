@@ -39,7 +39,7 @@ public class CarManager implements CarService {
 		this.carDao = carDao;
 		this.modelMapperService = modelMapperService;
 	}
-	// Lists all cars
+	// Lists all cars with pageNo and Page Size
 	@Override
 	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
@@ -77,12 +77,6 @@ public class CarManager implements CarService {
 		this.carDao.save(car);		
 		return new SuccessResult(Messages.carUpdated);
 	}
-	
-	// Bakıma göndermek
-	
-
-	
-	
 	
 	
 	//Helpers

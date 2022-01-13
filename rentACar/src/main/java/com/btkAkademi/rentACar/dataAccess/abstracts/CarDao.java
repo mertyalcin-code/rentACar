@@ -11,6 +11,6 @@ import com.btkAkademi.rentACar.entities.concretes.Car;
 
 public interface CarDao  extends JpaRepository<Car, Integer>{
 	
-	List<Car> findAll(Pageable pageable);
+	
 
 }
