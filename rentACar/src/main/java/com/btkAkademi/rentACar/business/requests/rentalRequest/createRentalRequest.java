@@ -22,7 +22,7 @@ public class createRentalRequest {
 
 	private int returnedKilometer;
 
-	private Customer customer;
+	private int customerId;
 	
-	private Car car;
+	private int carId;
 }

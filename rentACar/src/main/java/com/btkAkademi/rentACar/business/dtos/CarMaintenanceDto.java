@@ -4,9 +4,9 @@ import java.time.LocalDate;
 
 import com.btkAkademi.rentACar.entities.concretes.Car;
 
-public class CarMaintananceDto {
+public class CarMaintenanceDto {
 	private int id;
-	private Car car ;		
-	private LocalDate enteranceDate;
-	private LocalDate returnDate;
+	private int carId ;		
+	private LocalDate maintenanceStart;
+	private LocalDate maintenanceEnd;
 }

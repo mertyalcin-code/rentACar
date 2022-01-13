@@ -21,15 +21,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="car_maintanance")
-public class CarMaintanance {
+public class CarMaintenance {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
-	@Column(name="enterance_date")
-	private LocalDate enteranceDate;
-	@Column(name="return_date")
-	private LocalDate returnDate;
+	@Column(name="maintenance_start")
+	private LocalDate maintenanceStart;
+	@Column(name="maintenance_end")
+	private LocalDate maintenanceEnd;
+	
 	@ManyToOne
 	@JoinColumn(name = "car_id")
 	private Car car ;	

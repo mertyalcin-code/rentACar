@@ -11,30 +11,30 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.btkAkademi.rentACar.business.abstracts.CarMaintananceService;
-import com.btkAkademi.rentACar.business.dtos.CarMaintananceDto;
+import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
+import com.btkAkademi.rentACar.business.dtos.CarMaintenanceDto;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintananceRequest;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
 import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
-@RequestMapping("/api/carmaintanance")
-public class CarMaintananceController {
-	private CarMaintananceService carMaintananceService;
+@RequestMapping("/api/carmaintenance")
+public class CarMaintenanceController {
+	private CarMaintenanceService carMaintenanceService;
 	@Autowired
-	public CarMaintananceController(CarMaintananceService carMaintananceService) {
+	public CarMaintenanceController(CarMaintenanceService carMaintenanceService) {
 		super();
-		this.carMaintananceService = carMaintananceService;
+		this.carMaintenanceService = carMaintenanceService;
 	}
-	@GetMapping("getallinmaintanance")
-	public DataResult<List<CarMaintananceDto>> getall() {
-		return this.carMaintananceService.getAll();
+	@GetMapping("getallinmaintenance")
+	public DataResult<List<CarMaintenanceDto>> getall() {
+		return this.carMaintenanceService.getAll();
 	}
 	@PostMapping
-	public Result add(@RequestBody @Valid CreateCarMaintananceRequest createCarMaintananceRequest) {
+	public Result add(@RequestBody @Valid CreateCarMaintenanceRequest createCarMaintananceRequest) {
 
-		return this.carMaintananceService.add(createCarMaintananceRequest);
+		return this.carMaintenanceService.add(createCarMaintananceRequest);
 	}
 }

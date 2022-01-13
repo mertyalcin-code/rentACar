@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCarRequest {
 	private int id;
-	private Brand brand;
-	private Color color;
+	private int brandId;
+	private int colorId;
 	private double dailyPrice;
 	private int model;
 	private int findexScore;

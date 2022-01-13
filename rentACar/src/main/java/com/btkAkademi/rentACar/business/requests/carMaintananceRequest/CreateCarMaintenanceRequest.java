@@ -3,7 +3,7 @@ package com.btkAkademi.rentACar.business.requests.carMaintananceRequest;
 import java.time.LocalDate;
 
 import com.btkAkademi.rentACar.entities.concretes.Car;
-import com.btkAkademi.rentACar.entities.concretes.CarMaintanance;
+import com.btkAkademi.rentACar.entities.concretes.CarMaintenance;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateCarMaintananceRequest {
+public class CreateCarMaintenanceRequest {
 	
-	private Car car ;		
-	private LocalDate enteranceDate;
-	private LocalDate returnDate;
+	private int carId ;		
+	private LocalDate maintananceStart;
+	private LocalDate maintenanceEnd;
 }

@@ -11,56 +11,60 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.btkAkademi.rentACar.business.abstracts.CarMaintananceService;
+import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
-import com.btkAkademi.rentACar.business.dtos.CarMaintananceDto;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintananceRequest;
+import com.btkAkademi.rentACar.business.dtos.CarMaintenanceDto;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
-import com.btkAkademi.rentACar.dataAccess.abstracts.CarMaintananceDao;
+import com.btkAkademi.rentACar.dataAccess.abstracts.CarMaintenanceDao;
 import com.btkAkademi.rentACar.entities.concretes.Car;
-import com.btkAkademi.rentACar.entities.concretes.CarMaintanance;
+import com.btkAkademi.rentACar.entities.concretes.CarMaintenance;
 @Service
-public class CarMaintananceManager implements CarMaintananceService{
-	private CarMaintananceDao carMaintananceDao;
+public class CarMaintenanceManager implements CarMaintenanceService{
+	private CarMaintenanceDao carMaintananceDao;
 	private ModelMapperService modelMapperService;
 	
 	
 	@Autowired
-	public CarMaintananceManager(CarMaintananceDao carMaintananceDao, ModelMapperService modelMapperService) {
+	public CarMaintenanceManager(CarMaintenanceDao carMaintananceDao, ModelMapperService modelMapperService) {
 		super();
 		this.carMaintananceDao = carMaintananceDao;
 		this.modelMapperService = modelMapperService;
 	}
 
 	@Override
-	public DataResult<List<CarMaintananceDto>> getAll() {
-		List<CarMaintanance> carMaintananceList = this.carMaintananceDao.findAll();
-		List<CarMaintananceDto> response = carMaintananceList.stream()
+	public DataResult<List<CarMaintenanceDto>> getAll() {
+		List<CarMaintenance> carMaintananceList = this.carMaintananceDao.findAll();
+		List<CarMaintenanceDto> response = carMaintananceList.stream()
 				.map(carMaintanance->modelMapperService.forDto()
-				.map(carMaintanance, CarMaintananceDto.class))
+				.map(carMaintanance, CarMaintenanceDto.class))
 				.collect(Collectors.toList());
 		
-		return new SuccessDataResult<List<CarMaintananceDto>>(response);
+		return new SuccessDataResult<List<CarMaintenanceDto>>(response);
 	}
 
 	@Override
-	public Result add(@Valid CreateCarMaintananceRequest createCarMaintananceRequest) {
+	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
 		
-
-		CarMaintanance carMaintanance = this.modelMapperService.forRequest().map(createCarMaintananceRequest,CarMaintanance.class);
+		
+		CarMaintenance carMaintanance = this.modelMapperService.forRequest()
+				.map(createCarMaintananceRequest,CarMaintenance.class);
+		carMaintanance.setId(0);
+		System.out.println(carMaintanance.getId());
+	
 		this.carMaintananceDao.save(carMaintanance);		
 		return new SuccessResult(Messages.carMaintananceAdded);
 	}
 
 	@Override
 	public boolean checkIfCarIsInMaintanance(int carId) {
-		if(carMaintananceDao.findByCarIdAndReturnDateIsNull(carId)!=null) {
+		if(carMaintananceDao.findByCarIdAndMaintenanceEndIsNull(carId)!=null) {
 			return true;
 		}
 		else return false;

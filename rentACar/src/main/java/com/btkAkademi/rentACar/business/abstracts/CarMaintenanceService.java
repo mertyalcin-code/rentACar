@@ -4,17 +4,17 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.btkAkademi.rentACar.business.dtos.CarMaintananceDto;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintananceRequest;
+import com.btkAkademi.rentACar.business.dtos.CarMaintenanceDto;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 
-public interface CarMaintananceService {
+public interface CarMaintenanceService {
 
-	DataResult<List<CarMaintananceDto>> getAll();
+	DataResult<List<CarMaintenanceDto>> getAll();
 
-	Result add(@Valid CreateCarMaintananceRequest createCarMaintananceRequest);
+	Result add(CreateCarMaintenanceRequest createCarMaintananceRequest);
 	
 	boolean checkIfCarIsInMaintanance (int carId) ;
 }

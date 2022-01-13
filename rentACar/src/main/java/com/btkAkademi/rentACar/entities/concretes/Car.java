@@ -52,10 +52,9 @@ public class Car {
 	private Color color;
 	
 	@OneToMany(mappedBy = "car")
-	@JsonIgnore
-	private List<CarMaintanance> maintanances;
+	private List<CarMaintenance> maintanances;
 	
-	@JsonIgnore
+
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
 

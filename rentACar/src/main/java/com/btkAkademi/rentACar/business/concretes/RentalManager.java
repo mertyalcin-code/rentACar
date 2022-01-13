@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.btkAkademi.rentACar.business.abstracts.CarMaintananceService;
+import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
@@ -28,11 +28,11 @@ public class RentalManager implements RentalService {
 	private RentalDao rentalDao;
 	private ModelMapperService modelMapperService;
 	private CustomerService customerService;
-	private CarMaintananceService carMaintananceService;
+	private CarMaintenanceService carMaintananceService;
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
-			CarMaintananceService carMaintananceService) {
+			CarMaintenanceService carMaintananceService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
@@ -53,8 +53,8 @@ public class RentalManager implements RentalService {
 		Result result = BusinessRules.run(
 				checkIfDatesCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()),
 				checkIfKilometerCorrect(createRentalRequest.getRentedKilometer(),createRentalRequest.getReturnedKilometer()),
-				checkIfCustomerExist(createRentalRequest.getCustomer().getId()),
-				checkIfCarInMaintanance(createRentalRequest.getCar().getId())
+				checkIfCustomerExist(createRentalRequest.getCustomerId()),
+				checkIfCarInMaintanance(createRentalRequest.getCarId())
 				);
 
 		if (result != null) {
@@ -95,7 +95,7 @@ public class RentalManager implements RentalService {
 
 		return new SuccessResult();
 	}
-	//check
+	//checks car is in maintanance 
 	private Result checkIfCarInMaintanance(int carId) {
 		if(carMaintananceService.checkIfCarIsInMaintanance(carId)) {
 			return new ErrorResult(Messages.carInMaintanance);
