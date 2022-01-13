@@ -16,11 +16,11 @@ public class createRentalRequest {
 
 	private LocalDate rentDate;
 
-	private LocalDate returnDate;
+	//private LocalDate returnDate;
 
 	private int rentedKilometer;
 
-	private int returnedKilometer;
+//	private int returnedKilometer;
 
 	private int customerId;
 	
