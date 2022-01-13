@@ -1,6 +1,7 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -35,7 +37,9 @@ public class Car {
 	@Column(name="findex_score")
 	private int findexScore;
 	@Column(name="kilometer")
-	private int kilometer;
+	private int kilometer;	
+
+	
 	
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
@@ -45,6 +49,8 @@ public class Car {
 	@JoinColumn(name = "color_id")
 	private Color color;
 	
+	@OneToMany(mappedBy = "car")
+	private List<CarMaintanance> maintanances;
 	
 
 }

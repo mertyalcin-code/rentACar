@@ -1,6 +1,7 @@
 package com.btkAkademi.rentACar.business.concretes;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +73,13 @@ public class CarManager implements CarService {
 		return new SuccessResult(Messages.carUpdated);
 	}
 	
+	// Bakıma göndermek
+	
+
+	
+	
+	
+	
 	//Helpers
 	
 	//Checks is there a car with that id
@@ -83,6 +91,11 @@ public class CarManager implements CarService {
 		   }
 		   return new SuccessResult();
 	}
-	
+
+
+	private Result checkIfCarInMaintanance(int carId) {
+		
+		return null;
+	}
 	
 }

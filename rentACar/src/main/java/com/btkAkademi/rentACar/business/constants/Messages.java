@@ -31,6 +31,7 @@ public class Messages {
 	public static final String returnDateShouldBeAfterTheRentDate = "return.date.should.be.after.the.return.date";
 	public static final String rentalAdded = "rental.added";
 	public static final String returnedKilometerShouldNotBeLowerThanRentedKilometer = "returned.kilometer.should.not.be.lower.than.rented.kilometer";
+	public static final String carMaintananceAdded = "car.maintanance.added";
 	
 	
 	
