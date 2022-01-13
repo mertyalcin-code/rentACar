@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.btkAkademi.rentACar.business.abstracts.CarMaintananceService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
@@ -27,18 +28,21 @@ public class RentalManager implements RentalService {
 	private RentalDao rentalDao;
 	private ModelMapperService modelMapperService;
 	private CustomerService customerService;
-	private CarMaintananceManager carMaintananceManager;
-	
+	private CarMaintananceService carMaintananceService;
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
-			CarMaintananceManager carMaintananceManager) {
+			CarMaintananceService carMaintananceService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
 		this.customerService = customerService;
-		this.carMaintananceManager = carMaintananceManager;
+		this.carMaintananceService = carMaintananceService;
 	}
+
+
+	
+
 
 	// Lists all retals
 
@@ -93,7 +97,7 @@ public class RentalManager implements RentalService {
 	}
 	//check
 	private Result checkIfCarInMaintanance(int carId) {
-		if(carMaintananceManager.checkIfCarIsInMaintanance(carId)) {
+		if(carMaintananceService.checkIfCarIsInMaintanance(carId)) {
 			return new ErrorResult(Messages.carInMaintanance);
 		}
 		return new SuccessResult();
