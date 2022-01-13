@@ -16,4 +16,5 @@ public interface BrandService {
     DataResult<List<BrandListDto>> getAll();
 	Result add(CreateBrandRequest createBrandRequest);
 	Result update(UpdateBrandRequest updateBrandRequest);
+	Result checkIfBrandExist(int brandId);
 }

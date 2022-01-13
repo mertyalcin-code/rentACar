@@ -79,6 +79,14 @@ public class BrandManager implements BrandService {
 
 		return new SuccessResult(Messages.brandUpdated);
 	}
+	//checks is there a brand with that id
+	@Override
+	public Result checkIfBrandExist(int brandId) {
+		if(!brandDao.existsById(brandId)) {
+			return new ErrorResult(Messages.brandNotFound);					
+		}else return new SuccessResult();		
+	
+	}
 
 	// Checks brand name exists in the database
 	private Result checkIfBrandNameExists(String brandname) {
@@ -109,6 +117,8 @@ public class BrandManager implements BrandService {
 
 		return new SuccessResult();
 	}
+
+
 
 }
 

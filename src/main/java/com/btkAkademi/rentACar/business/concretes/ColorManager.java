@@ -77,7 +77,14 @@ public class ColorManager implements ColorService {
 
 		return new SuccessResult(Messages.colorUpdate);
 	}
-
+	//checks is there a color with that id
+	@Override
+	public Result checkIfColorExist(int colorId) {
+		if(!colorDao.existsById(colorId)) {
+			return new ErrorResult(Messages.colorNotFound);					
+		}else return new SuccessResult();		
+	
+	}
 	// Helpers
 
 	// Checks is there a color with that id

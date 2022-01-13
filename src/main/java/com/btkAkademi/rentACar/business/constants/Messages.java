@@ -10,12 +10,14 @@ public class Messages {
 	public static final String brandLimitExceeded= "brand.limit.exceeded";
 	public static final String brandUpdated = "brand.updated";
 	public static final String brandIdNotExists = "brand.id.not.exists";
+	public static final String brandNotFound = "brand.not.found";
 	//Color
 	public static final String invalidColorName ="invalid.color.name";
 	public static final String colorAdded = "color.added";
 	public static final String colorNameExists = "color.name.exists";
 	public static final String colorUpdate = "color.updated";
 	public static final String colorIdNotExists = "color.id.not.exists";
+	public static final String colorNotFound = "color.not.found";
 	//Car
 	public static final String carAdded = "car.added";
 	public static final String carUpdated = "car.updated";
@@ -42,6 +44,8 @@ public class Messages {
 	//Additional Service
 	public static final String additionaServiceAdded = "additional.service.added";
 	public static final String rentalIsNotFound = "rental.is.not.found";
+
+	
 	
 	
 	

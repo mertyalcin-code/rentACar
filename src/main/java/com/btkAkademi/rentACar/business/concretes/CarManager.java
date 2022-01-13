@@ -11,7 +11,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.btkAkademi.rentACar.business.abstracts.BrandService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
+import com.btkAkademi.rentACar.business.abstracts.ColorService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
@@ -33,12 +35,17 @@ public class CarManager implements CarService {
 	// Dependencies
 	private CarDao carDao;
 	private ModelMapperService modelMapperService;
+	private BrandService brandService;
+	private ColorService colorService;
 	// Dependency Injection
 	@Autowired
-	public CarManager(CarDao carDao, ModelMapperService modelMapperService) {
-		
+	public CarManager(CarDao carDao, ModelMapperService modelMapperService, BrandService brandService,
+			ColorService colorService) {
+		super();
 		this.carDao = carDao;
 		this.modelMapperService = modelMapperService;
+		this.brandService = brandService;
+		this.colorService = colorService;
 	}
 	// Lists all cars with pageNo and Page Size
 	@Override
@@ -53,11 +60,16 @@ public class CarManager implements CarService {
 		
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
-
 	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-	
+		Result result = BusinessRules.run(
+				colorService.checkIfColorExist(createCarRequest.getColorId()),
+				brandService.checkIfBrandExist(createCarRequest.getBrandId())
+				);
+		if (result != null) {
+			return result;
+		}
 		Car car = this.modelMapperService.forRequest().map(createCarRequest,Car.class);
 		this.carDao.save(car);
 		
@@ -100,6 +112,7 @@ public class CarManager implements CarService {
 		   }
 		   return new SuccessResult();
 	}
+
 
 
 
