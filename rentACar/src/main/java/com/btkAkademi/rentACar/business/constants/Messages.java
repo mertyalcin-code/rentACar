@@ -41,6 +41,7 @@ public class Messages {
 	public static final String cityNameExists = "city.name.exists";
 	//Additional Service
 	public static final String additionaServiceAdded = "additional.service.added";
+	public static final String rentalIsNotFound = "rental.is.not.found";
 	
 	
 	

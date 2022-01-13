@@ -19,6 +19,7 @@ import com.btkAkademi.rentACar.business.requests.carRequest.UpdateCarRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
@@ -79,7 +80,14 @@ public class CarManager implements CarService {
 		this.carDao.save(car);		
 		return new SuccessResult(Messages.carUpdated);
 	}
-	
+	//Finds Car by id
+	@Override
+	public DataResult<Car> findCarById(int id) {
+		if(carDao.existsById(id)) {
+			return new SuccessDataResult<Car>(carDao.findById(id).get());
+		}
+		else return new ErrorDataResult<Car>();
+	}
 	
 	//Helpers
 	
@@ -92,6 +100,7 @@ public class CarManager implements CarService {
 		   }
 		   return new SuccessResult();
 	}
+
 
 
 

@@ -18,6 +18,7 @@ import com.btkAkademi.rentACar.business.requests.cityRequest.CreateCityRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
@@ -61,6 +62,14 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 		this.cityDao.save(city);		
 		return new SuccessResult(Messages.carAdded);
 	}
+	//Finds city with that id
+	@Override
+	public DataResult<City> findCityById(int id) {
+		if(cityDao.existsById(id)) {
+			return new SuccessDataResult<City>(cityDao.getById(id));
+		}
+		else return new ErrorDataResult<City>();
+	}
 	//Helpers
 	
 	//Checks city is added before or not
@@ -70,6 +79,7 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 		}
 		return new SuccessResult();
 	}
+
 
 
 }

@@ -53,7 +53,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// Adds a new corporate customer
 	@Override
 	public Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest) {
-		Result result = BusinessRules.run(checkIfCompanyNameExists(createCorporateCustomerRequest.getCompanyName()));
+		Result result = BusinessRules.run(checkIfCompanyNameExists(createCorporateCustomerRequest.getCompanyName()),
+				checkIfEmailExists(createCorporateCustomerRequest.getEmail()));
 
 		if (result != null) {
 			return result;
@@ -74,6 +75,12 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		}
 		return new SuccessResult();
 
+	}
+	private Result checkIfEmailExists(String email) {
+		if (corporateCustomerDao.findByEmail(email) != null) {
+			return new ErrorResult(Messages.emailExist);
+		}
+		return new SuccessResult();
 	}
 
 }

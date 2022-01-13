@@ -9,9 +9,11 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
+import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
@@ -33,17 +35,18 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	private CarMaintenanceDao carMaintananceDao;
 	private ModelMapperService modelMapperService;
 	private RentalService rentalService;
+	private CarService carService;
 	
 	//Dependency injection
 	@Autowired
 	public CarMaintenanceManager(CarMaintenanceDao carMaintananceDao, ModelMapperService modelMapperService,
-			RentalService rentalService) {
+			@Lazy RentalService rentalService, CarService carService) {
 		super();
 		this.carMaintananceDao = carMaintananceDao;
 		this.modelMapperService = modelMapperService;
 		this.rentalService = rentalService;
+		this.carService = carService;
 	}
-
 	//Lists cars in maintenance or cars that have been maintained before
 	@Override
 	public DataResult<List<CarMaintenanceListDto>> getAll() {
@@ -55,12 +58,14 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		
 		return new SuccessDataResult<List<CarMaintenanceListDto>>(response);
 	}
+
 	//Sends the car to maintenance
 	@Override
 	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
-		Result result = BusinessRules.run(
-				checkIfCarIsRented(createCarMaintananceRequest.getCarId()))	;
-		
+		Result result = BusinessRules.run(				
+				checkIfCarIsExists(createCarMaintananceRequest.getCarId()),
+				checkIfCarIsRented(createCarMaintananceRequest.getCarId())
+				)	;		
 		if(result!=null) {			
 			return result;
 		}
@@ -82,6 +87,13 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		}
 		else return false;
 	}	
+	//Checks if car is exists
+	private Result checkIfCarIsExists(int carId) {
+		if(!carService.findCarById(carId).isSuccess()) {
+			return new ErrorResult(Messages.carIdNotExists);
+		}
+		else return new SuccessResult();
+	}
 	//Checks if car is actively rented 
 	private Result checkIfCarIsRented(int carId) {
 		if(rentalService.isCarRented(carId)) {

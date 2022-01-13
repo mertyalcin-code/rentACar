@@ -23,6 +23,8 @@ import com.btkAkademi.rentACar.entities.concretes.Brand;
  
 @Service
 public class BrandManager implements BrandService {
+	// Constants
+	private static final int limit = 20;
 	// Dependencies
 	private BrandDao brandDao;
 	private ModelMapperService modelMapperService;
@@ -49,7 +51,7 @@ public class BrandManager implements BrandService {
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
 		Result result = BusinessRules.run(checkIfBrandNameExists(createBrandRequest.getName()),
-				checkIfBrandLimitExceeded(3));
+				checkIfBrandLimitExceeded(this.limit));
 
 		if (result != null) {
 

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
+import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
@@ -39,19 +40,21 @@ public class RentalManager implements RentalService {
 	private ModelMapperService modelMapperService;
 	private CustomerService customerService;
 	private CarMaintenanceService carMaintananceService;
-
+	private CityService cityService;
+	
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
-			@Lazy CarMaintenanceService carMaintananceService) {
+			CarMaintenanceService carMaintananceService, CityService cityService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
 		this.customerService = customerService;
 		this.carMaintananceService = carMaintananceService;
+		this.cityService = cityService;
 	}
 
-	// Lists all retals
+	// Lists all rentals
 	@Override
 	public DataResult<List<RentalListDto>> getAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
@@ -68,7 +71,10 @@ public class RentalManager implements RentalService {
 		Result result = BusinessRules.run(
 
 				checkIfCustomerExist(createRentalRequest.getCustomerId()),
-				checkIfCarInMaintanance(createRentalRequest.getCarId()));
+				checkIfCarInMaintanance(createRentalRequest.getCarId()),
+				checkIfCityExist(createRentalRequest.getPickUpCityId()),
+				checkIfCityExist(createRentalRequest.getReturnCityId())
+				);
 
 		if (result != null) {
 			return result;
@@ -85,6 +91,14 @@ public class RentalManager implements RentalService {
 			return true;
 		} else
 			return false;
+	}
+	
+	@Override
+	public DataResult<Rental> findRentalById(int id) {
+		if(rentalDao.existsById(id)) {
+			return new SuccessDataResult<Rental>(rentalDao.getById(id));
+		}
+		else return new ErrorDataResult<Rental>();
 	}
 
 	// Helpers
@@ -124,5 +138,16 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
+	
+	// checks is there a city with that id 
+		private Result checkIfCityExist(int cityId) {
+			if (!cityService.findCityById(cityId).isSuccess()) {
+				return new ErrorResult(Messages.carInMaintanance);
+			}
+			return new SuccessResult();
+		}
+
+
+
 
 }
