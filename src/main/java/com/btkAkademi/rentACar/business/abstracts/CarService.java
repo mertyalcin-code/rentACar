@@ -13,11 +13,16 @@ import com.btkAkademi.rentACar.entities.concretes.Car;
 
 public interface CarService {
 	
-	DataResult<List<CarListDto>> getAll(int pageNo, int pageSize);	
+	DataResult<List<CarListDto>> getAll(int pageNo, int pageSize);
+	DataResult<List<CarListDto>> getAllByBrandId(int brandId,int pageNo, int pageSize);
+	DataResult<List<CarListDto>> getAllByColorId(int colorId,int pageNo,int pageSize);
+	DataResult<CarListDto> findCarById(int id);
+	
 	Result add(CreateCarRequest createCarRequest);	
 	Result update(UpdateCarRequest updateCarRequest);
-	DataResult<CarListDto> findCarById(int id);
 	Result delete( int id);
+
+	
 	
 
 	

@@ -15,6 +15,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.UpdateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -57,7 +58,17 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 				.collect(Collectors.toList());		
 		return new SuccessDataResult<List<IndividualCustomerListDto>>(response);
 	}
-	
+	//find by id
+	@Override
+	public DataResult<IndividualCustomerListDto> findById(int id) {
+		if(individualCustomerDao.existsById(id)) {
+			IndividualCustomer individualCustomer = individualCustomerDao.findById(id).get();
+			IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer, IndividualCustomerListDto.class);
+			return new SuccessDataResult<IndividualCustomerListDto>(response);
+		}
+		else return new ErrorDataResult<IndividualCustomerListDto>();
+	}
+
 	// Adds a new individual customer
 	@Override
 	public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
@@ -72,6 +83,30 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 				.map(createIndividualCustomerRequest, IndividualCustomer.class);
 		this.individualCustomerDao.save(individualCustomer);
 		return new SuccessResult(Messages.individualCustomerAdded);
+	}
+	
+	// Update a customer
+	@Override
+	public Result update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
+		Result result = BusinessRules.run(
+				checkIfUserInAgeLimit(updateIndividualCustomerRequest.getBirthDate()));
+		if (result != null) {
+			return result;
+		}
+
+		IndividualCustomer individualCustomer = this.modelMapperService.forRequest()
+				.map(updateIndividualCustomerRequest, IndividualCustomer.class);
+		this.individualCustomerDao.save(individualCustomer);
+		return new SuccessResult(Messages.individualCustomerUpdated);
+	}
+	
+	// Delete a customer
+	@Override
+	public Result delete(int id) {
+	if(individualCustomerDao.existsById(id)) {
+		individualCustomerDao.deleteById(id);
+		return new SuccessResult();
+	}else return new ErrorResult();
 	}
 
 	// Helpers
@@ -92,6 +127,9 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		}
 		return new SuccessResult();
 	}
+
+
+
 
 
 

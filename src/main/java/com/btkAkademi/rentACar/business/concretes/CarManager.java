@@ -56,15 +56,44 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
-
+	//lists cars according to brand
+	@Override
+	public DataResult<List<CarListDto>> getAllByBrandId(int brandId, int pageNo, int pageSize) {
+		
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		List<Car> carList = this.carDao.getAllByBrandId(brandId,pageable);
+		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<CarListDto>>(response);
+	}
+	//lists cars according to color
+	@Override
+	public DataResult<List<CarListDto>> getAllByColorId(int colorId, int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		List<Car> carList = this.carDao.getAllByBrandId(colorId,pageable);
+		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<CarListDto>>(response);
+	}
+	// Finds Car by id
+	@Override
+	public DataResult<CarListDto> findCarById(int id) {
+		if(carDao.existsById(id)) {
+			
+			CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
+					
+			return new SuccessDataResult<CarListDto>(response);
+		}
+		else return new ErrorDataResult<>();
+	}
+	
 	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
 		Result result = BusinessRules.run(colorService.checkIfColorExist(createCarRequest.getColorId()),
-				brandService.checkIfBrandExist(createCarRequest.getBrandId()));
+				brandService.checkIfBrandExists(createCarRequest.getBrandId()));
 		if (result != null) {
 			return result;
 		}
@@ -90,23 +119,15 @@ public class CarManager implements CarService {
 		this.carDao.save(car);
 		return new SuccessResult(Messages.carUpdated);
 	}
+	
 	//Deletes a car 
 	@Override
 	public Result delete(int id) {
-		carDao.deleteById(id);
-		return new SuccessResult();
-	}
-
-	// Finds Car by id
-	@Override
-	public DataResult<CarListDto> findCarById(int id) {
-		if(carDao.existsById(id)) {
-			
-			CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
-					
-			return new SuccessDataResult<CarListDto>(response);
-		}
-		else return new ErrorDataResult<>();
+		if(carDao.existsById(id)){
+			carDao.deleteById(id);
+			return new SuccessResult(Messages.carDeleted);		}
+		
+		return new ErrorResult();
 	}
 
 	// Helpers
@@ -119,6 +140,8 @@ public class CarManager implements CarService {
 		}
 		return new SuccessResult();
 	}
+
+
 
 
 

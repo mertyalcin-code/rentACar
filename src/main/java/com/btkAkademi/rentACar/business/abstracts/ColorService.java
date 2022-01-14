@@ -13,9 +13,12 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 public interface ColorService {
 
 	DataResult<List<ColorListDto>> getAll();
+	DataResult<ColorListDto> findById(int id);
+	
 	Result add(CreateColorRequest createColorRequest);
 	Result update(UpdateColorRequest updateColorRequest);
 	Result delete(int id);
+	
 	Result checkIfColorExist(int colorId);
 	
 }

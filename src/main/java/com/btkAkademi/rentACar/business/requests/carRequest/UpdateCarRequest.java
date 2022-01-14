@@ -1,5 +1,7 @@
 package com.btkAkademi.rentACar.business.requests.carRequest;
 
+import javax.validation.constraints.NotBlank;
+
 import com.btkAkademi.rentACar.entities.concretes.Brand;
 import com.btkAkademi.rentACar.entities.concretes.Color;
 
@@ -18,5 +20,6 @@ public class UpdateCarRequest {
 	private int model;
 	private int findexScore;
 	private int kilometer;
+	@NotBlank
 	private String description;
 }

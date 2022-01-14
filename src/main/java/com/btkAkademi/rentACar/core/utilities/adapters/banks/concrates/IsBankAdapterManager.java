@@ -1,13 +1,14 @@
-package com.btkAkademi.rentACar.core.utilities.adapters.banks;
+package com.btkAkademi.rentACar.core.utilities.adapters.banks.concrates;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.core.utilities.adapters.banks.abstracts.BankAdapterService;
+import com.btkAkademi.rentACar.core.utilities.externalServices.banks.IsBank;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
-import com.btkAkademi.rentACar.exernals.banks.IsBank;
 @Service
 public class IsBankAdapterManager implements BankAdapterService{
 	

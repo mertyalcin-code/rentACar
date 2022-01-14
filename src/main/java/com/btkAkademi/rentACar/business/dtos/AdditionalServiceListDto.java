@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdditionalServiceDto {
+public class AdditionalServiceListDto {
 	private String name;
 	private double price;
 }

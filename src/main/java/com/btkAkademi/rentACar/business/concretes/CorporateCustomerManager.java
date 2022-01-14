@@ -13,6 +13,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.UpdateCorporateCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -49,6 +50,16 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CorporateCustomerListDto>>(response);
 	}
+	// finds by id
+	@Override
+	public DataResult<CorporateCustomerListDto> findById(int id) {
+		if(corporateCustomerDao.existsById(id)) {
+			CorporateCustomer corporateCustomer = corporateCustomerDao.findById(id).get();
+			CorporateCustomerListDto response = modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class);
+			return new SuccessDataResult<>(response); 
+		}
+		return null;
+	}
 
 	// Adds a new corporate customer
 	@Override
@@ -65,6 +76,24 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		this.corporateCustomerDao.save(corporateCustomer);
 		return new SuccessResult(Messages.corporateCustomerAdded);
 	}
+	// Updates a customer but does not control email or name exists or not
+	@Override
+	public Result update(UpdateCorporateCustomerRequest updateCorporateCustomerRequest) {
+		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(updateCorporateCustomerRequest,
+				CorporateCustomer.class);
+		this.corporateCustomerDao.save(corporateCustomer);
+		return new SuccessResult(Messages.corporateCustomerUpdated);
+	}
+	//delete
+	@Override
+	public Result delete(int id) {
+		if(corporateCustomerDao.existsById(id)) {
+			corporateCustomerDao.deleteById(id);
+			return new SuccessResult(Messages.corporateCustomerDeleted);
+		}
+		return new ErrorResult();
+	}
+
 
 	// Helpers
 
@@ -82,5 +111,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		}
 		return new SuccessResult();
 	}
+
+
 
 }

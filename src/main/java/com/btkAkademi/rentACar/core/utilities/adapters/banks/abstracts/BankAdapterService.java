@@ -1,4 +1,4 @@
-package com.btkAkademi.rentACar.core.utilities.adapters.banks;
+package com.btkAkademi.rentACar.core.utilities.adapters.banks.abstracts;
 
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 

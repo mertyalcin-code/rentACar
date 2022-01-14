@@ -42,13 +42,29 @@ public class Messages {
 	//City
 	public static final String cityNameExists = "city.name.exists";
 	//Additional Service
-	public static final String additionaServiceAdded = "additional.service.added";
+	public static final String additionalServiceAdded = "additional.service.added";
 	public static final String rentalIsNotFound = "rental.is.not.found";
 	public static final String limitNotEnough = "limit.not.enough";
 	public static final String carSaved = "card.saved";
-
-	
-	
+	public static final String additionalServiceUpdated = "additionalServiceUpdated";
+	public static final String carDamageUpdated = "car.damage.updated";
+	public static final String carMaintananceUpdated = "car.maintanance.updated";
+	public static final String carMaintananceDeleted = "car.maintanance.deleted";
+	public static final String carDeleted = "car.deleted";
+	public static final String cityAdded = "city.added";
+	public static final String cityUpdated = "city.updated";
+	public static final String cityDeleted = "city.deleted";
+	public static final String colorDeleted = "color.deleted";
+	public static final String corporateCustomerUpdated = "corporate.customer.updated";
+	public static final String corporateCustomerDeleted = "corporate.customer.added";
+	public static final String customerPaymentDetailAdded = "customer.payment.detail.added";
+	public static final String customerPaymentDetailUpdated = "customer.payment.detail.updated";
+	public static final String customerPaymentDetailDeleted = "customer.payment.detail.deleted";
+	public static final String individualCustomerUpdated = "individual.customer.updated";
+	public static final String individualCustomerDeleted= "individual.customer.deleted";
+	public static final String paymentDeleted = "payment.deleted";
+	public static final String rentalUpdated = "rental.updated";
+	public static final String rentalDeleted = "rental.deleted";
 	
 	
 }

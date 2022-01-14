@@ -1,4 +1,4 @@
-package com.btkAkademi.rentACar.exernals.banks;
+package com.btkAkademi.rentACar.core.utilities.externalServices.banks;
 
 import org.springframework.stereotype.Component;
 

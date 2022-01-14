@@ -3,7 +3,11 @@ package com.btkAkademi.rentACar.business.concretes;
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
@@ -12,17 +16,24 @@ import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
-import com.btkAkademi.rentACar.business.dtos.AdditionalServiceDto;
+import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
+import com.btkAkademi.rentACar.business.dtos.CarListDto;
+import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.paymentRequest.CreatePaymentRequest;
-import com.btkAkademi.rentACar.core.utilities.adapters.banks.BankAdapterService;
+import com.btkAkademi.rentACar.business.requests.paymentRequest.UpdatePaymentRequest;
+import com.btkAkademi.rentACar.core.utilities.adapters.banks.abstracts.BankAdapterService;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.PaymentDao;
 import com.btkAkademi.rentACar.entities.concretes.AdditionalService;
+import com.btkAkademi.rentACar.entities.concretes.Car;
 import com.btkAkademi.rentACar.entities.concretes.Payment;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
 @Service
@@ -52,7 +63,36 @@ public class PaymentManager implements PaymentService{
 		this.bankAdapterService = bankAdapterService;
 		this.customerPaymentDetailService = customerPaymentDetailService;
 	}
+	//Gets All Payments
+	@Override
+	public DataResult<List<PaymentListDto>> getAll(int pageNo, int pageSize) {
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
+		List<Payment> paymentList = this.paymentDao.findAll(pageable).getContent();
+		List<PaymentListDto> response = paymentList.stream().map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<>(response);
 	
+	}
+	//Gets All Payments for one rental
+	@Override
+	public DataResult<List<PaymentListDto>> getAllByRentalId(int id) {
+		
+		List<Payment> paymentList = this.paymentDao.getAllByRentalId(id);
+		List<PaymentListDto> response = paymentList.stream().map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<>(response);
+	}
+	//finds specific payment 
+	@Override
+	public DataResult<PaymentListDto> getById(int id) {
+		if(paymentDao.existsById(id)) {
+			Payment payment= paymentDao.findById(id).get();
+			PaymentListDto response = modelMapperService.forDto().map(payment,PaymentListDto.class);
+			return new SuccessDataResult<PaymentListDto>(response);
+		}
+		else return new ErrorDataResult<>();
+	}
+	//adds a payment
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {	
 		//converts request to payment
@@ -70,7 +110,13 @@ public class PaymentManager implements PaymentService{
 		payment.setTotalPaymentAmount(totalPrice);
 		
 		//Bussiness logic
-		Result result = BusinessRules.run(bankAdapterService.checkIfLimitIsEnough("123456","","","",totalPrice));
+		Result result = BusinessRules.run(
+				bankAdapterService.checkIfLimitIsEnough(
+						createPaymentRequest.getCardNo(),
+						createPaymentRequest.getDay(),
+						createPaymentRequest.getMonth(),
+						createPaymentRequest.getCvv(),
+						totalPrice));
 		if (result != null) {
 			return result;
 		}
@@ -82,9 +128,27 @@ public class PaymentManager implements PaymentService{
 		
 		return new SuccessResult(Messages.rentalAdded);
 	}
-	
+	//updates a payment
+	@Override
+	public Result update(UpdatePaymentRequest updatePaymentRequest) {
+		//converts request to payment
+		Payment payment = this.modelMapperService.forRequest().map(updatePaymentRequest, Payment.class);	
+		
+		this.paymentDao.save(payment);
+		
+		return new SuccessResult(Messages.rentalUpdated);
+	}
+	//deletes a payment
+	@Override
+	public Result delete(int id) {
+		if(paymentDao.existsById(id)) {
+			paymentDao.deleteById(id);
+			return new SuccessResult(Messages.paymentDeleted);
+		}
+		return new ErrorResult();
+	}
 
-
+	//To calculate total price
 	private double totalPriceCalculator(RentalListDto rental) {
 		
 		double totalPrice = 0.0;
@@ -97,9 +161,9 @@ public class PaymentManager implements PaymentService{
 		//calculates total usage price by day
 		totalPrice+=days* carService.findCarById(rental.getCarId()).getData().getDailyPrice();
 		
-		List<AdditionalServiceDto> services = additionalServiceService.getAllByRentalId(rental.getId()).getData();
+		List<AdditionalServiceListDto> services = additionalServiceService.getAllByRentalId(rental.getId()).getData();
 		//calculates total additional service price 
-		for(AdditionalServiceDto additionalService : services) {
+		for(AdditionalServiceListDto additionalService : services) {
 			
 			totalPrice+=additionalService.getPrice();
 			
@@ -107,6 +171,10 @@ public class PaymentManager implements PaymentService{
 		System.out.println(totalPrice);
 		return totalPrice;
 	}
+
+
+
+
 
 
 

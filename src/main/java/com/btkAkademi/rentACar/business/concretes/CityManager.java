@@ -15,6 +15,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.CityListDto;
 import com.btkAkademi.rentACar.business.requests.cityRequest.CreateCityRequest;
+import com.btkAkademi.rentACar.business.requests.cityRequest.UpdateCityRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -50,7 +51,17 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 		
 		return new SuccessDataResult<List<CityListDto>>(response);
 	}
-
+	//Finds city with that id
+		@Override
+		public DataResult<CityListDto> findById(int id) {
+			if(cityDao.existsById(id)) {
+				City city= cityDao.getById(id);
+				CityListDto response = modelMapperService.forDto().map(city, CityListDto.class);
+				return new SuccessDataResult<CityListDto>(response);
+			}
+			else return new ErrorDataResult<CityListDto>();
+		}
+		
 	//Creates a new city in the database
 	@Override
 	public Result add(CreateCityRequest createCityRequest) {
@@ -60,16 +71,28 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 		}
 		City city = this.modelMapperService.forRequest().map(createCityRequest,City.class);
 		this.cityDao.save(city);		
-		return new SuccessResult(Messages.carAdded);
+		return new SuccessResult(Messages.cityAdded);
 	}
-	//Finds city with that id
 	@Override
-	public DataResult<City> findCityById(int id) {
-		if(cityDao.existsById(id)) {
-			return new SuccessDataResult<City>(cityDao.getById(id));
+	public Result update(UpdateCityRequest updateCityRequest) {
+		Result result = BusinessRules.run(checkIfCityNameExists(updateCityRequest.getCityName()));
+		if (result != null) {
+			return result;
 		}
-		else return new ErrorDataResult<City>();
+		City city = this.modelMapperService.forRequest().map(updateCityRequest,City.class);
+		this.cityDao.save(city);		
+		return new SuccessResult(Messages.cityUpdated);
 	}
+	@Override
+	public Result delete(int id) {
+		if(cityDao.existsById(id)) {
+			cityDao.deleteById(id);
+			return new SuccessResult(Messages.cityDeleted);
+		}
+		return new ErrorResult();
+	}
+	
+	
 	//Helpers
 	
 	//Checks city is added before or not
@@ -79,6 +102,7 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 		}
 		return new SuccessResult();
 	}
+
 
 
 

@@ -15,9 +15,11 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 public interface BrandService {
 
     DataResult<List<BrandListDto>> getAll();
+    DataResult<BrandListDto> findById(int id);
 	Result add(CreateBrandRequest createBrandRequest);
 	Result update(UpdateBrandRequest updateBrandRequest);
-	Result checkIfBrandExist(int brandId);
 	Result delete(int id);
+	Result checkIfBrandExists(int brandId);
+	
 }
 

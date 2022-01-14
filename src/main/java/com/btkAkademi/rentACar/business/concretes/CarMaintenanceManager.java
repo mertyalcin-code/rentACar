@@ -19,9 +19,11 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.CarMaintenanceListDto;
 import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.UpdateCarMaintananceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
@@ -58,7 +60,27 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		
 		return new SuccessDataResult<List<CarMaintenanceListDto>>(response);
 	}
-
+	//Lists maintenance records for one car
+	@Override
+	public DataResult<List<CarMaintenanceListDto>> getAllByCarId(int id) {
+		List<CarMaintenance> carMaintananceList = this.carMaintananceDao.getAllByCarId(id);
+		List<CarMaintenanceListDto> response = carMaintananceList.stream()
+				.map(carMaintanance->modelMapperService.forDto()
+				.map(carMaintanance, CarMaintenanceListDto.class))
+				.collect(Collectors.toList());
+		
+		return new SuccessDataResult<List<CarMaintenanceListDto>>(response);
+	}
+	//finds one specific maintenance
+	@Override
+	public DataResult<CarMaintenanceListDto> findById(int id) {
+		if(carMaintananceDao.existsById(id)) {
+			CarMaintenance carMaintenance = carMaintananceDao.findById(id).get();
+			CarMaintenanceListDto response = modelMapperService.forDto().map(carMaintenance, CarMaintenanceListDto.class);
+			return new SuccessDataResult<CarMaintenanceListDto>(response);
+		}
+		return new ErrorDataResult<CarMaintenanceListDto>();
+	}
 	//Sends the car to maintenance
 	@Override
 	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
@@ -73,11 +95,36 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		
 		CarMaintenance carMaintanance = this.modelMapperService.forRequest()
 				.map(createCarMaintananceRequest,CarMaintenance.class);
+		//to avoid mapping error
 		carMaintanance.setId(0);
-		System.out.println(carMaintanance.getId());
-	
+		
 		this.carMaintananceDao.save(carMaintanance);		
 		return new SuccessResult(Messages.carMaintananceAdded);
+	}
+	//update
+	@Override
+	public Result update(UpdateCarMaintananceRequest updateCarMaintananceRequest) {
+		Result result = BusinessRules.run(				
+				checkIfCarIsExists(updateCarMaintananceRequest.getCarId()),
+				rentalService.checkIfCarIsRented(updateCarMaintananceRequest.getCarId()))
+				;		
+		if(result!=null) {			
+			return result;
+		}
+		
+		CarMaintenance carMaintanance = this.modelMapperService.forRequest()
+				.map(updateCarMaintananceRequest,CarMaintenance.class);
+	
+		this.carMaintananceDao.save(carMaintanance);		
+		return new SuccessResult(Messages.carMaintananceUpdated);
+	}
+	@Override
+	public Result delete(int id) {
+		if(carMaintananceDao.existsById(id)) {
+			carMaintananceDao.deleteById(id);
+			return new SuccessResult(Messages.carMaintananceDeleted);
+		}
+		else return new ErrorResult();
 	}
 	
 	//Returns Error Result if car is in maintenance
@@ -95,5 +142,6 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		}
 		else return new SuccessResult();
 	}
+
 
 }

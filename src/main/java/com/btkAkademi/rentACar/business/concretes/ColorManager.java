@@ -44,7 +44,13 @@ public class ColorManager implements ColorService {
 				.map(color -> modelMapperService.forDto().map(color, ColorListDto.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<ColorListDto>>(response);
 	}
-
+	// Finds Color with id
+	@Override
+	public DataResult<ColorListDto> findById(int id) {
+		Color color = colorDao.findById(id).get();
+		ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
+		return new SuccessDataResult<>(response);
+	}
 	// Adds a new color
 	@Override
 	public Result add(CreateColorRequest createColorRequest) {
@@ -77,6 +83,17 @@ public class ColorManager implements ColorService {
 
 		return new SuccessResult(Messages.colorUpdate);
 	}
+	//Delete
+	@Override
+	public Result delete(int id) {
+		if(colorDao.existsById(id)) {
+			colorDao.deleteById(id);
+			return new SuccessResult(Messages.colorDeleted);
+		}else return new ErrorResult();
+
+
+	}
+	
 	//checks is there a color with that id
 	@Override
 	public Result checkIfColorExist(int colorId) {
@@ -108,10 +125,7 @@ public class ColorManager implements ColorService {
 
 	}
 
-	@Override
-	public Result delete(int id) {
-		colorDao.deleteById(id);
-		return new SuccessResult();
-	}
+
+	
 
 }

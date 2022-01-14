@@ -10,10 +10,13 @@ import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.CustomerPaymentDetailListDto;
+import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.CreateCustomerPaymentDetailRequest;
+import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.UpdateCustomerPamentDetails;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
@@ -32,14 +35,7 @@ public class CustomerPaymentDetailManager implements CustomerPaymentDetailServic
 		this.modelMapperService = modelMapperService;
 		this.customerPaymentDetailDao = customerPaymentDetailDao;
 	}
-
-	@Override
-	public Result add(CreateCustomerPaymentDetailRequest createCustomerPaymentDetailRequest) {
-		CustomerPaymentDetail customerPaymentDetail = this.modelMapperService.forRequest().map(createCustomerPaymentDetailRequest, CustomerPaymentDetail.class);
-		this.customerPaymentDetailDao.save(customerPaymentDetail);
-		return new SuccessResult(Messages.carSaved);
-	}
-
+	//lists payment for one paymentDetail
 	@Override
 	public DataResult<List<CustomerPaymentDetailListDto>> findCustomerPaymentDetailsByCustomerId(int customerId) {
 		if(customerPaymentDetailDao.existsById(customerId)) {
@@ -52,4 +48,41 @@ public class CustomerPaymentDetailManager implements CustomerPaymentDetailServic
 		return new ErrorDataResult<>();
 	}
 
+	//Find Payment by id
+	@Override
+	public DataResult<CustomerPaymentDetailListDto> findById(int id) {
+		if(customerPaymentDetailDao.existsById(id)) {
+			CustomerPaymentDetail customerPaymentDetail = customerPaymentDetailDao.findById(id).get();
+			CustomerPaymentDetailListDto response = modelMapperService.forDto().map(customerPaymentDetail, CustomerPaymentDetailListDto.class);
+			return new SuccessDataResult<CustomerPaymentDetailListDto>(response);
+		}
+		return new ErrorDataResult<CustomerPaymentDetailListDto>();
+	}
+
+	//adds new credit cart info
+	@Override
+	public Result add(CreateCustomerPaymentDetailRequest createCustomerPaymentDetailRequest) {
+		CustomerPaymentDetail customerPaymentDetail = this.modelMapperService.forRequest().map(createCustomerPaymentDetailRequest, CustomerPaymentDetail.class);
+		this.customerPaymentDetailDao.save(customerPaymentDetail);
+		return new SuccessResult(Messages.customerPaymentDetailAdded);
+	}
+	//updates a credit cart info
+	@Override
+	public Result update(UpdateCustomerPamentDetails updateCustomerPamentDetails) {
+		CustomerPaymentDetail customerPaymentDetail = this.modelMapperService.forRequest().map(updateCustomerPamentDetails, CustomerPaymentDetail.class);
+		this.customerPaymentDetailDao.save(customerPaymentDetail);
+		return new SuccessResult(Messages.customerPaymentDetailUpdated);
+	}
+	//deletes a credit cart info
+	@Override
+	public Result delete(int id) {
+	if(customerPaymentDetailDao.existsById(id)) {
+		customerPaymentDetailDao.deleteById(id);
+		return new SuccessResult(Messages.customerPaymentDetailDeleted);
+	}
+		return new ErrorResult();
+	}
+
+
+	
 }

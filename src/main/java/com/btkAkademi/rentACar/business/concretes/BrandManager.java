@@ -14,6 +14,7 @@ import com.btkAkademi.rentACar.business.requests.brandRequest.UpdateBrandRequest
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
@@ -21,7 +22,7 @@ import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.BrandDao;
 import com.btkAkademi.rentACar.dataAccess.abstracts.ColorDao;
 import com.btkAkademi.rentACar.entities.concretes.Brand;
- 
+
 @Service
 public class BrandManager implements BrandService {
 	// Constants
@@ -48,6 +49,17 @@ public class BrandManager implements BrandService {
 		return new SuccessDataResult<List<BrandListDto>>(response);
 	}
 
+	// Finds brand by id
+	@Override
+	public DataResult<BrandListDto> findById(int id) {
+		if (brandDao.existsById(id)) {
+			Brand brand = this.brandDao.findById(id).get();
+			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
+			return new SuccessDataResult<BrandListDto>(response);
+		} else
+			return new ErrorDataResult<>();
+	}
+
 	// Adds a new brand
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
@@ -64,6 +76,7 @@ public class BrandManager implements BrandService {
 
 		return new SuccessResult(Messages.brandAdded);
 	}
+
 	// Updates current brand
 	@Override
 	public Result update(UpdateBrandRequest updateBrandRequest) {
@@ -80,13 +93,22 @@ public class BrandManager implements BrandService {
 
 		return new SuccessResult(Messages.brandUpdated);
 	}
-	//checks is there a brand with that id
+
+	// Deletes brand by id
 	@Override
-	public Result checkIfBrandExist(int brandId) {
-		if(!brandDao.existsById(brandId)) {
-			return new ErrorResult(Messages.brandNotFound);					
-		}else return new SuccessResult();		
-	
+	public Result delete(int id) {
+		brandDao.deleteById(id);
+		return new SuccessResult();
+	}
+
+	// checks is there a brand with that id
+	@Override
+	public Result checkIfBrandExists(int brandId) {
+		if (!brandDao.existsById(brandId)) {
+			return new ErrorResult(Messages.brandNotFound);
+		} else
+			return new SuccessResult();
+
 	}
 
 	// Checks brand name exists in the database
@@ -100,6 +122,7 @@ public class BrandManager implements BrandService {
 		return new SuccessResult();
 
 	}
+
 	// Checks total brands in the database and controls limit
 	private Result checkIfBrandLimitExceeded(int limit) {
 		if (this.brandDao.count() >= limit) {
@@ -108,6 +131,7 @@ public class BrandManager implements BrandService {
 		}
 		return new SuccessResult();
 	}
+
 	// Checks is there a brand with that id
 	private Result checkIfBrandIdExists(int id) {
 
@@ -118,15 +142,5 @@ public class BrandManager implements BrandService {
 
 		return new SuccessResult();
 	}
-	// Deletes brand by id
-	@Override
-	public Result delete(int id) {
-		brandDao.deleteById(id);
-		return new SuccessResult();
-	}
-
-
 
 }
-
-

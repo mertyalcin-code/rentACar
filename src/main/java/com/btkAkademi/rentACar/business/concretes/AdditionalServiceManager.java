@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
-import com.btkAkademi.rentACar.business.dtos.AdditionalServiceDto;
+import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.requests.additionalService.CreateAdditionalServiceRequest;
+import com.btkAkademi.rentACar.business.requests.additionalService.UpdateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -42,22 +43,53 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 		this.modelMapperService = modelMapperService;
 		this.rentalService = rentalService;
 	}
-		
+	//list all additional services for one rental
+	@Override
+	public DataResult<List<AdditionalServiceListDto>> getAllByRentalId(int RentalId) {
+		List<AdditionalService> additionalServiceList = this.additionalServiceDao.getAllByRentalId(RentalId);
+		List<AdditionalServiceListDto> response = additionalServiceList.stream().map(additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceListDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccessDataResult<List<AdditionalServiceListDto>>(response);
+	}
+
 	//Adds a rental to additional service
 	@Override
 	public Result add(CreateAdditionalServiceRequest createAdditionalService) {
 		Result result = BusinessRules.run(
-				checkIfRentalIsExists(createAdditionalService.getRentalId()));
-		
-		if(result!=null) {
-			
+				checkIfRentalIsExists(createAdditionalService.getRentalId()));		
+		if(result!=null) {			
 			return result;
 		}
+		
 		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalService, AdditionalService.class);
 		this.additionalServiceDao.save(additionalService);
-		return new SuccessResult(Messages.additionaServiceAdded);
+		return new SuccessResult(Messages.additionalServiceAdded);
 	}
-	// Checks if car is exists
+	//Updates additional service
+	@Override
+	public Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
+		Result result = BusinessRules.run(
+				checkIfRentalIsExists(updateAdditionalServiceRequest.getRentalId()));
+		
+		if(result!=null) {			
+			return result;
+		}
+		AdditionalService additionalService = modelMapperService.forRequest().map(updateAdditionalServiceRequest, AdditionalService.class);
+		additionalServiceDao.save(additionalService);
+		return new SuccessResult(Messages.additionalServiceUpdated);
+	}
+	//delete
+	@Override
+	public Result delete(int id) {
+		if(additionalServiceDao.existsById(id)) {
+			additionalServiceDao.deleteById(id);
+			return new SuccessResult();
+		}
+		else return new ErrorResult();
+	}
+	
+	// Checks if rental is exists
 		private Result checkIfRentalIsExists(int rentalId) {
 			if (!rentalService.findById(rentalId).isSuccess()) {
 				return new ErrorResult(Messages.rentalIsNotFound);
@@ -65,14 +97,7 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 				return new SuccessResult();
 		}
 
-		@Override
-		public DataResult<List<AdditionalServiceDto>> getAllByRentalId(int RentalId) {
-			List<AdditionalService> additionalServiceList = this.additionalServiceDao.getAllByRentalId(RentalId);
-			List<AdditionalServiceDto> response = additionalServiceList.stream().map(additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceDto.class))
-					.collect(Collectors.toList());
 
-			return new SuccessDataResult<List<AdditionalServiceDto>>(response);
-		}
 
 	
 }
