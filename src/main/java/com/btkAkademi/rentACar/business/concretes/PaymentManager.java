@@ -2,13 +2,17 @@ package com.btkAkademi.rentACar.business.concretes;
 
 import java.time.Period;
 import java.time.temporal.ChronoUnit;
-
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
+import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.dtos.AdditionalServiceDto;
+import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.paymentRequest.CreatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
@@ -20,20 +24,25 @@ import com.btkAkademi.rentACar.entities.concretes.Payment;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
 @Service
 public class PaymentManager implements PaymentService{
+
 	//Dependencies 
 	private PaymentDao paymentDao;
 	private ModelMapperService modelMapperService;
 	private RentalService rentalService;
+	private CarService carService;
+	private AdditionalServiceService additionalServiceService;
 	//Dependency injection 
 	@Autowired
-	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService) {
+	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
+			CarService carService, AdditionalServiceService additionalServiceService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
 		this.rentalService = rentalService;
+		this.carService = carService;
+		this.additionalServiceService = additionalServiceService;
 	}
-	
-	
+		
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {	
 		//converts request to payment
@@ -43,7 +52,7 @@ public class PaymentManager implements PaymentService{
 		int rentalId= createPaymentRequest.getRentalId();
 		
 		//finds related rental from database
-		Rental rental = rentalService.findById(rentalId).getData();
+		RentalListDto rental = rentalService.findById(rentalId).getData();
 	
 		//calculates total amount
 		payment.setTotalPaymentAmount(totalPriceCalculator(rental));
@@ -56,7 +65,7 @@ public class PaymentManager implements PaymentService{
 		return new SuccessResult(Messages.rentalAdded);
 	}
 	
-	private double totalPriceCalculator(Rental rental) {
+	private double totalPriceCalculator(RentalListDto rental) {
 		
 		double totalPrice = 0.0;
 
@@ -66,10 +75,11 @@ public class PaymentManager implements PaymentService{
 		//if  return date and rent date are equal than we charge one day
 		if(days==0) days=1;
 		//calculates total usage price by day
-		totalPrice+=days*rental.getCar().getDailyPrice();
+		totalPrice+=days* carService.findCarById(rental.getCarId()).getData().getDailyPrice();
 		
-		//calculates total additonal service price 
-		for(AdditionalService additionalService:rental.getAddtionalServices()) {
+		List<AdditionalServiceDto> services = additionalServiceService.getAllByRentalId(rental.getId()).getData();
+		//calculates total additional service price 
+		for(AdditionalServiceDto additionalService : services) {
 			
 			totalPrice+=additionalService.getPrice();
 			
@@ -77,6 +87,8 @@ public class PaymentManager implements PaymentService{
 		System.out.println(totalPrice);
 		return totalPrice;
 	}
+
+
 
 	
 }

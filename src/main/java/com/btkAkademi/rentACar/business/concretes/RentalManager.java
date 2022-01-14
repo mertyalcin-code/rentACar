@@ -16,6 +16,7 @@ import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.rentalRequest.createRentalRequest;
@@ -95,18 +96,20 @@ public class RentalManager implements RentalService {
 	}
 	
 	@Override
-	public DataResult<Rental> findById(int id) {
+	public DataResult<RentalListDto> findById(int id) {
 		if(rentalDao.existsById(id)) {
-			return new SuccessDataResult<Rental>(rentalDao.findById(id).get());
+			RentalListDto response = modelMapperService.forDto().map(rentalDao.findById(id).get(), RentalListDto.class);
+			
+			return new SuccessDataResult<>(response);
 		}
-		else return new ErrorDataResult<Rental>();
+		else return new ErrorDataResult<>();
 	}
 
 	// Helpers
 
 	// Dates validation
 	private Result checkIfDatesCorrect(LocalDate rentDate, LocalDate returnDate) {
-		if (!returnDate.isAfter(rentDate)) {
+		if (!rentDate.isBefore(returnDate)) {
 			return new ErrorResult(Messages.returnDateShouldBeAfterTheRentDate);
 
 		}
@@ -131,8 +134,6 @@ public class RentalManager implements RentalService {
 
 		return new SuccessResult();
 	}
-
-
 	
 	// checks is there a city with that id 
 		private Result checkIfCityExist(int cityId) {

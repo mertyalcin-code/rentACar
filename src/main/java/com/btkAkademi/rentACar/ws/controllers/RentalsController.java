@@ -36,10 +36,7 @@ public class RentalsController {
 	public DataResult<List<RentalListDto>> getAll(@RequestParam int pageNo, @RequestParam(defaultValue = "10") int pageSize){
 		return rentalService.getAll(pageNo, pageSize);
 	}	
-	@GetMapping("getbyid")
-	public DataResult<Rental> getAll(@RequestParam int id){
-		return rentalService.findById(id);
-	}	
+
 	//Adds a new rental
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid createRentalRequest createRentalRequest) {

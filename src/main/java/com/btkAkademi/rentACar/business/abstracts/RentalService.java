@@ -14,6 +14,6 @@ public interface RentalService {
 	DataResult<List<RentalListDto>>  getAll(int pageNo,int pageSize);
 	Result add(createRentalRequest createRentalRequest);	
 	Result checkIfCarIsRented(int carId);
-	DataResult<Rental> findById(int id);
+	DataResult<RentalListDto> findById(int id);
 	
 }

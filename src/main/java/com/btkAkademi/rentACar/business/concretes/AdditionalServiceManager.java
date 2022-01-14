@@ -1,5 +1,8 @@
 package com.btkAkademi.rentACar.business.concretes;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,15 +12,20 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.dtos.AdditionalServiceDto;
+import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.requests.additionalService.CreateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.AdditionalServiceDao;
 import com.btkAkademi.rentACar.dataAccess.abstracts.BrandDao;
 import com.btkAkademi.rentACar.entities.concretes.Brand;
+import com.btkAkademi.rentACar.entities.concretes.Car;
 import com.btkAkademi.rentACar.entities.concretes.AdditionalService;
 @Service
 public class AdditionalServiceManager implements AdditionalServiceService{
@@ -55,6 +63,15 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 				return new ErrorResult(Messages.rentalIsNotFound);
 			} else
 				return new SuccessResult();
+		}
+
+		@Override
+		public DataResult<List<AdditionalServiceDto>> getAllByRentalId(int RentalId) {
+			List<AdditionalService> additionalServiceList = this.additionalServiceDao.getAllByRentalId(RentalId);
+			List<AdditionalServiceDto> response = additionalServiceList.stream().map(additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceDto.class))
+					.collect(Collectors.toList());
+
+			return new SuccessDataResult<List<AdditionalServiceDto>>(response);
 		}
 
 	

@@ -1,6 +1,5 @@
 package com.btkAkademi.rentACar.business.concretes;
 
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +36,7 @@ public class CarManager implements CarService {
 	private ModelMapperService modelMapperService;
 	private BrandService brandService;
 	private ColorService colorService;
+
 	// Dependency Injection
 	@Autowired
 	public CarManager(CarDao carDao, ModelMapperService modelMapperService, BrandService brandService,
@@ -47,75 +47,71 @@ public class CarManager implements CarService {
 		this.brandService = brandService;
 		this.colorService = colorService;
 	}
+
 	// Lists all cars with pageNo and Page Size
 	@Override
-	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {	
-		
-		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
+	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {
+
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
-		List<CarListDto> response = carList.stream()
-				.map(car->modelMapperService.forDto()
-				.map(car, CarListDto.class))
+		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		
+
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
+
 	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-		Result result = BusinessRules.run(
-				colorService.checkIfColorExist(createCarRequest.getColorId()),
-				brandService.checkIfBrandExist(createCarRequest.getBrandId())
-				);
+		Result result = BusinessRules.run(colorService.checkIfColorExist(createCarRequest.getColorId()),
+				brandService.checkIfBrandExist(createCarRequest.getBrandId()));
 		if (result != null) {
 			return result;
 		}
-		Car car = this.modelMapperService.forRequest().map(createCarRequest,Car.class);
+		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		this.carDao.save(car);
-		
+
 		return new SuccessResult(Messages.carAdded);
 	}
+
 	// Updates current car
 	@Override
 	public Result update(UpdateCarRequest updateCarRequest) {
-		
-		Result result = BusinessRules.run(
-				checkIfCarIdExists(updateCarRequest.getId()));
-		
-		if(result!=null) {
-			
+
+		Result result = BusinessRules.run(checkIfCarIdExists(updateCarRequest.getId()));
+
+		if (result != null) {
+
 			return result;
 		}
-	
-		Car car = this.modelMapperService.forRequest().map(updateCarRequest,Car.class);
-		
-		this.carDao.save(car);		
+
+		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
+
+		this.carDao.save(car);
 		return new SuccessResult(Messages.carUpdated);
 	}
-	//Finds Car by id
+
+	// Finds Car by id
 	@Override
-	public DataResult<Car> findCarById(int id) {
+	public DataResult<CarListDto> findCarById(int id) {
 		if(carDao.existsById(id)) {
-			return new SuccessDataResult<Car>(carDao.findById(id).get());
+			
+			CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
+					
+			return new SuccessDataResult<CarListDto>(response);
 		}
-		else return new ErrorDataResult<Car>();
-	}
-	
-	//Helpers
-	
-	//Checks is there a car with that id
-	private Result checkIfCarIdExists(int id)
-	{
-		   if(!this.carDao.existsById(id)) {
-			   
-			   return new ErrorResult(Messages.carIdNotExists);
-		   }
-		   return new SuccessResult();
+		else return new ErrorDataResult<>();
 	}
 
+	// Helpers
 
+	// Checks is there a car with that id
+	private Result checkIfCarIdExists(int id) {
+		if (!this.carDao.existsById(id)) {
 
+			return new ErrorResult(Messages.carIdNotExists);
+		}
+		return new SuccessResult();
+	}
 
-
-	
 }
