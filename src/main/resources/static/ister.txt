@@ -1,0 +1,4 @@
+// rental için ödeme yapılabilmeli yani paymentService kurulacak 
+// ödemeyi yaparken arabanın günlük tutarı * gün sayısı + additional service 
+// ödemee rental ile ilişkilendirilecek 
+// 	//hangi kiralama için ne zaman hangi tarihte ne kadar ödeme alıntı total 

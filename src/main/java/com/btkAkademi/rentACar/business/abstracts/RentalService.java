@@ -15,5 +15,5 @@ public interface RentalService {
 	Result add(createRentalRequest createRentalRequest);	
 	Result checkIfCarIsRented(int carId);
 	DataResult<Rental> findRentalById(int id);
-
+	
 }

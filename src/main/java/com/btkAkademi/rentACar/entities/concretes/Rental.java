@@ -12,9 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.ManyToAny;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,6 +28,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="rentals")
+@JsonIgnoreProperties({"hibernateLazyInitializer","handler","products"})
 public class Rental {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,4 +63,7 @@ public class Rental {
 	@OneToMany(mappedBy = "rental")
 	private List<AdditionalService> addtionalServices;
 	
+	@OneToOne
+	@JoinColumn(name="payment_id")
+	private Payment payment;
 }

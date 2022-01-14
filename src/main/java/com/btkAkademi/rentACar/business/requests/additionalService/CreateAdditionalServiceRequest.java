@@ -13,4 +13,5 @@ public class CreateAdditionalServiceRequest {
 	@NotBlank
 	private String name;
 	private int rentalId;
+	private double price;
 }

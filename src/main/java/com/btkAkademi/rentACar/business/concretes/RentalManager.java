@@ -97,7 +97,7 @@ public class RentalManager implements RentalService {
 	@Override
 	public DataResult<Rental> findRentalById(int id) {
 		if(rentalDao.existsById(id)) {
-			return new SuccessDataResult<Rental>(rentalDao.getById(id));
+			return new SuccessDataResult<Rental>(rentalDao.findById(id).get());
 		}
 		else return new ErrorDataResult<Rental>();
 	}
