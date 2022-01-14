@@ -42,6 +42,7 @@ public class RentalManager implements RentalService {
 	private CustomerService customerService;
 	private CarMaintenanceService carMaintananceService;
 	private CityService cityService;
+
 	
 	// Dependency Injection
 	@Autowired

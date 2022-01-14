@@ -14,8 +14,10 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.paymentRequest.CreatePaymentRequest;
+import com.btkAkademi.rentACar.core.utilities.adapters.banks.BankAdapterService;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.PaymentDao;
@@ -27,21 +29,25 @@ public class PaymentManager implements PaymentService{
 
 	//Dependencies 
 	private PaymentDao paymentDao;
-	private ModelMapperService modelMapperService;
+	private ModelMapperService modelMapperService;	
 	private RentalService rentalService;
 	private CarService carService;
 	private AdditionalServiceService additionalServiceService;
+	private BankAdapterService bankAdapterService;
 	//Dependency injection 
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
-			CarService carService, AdditionalServiceService additionalServiceService) {
+			CarService carService, AdditionalServiceService additionalServiceService,
+			BankAdapterService bankAdapterService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
 		this.rentalService = rentalService;
 		this.carService = carService;
 		this.additionalServiceService = additionalServiceService;
+		this.bankAdapterService = bankAdapterService;
 	}
+
 		
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {	
@@ -55,7 +61,15 @@ public class PaymentManager implements PaymentService{
 		RentalListDto rental = rentalService.findById(rentalId).getData();
 	
 		//calculates total amount
-		payment.setTotalPaymentAmount(totalPriceCalculator(rental));
+		double totalPrice = totalPriceCalculator(rental);
+		
+		payment.setTotalPaymentAmount(totalPrice);
+		
+		//Bussiness logic
+		Result result = BusinessRules.run(checkIfLimitIsEnough("123456",totalPrice));
+		if (result != null) {
+			return result;
+		}
 		
 		//to avoid error
 		payment.setId(0);
@@ -88,7 +102,13 @@ public class PaymentManager implements PaymentService{
 		return totalPrice;
 	}
 
-
+	//checks if credit has limit
+	private Result checkIfLimitIsEnough(String cardNo, double amount) {
+		if (!bankAdapterService.checkIfLimitIsEnough(cardNo,amount)) {
+			return new ErrorResult(Messages.limitNotEnough);
+		}
+		return new SuccessResult();
+	}
 
 	
 }

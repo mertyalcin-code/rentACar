@@ -2,3 +2,9 @@
 // ödemeyi yaparken arabanın günlük tutarı * gün sayısı + additional service 
 // ödemee rental ile ilişkilendirilecek 
 // 	//hangi kiralama için ne zaman hangi tarihte ne kadar ödeme alıntı total 
+
+
+kişi kredi kartı bilgilerini girdiğinde ödemeyi tamamlamadan önce kişi kredi kartı limiti varsa ödeme yapıcaz
+
+fake service varmış gibi 
+
