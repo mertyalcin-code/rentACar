@@ -19,10 +19,11 @@ import com.btkAkademi.rentACar.entities.concretes.Payment;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
 @Service
 public class PaymentManager implements PaymentService{
+	//Dependencies 
 	private PaymentDao paymentDao;
 	private ModelMapperService modelMapperService;
 	private RentalService rentalService;
-	
+	//Dependency injection 
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService) {
 		super();
@@ -34,18 +35,20 @@ public class PaymentManager implements PaymentService{
 	
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {	
-		
+		//converts request to payment
 		Payment payment = this.modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
+		
 		
 		int rentalId= createPaymentRequest.getRentalId();
 		
+		//finds related rental from database
 		Rental rental = rentalService.findById(rentalId).getData();
 	
+		//calculates total amount
 		payment.setTotalPaymentAmount(totalPriceCalculator(rental));
 		
+		//to avoid error
 		payment.setId(0);
-		
-		System.out.println(payment.getRental().getId());		
 		
 		this.paymentDao.save(payment);
 		
@@ -57,10 +60,12 @@ public class PaymentManager implements PaymentService{
 		double totalPrice = 0.0;
 		//finds usage day
 		int days = Period.between(rental.getReturnDate(),rental.getRentDate()).getDays();
+		
 		//if  return date and rent date are equal than we charge one day
 		if(days==0) days=1;
 		//calculates total usage price by day
 		totalPrice+=days*rental.getCar().getDailyPrice();
+		
 		//calculates total additonal service price 
 		for(AdditionalService additionalService:rental.getAddtionalServices()) {
 			
