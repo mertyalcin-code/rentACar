@@ -1,16 +1,25 @@
 package com.btkAkademi.rentACar.ws.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CarDamageService;
+import com.btkAkademi.rentACar.business.dtos.CarDamageListDto;
 import com.btkAkademi.rentACar.business.requests.carDamageRequest.CreateCarDamageRequest;
+import com.btkAkademi.rentACar.business.requests.carDamageRequest.UpdateCarDamageRequest;
 import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
@@ -22,10 +31,24 @@ public class CarDamagesController {
 		super();
 		this.carDamageService = carDamageService;
 	}
-	
-	
+	@GetMapping("getallbycarid/{id}")
+	public DataResult<List<CarDamageListDto>> getAllByCarId(@PathVariable int id) {
+		return this.carDamageService.getAllByCarId(id);
+	}
+	@GetMapping("findbyid{id}")
+	public Result findById(@PathVariable int id) {
+		return this.carDamageService.findById(id);
+	}
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCarDamageRequest createCarDamageRequest) {
 		return this.carDamageService.add(createCarDamageRequest);
+	}
+	@PutMapping("update")
+	public Result update(@RequestBody @Valid UpdateCarDamageRequest updateCarDamageRequest) {
+		return this.carDamageService.update(updateCarDamageRequest);
+	}
+	@DeleteMapping("delete/{id}")
+	public Result delete(@RequestBody @Valid int id) {
+		return this.carDamageService.delete(id);
 	}
 }

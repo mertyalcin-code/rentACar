@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateCustomerPamentDetails {
+public class UpdateCustomerPamentDetailsRequest {
 	private int id;
 	private String cardNo;
 	private String day;

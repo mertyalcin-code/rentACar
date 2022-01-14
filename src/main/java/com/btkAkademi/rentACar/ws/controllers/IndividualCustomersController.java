@@ -5,8 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +20,7 @@ import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.UpdateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -37,10 +41,25 @@ public class IndividualCustomersController {
 		
 		return this.individualCustomerService.getAll(pageNo,pageSize);
 	}
+	@GetMapping("findbyid/{id}")
+	public DataResult<IndividualCustomerListDto> findById(@PathVariable int id) {
+		
+		return this.individualCustomerService.findById(id);
+	}
 	// adds a new individual customer
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 
 		return this.individualCustomerService.add(createIndividualCustomerRequest);
+	}
+	@PutMapping("update")
+	public Result update(@RequestBody @Valid UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
+
+		return this.individualCustomerService.update(updateIndividualCustomerRequest);
+	}
+	@DeleteMapping("delete/{id}")
+	public Result delete(@PathVariable int id) {
+
+		return this.individualCustomerService.delete(id);
 	}
 }

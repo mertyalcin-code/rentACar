@@ -5,8 +5,11 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +19,7 @@ import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.UpdateCorporateCustomerRequest;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
@@ -36,6 +40,11 @@ public class CorporateCustomersController {
 
 		return this.corporateCustomerService.getAll(pageNo,pageSize);
 	}
+	@GetMapping("findbyid/{id}")
+	public DataResult<CorporateCustomerListDto> findById(@PathVariable int id) {
+
+		return this.corporateCustomerService.findById(id);
+	}
 	
 	
 	// adds a new corporate customer
@@ -43,6 +52,15 @@ public class CorporateCustomersController {
 	public Result add(@RequestBody @Valid CreateCorporateCustomerRequest createCorporateCustomerRequest) {
 
 		return this.corporateCustomerService.add(createCorporateCustomerRequest);
+	}
+	@PutMapping("update")
+	public Result update(@RequestBody @Valid UpdateCorporateCustomerRequest updateCorporateCustomerRequest) {
+
+		return this.corporateCustomerService.update(updateCorporateCustomerRequest);
+	}
+	@DeleteMapping("delete/{id}")
+	public Result delete(@PathVariable int id) {
+		return this.corporateCustomerService.delete(id);
 	}
 
 }

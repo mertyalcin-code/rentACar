@@ -12,7 +12,7 @@ import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.CustomerPaymentDetailListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.CreateCustomerPaymentDetailRequest;
-import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.UpdateCustomerPamentDetails;
+import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.UpdateCustomerPamentDetailsRequest;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
@@ -68,7 +68,7 @@ public class CustomerPaymentDetailManager implements CustomerPaymentDetailServic
 	}
 	//updates a credit cart info
 	@Override
-	public Result update(UpdateCustomerPamentDetails updateCustomerPamentDetails) {
+	public Result update(UpdateCustomerPamentDetailsRequest updateCustomerPamentDetails) {
 		CustomerPaymentDetail customerPaymentDetail = this.modelMapperService.forRequest().map(updateCustomerPamentDetails, CustomerPaymentDetail.class);
 		this.customerPaymentDetailDao.save(customerPaymentDetail);
 		return new SuccessResult(Messages.customerPaymentDetailUpdated);

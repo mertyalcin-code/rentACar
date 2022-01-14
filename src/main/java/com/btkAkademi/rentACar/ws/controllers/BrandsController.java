@@ -36,6 +36,11 @@ public class BrandsController {
 	public DataResult<List<BrandListDto>> getall() {
 		return this.brandService.getAll();
 	}
+	//finds by id
+	@GetMapping("findbyid/{id}")
+	public Result findById(@PathVariable int id) {
+		return this.brandService.delete(id);
+	}
 
 	// adds a new brand
 	@PostMapping("add")

@@ -3,6 +3,7 @@ package com.btkAkademi.rentACar.ws.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +41,8 @@ public class AdditionalServicesController {
 	public Result update(@RequestBody @Valid UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
 		return this.additionalServiceService.update(updateAdditionalServiceRequest);
 	}
-	
+	@DeleteMapping("delete/{id}")
+	public Result update(@PathVariable int id) {
+		return this.additionalServiceService.delete(id);
+	}
 }

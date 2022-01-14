@@ -37,6 +37,10 @@ public class ColorsContoller {
 	public DataResult<List<ColorListDto>> getall() {
 		return this.colorService.getAll();
 	}
+	@GetMapping("findbyid/{id}")
+	public DataResult<ColorListDto> findById(@PathVariable int id) {
+		return this.colorService.findById(id);
+	}
 	// adds a new color
 	@PostMapping("add")
 

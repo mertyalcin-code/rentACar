@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
 import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.CreateCustomerPaymentDetailRequest;
+import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.UpdateCustomerPamentDetailsRequest;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
@@ -24,16 +25,31 @@ public class CustomerPaymentDetailsController {
 		super();
 		this.customerPaymentDetailService = customerPaymentDetailService;
 	}
-	@GetMapping ("getbycustomerid/{id}")
-	public Result get(@Valid @PathVariable int id) {
+	@GetMapping ("findbycustomerid/{id}")
+	public Result findByCustomerId(@Valid @PathVariable int id) {
 
 		return this.customerPaymentDetailService.findCustomerPaymentDetailsByCustomerId(id);
 	}
+	@GetMapping ("findbyid/{id}")
+	public Result get(@Valid @PathVariable int id) {
+
+		return this.customerPaymentDetailService.findById(id);
+	}
+	
 	
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCustomerPaymentDetailRequest createCustomerPaymentDetailRequest) {
 
 		return this.customerPaymentDetailService.add(createCustomerPaymentDetailRequest);
 	}
-	
+	@PostMapping("update")
+	public Result update(@RequestBody @Valid UpdateCustomerPamentDetailsRequest updateCustomerPamentDetailsRequest) {
+
+		return this.customerPaymentDetailService.update(updateCustomerPamentDetailsRequest);
+	}
+	@PostMapping("delete/{id}")
+	public Result delete(@PathVariable int id) {
+
+		return this.customerPaymentDetailService.delete(id);
+	}
 }

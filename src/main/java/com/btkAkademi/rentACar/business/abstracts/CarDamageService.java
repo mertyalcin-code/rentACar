@@ -12,8 +12,7 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 public interface CarDamageService {
 	DataResult<List<CarDamageListDto>> getAllByCarId(int id);
-	DataResult<CarDamageListDto> findById(int id);
-	
+	DataResult<CarDamageListDto> findById(int id);	
 	Result add(CreateCarDamageRequest createCarDamageRequest);
 	Result update(UpdateCarDamageRequest updateCarDamageRequest);
 	Result delete(int id);
