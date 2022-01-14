@@ -32,7 +32,7 @@ public class RentalsController {
 	}
 	//lists all rentals in the system
 	@GetMapping("getAll")
-	public DataResult<List<RentalListDto>> getAll(@RequestParam int pageNo, @RequestParam int pageSize){
+	public DataResult<List<RentalListDto>> getAll(@RequestParam int pageNo, @RequestParam(defaultValue = "10") int pageSize){
 		return rentalService.getAll(pageNo, pageSize);
 	}	
 	//Adds a new rental

@@ -32,7 +32,7 @@ public class CorporateCustomersController {
 		this.corporateCustomerService = corporateCustomerService;
 	}
 	@GetMapping("getAll")
-	public DataResult<List<CorporateCustomerListDto>> getAll(@RequestParam int pageNo,@RequestParam int pageSize) {
+	public DataResult<List<CorporateCustomerListDto>> getAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
 
 		return this.corporateCustomerService.getAll(pageNo,pageSize);
 	}
