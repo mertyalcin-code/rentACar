@@ -108,4 +108,10 @@ public class ColorManager implements ColorService {
 
 	}
 
+	@Override
+	public Result delete(int id) {
+		colorDao.deleteById(id);
+		return new SuccessResult();
+	}
+
 }

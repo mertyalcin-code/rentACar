@@ -90,6 +90,12 @@ public class CarManager implements CarService {
 		this.carDao.save(car);
 		return new SuccessResult(Messages.carUpdated);
 	}
+	//Deletes a car 
+	@Override
+	public Result delete(int id) {
+		carDao.deleteById(id);
+		return new SuccessResult();
+	}
 
 	// Finds Car by id
 	@Override
@@ -113,5 +119,7 @@ public class CarManager implements CarService {
 		}
 		return new SuccessResult();
 	}
+
+
 
 }

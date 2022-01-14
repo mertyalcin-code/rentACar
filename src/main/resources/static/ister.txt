@@ -8,3 +8,12 @@ kişi kredi kartı bilgilerini girdiğinde ödemeyi tamamlamadan önce kişi kre
 
 fake service varmış gibi 
 
+
+
+// ödev
+tüm operasyonlar için ekleme silme arama güncelleme listeleme gibi operasyonları implemente et
+
+
+Rest Api nedir Http protokolünde çalışıyor xml json gibi formatta servislerin birbiriyle iletişimde olmasını sağlar
+Soap Nedir - farklı protokollerde gidebilir tcp gibi genelde local servislerin birbirleri ile iletişiminde kullanılır
+

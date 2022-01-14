@@ -17,6 +17,7 @@ public interface CarService {
 	Result add(CreateCarRequest createCarRequest);	
 	Result update(UpdateCarRequest updateCarRequest);
 	DataResult<CarListDto> findCarById(int id);
+	Result delete( int id);
 	
 
 	

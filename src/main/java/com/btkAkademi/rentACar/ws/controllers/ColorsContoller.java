@@ -4,8 +4,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,11 +45,17 @@ public class ColorsContoller {
 		return this.colorService.add(createColorRequest);
 	}
 	// updates a current color
-	@PostMapping("update")
+	@PutMapping("update")
 
 	public Result update(@RequestBody @Valid UpdateColorRequest updateColorRequest) {
 
 		return this.colorService.update(updateColorRequest);
+	}
+	//deletes a color
+	@DeleteMapping("delete/{id}")
+	public Result delete(@Valid @PathVariable int id) {
+
+		return this.colorService.delete(id);
 	}
 
 }

@@ -2,6 +2,7 @@ package com.btkAkademi.rentACar.business.abstracts;
 
 import java.util.List;
 
+import javax.validation.Valid;
 
 import com.btkAkademi.rentACar.business.dtos.BrandListDto;
 import com.btkAkademi.rentACar.business.requests.brandRequest.CreateBrandRequest;
@@ -17,4 +18,6 @@ public interface BrandService {
 	Result add(CreateBrandRequest createBrandRequest);
 	Result update(UpdateBrandRequest updateBrandRequest);
 	Result checkIfBrandExist(int brandId);
+	Result delete(int id);
 }
+

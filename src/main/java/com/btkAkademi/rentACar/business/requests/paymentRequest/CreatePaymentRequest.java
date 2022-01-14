@@ -17,4 +17,6 @@ import lombok.NoArgsConstructor;
 public class CreatePaymentRequest {
 	private LocalDate paymentTime;
 	private int rentalId;
+
+
 }

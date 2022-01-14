@@ -19,6 +19,7 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.BrandDao;
+import com.btkAkademi.rentACar.dataAccess.abstracts.ColorDao;
 import com.btkAkademi.rentACar.entities.concretes.Brand;
  
 @Service
@@ -115,6 +116,12 @@ public class BrandManager implements BrandService {
 
 		}
 
+		return new SuccessResult();
+	}
+	// Deletes brand by id
+	@Override
+	public Result delete(int id) {
+		brandDao.deleteById(id);
 		return new SuccessResult();
 	}
 

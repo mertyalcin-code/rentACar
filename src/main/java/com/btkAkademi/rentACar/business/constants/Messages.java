@@ -45,6 +45,7 @@ public class Messages {
 	public static final String additionaServiceAdded = "additional.service.added";
 	public static final String rentalIsNotFound = "rental.is.not.found";
 	public static final String limitNotEnough = "limit.not.enough";
+	public static final String carSaved = "card.saved";
 
 	
 	

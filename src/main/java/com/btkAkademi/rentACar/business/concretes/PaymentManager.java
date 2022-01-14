@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
+import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
@@ -28,17 +29,20 @@ import com.btkAkademi.rentACar.entities.concretes.Rental;
 public class PaymentManager implements PaymentService{
 
 	//Dependencies 
+	
 	private PaymentDao paymentDao;
 	private ModelMapperService modelMapperService;	
 	private RentalService rentalService;
 	private CarService carService;
 	private AdditionalServiceService additionalServiceService;
 	private BankAdapterService bankAdapterService;
+	private CustomerPaymentDetailService customerPaymentDetailService;
+	
 	//Dependency injection 
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
 			CarService carService, AdditionalServiceService additionalServiceService,
-			BankAdapterService bankAdapterService) {
+			BankAdapterService bankAdapterService, CustomerPaymentDetailService customerPaymentDetailService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
@@ -46,9 +50,9 @@ public class PaymentManager implements PaymentService{
 		this.carService = carService;
 		this.additionalServiceService = additionalServiceService;
 		this.bankAdapterService = bankAdapterService;
+		this.customerPaymentDetailService = customerPaymentDetailService;
 	}
-
-		
+	
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {	
 		//converts request to payment
@@ -79,6 +83,8 @@ public class PaymentManager implements PaymentService{
 		return new SuccessResult(Messages.rentalAdded);
 	}
 	
+
+
 	private double totalPriceCalculator(RentalListDto rental) {
 		
 		double totalPrice = 0.0;
