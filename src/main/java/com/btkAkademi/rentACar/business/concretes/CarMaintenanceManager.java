@@ -64,7 +64,8 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
 		Result result = BusinessRules.run(				
 				checkIfCarIsExists(createCarMaintananceRequest.getCarId()),
-				checkIfCarIsRented(createCarMaintananceRequest.getCarId())
+				rentalService.checkIfCarIsRented(createCarMaintananceRequest.getCarId()),
+				checkIfCarIsInMaintanance(createCarMaintananceRequest.getCarId())
 				)	;		
 		if(result!=null) {			
 			return result;
@@ -79,13 +80,13 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		return new SuccessResult(Messages.carMaintananceAdded);
 	}
 	
-	//Returns true if car is in maintenance
+	//Returns Error Result if car is in maintenance
 	@Override
-	public boolean checkIfCarIsInMaintanance(int carId) {
+	public Result checkIfCarIsInMaintanance(int carId) {
 		if(carMaintananceDao.findByCarIdAndMaintenanceEndIsNull(carId)!=null) {
-			return true;
+			return new ErrorResult(Messages.carInMaintanance);
 		}
-		else return false;
+		else return new SuccessResult();
 	}	
 	//Checks if car is exists
 	private Result checkIfCarIsExists(int carId) {
@@ -94,11 +95,5 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		}
 		else return new SuccessResult();
 	}
-	//Checks if car is actively rented 
-	private Result checkIfCarIsRented(int carId) {
-		if(rentalService.isCarRented(carId)) {
-			return new ErrorResult(Messages.carRented);
-		}
-		else return new SuccessResult();
-	}
+
 }

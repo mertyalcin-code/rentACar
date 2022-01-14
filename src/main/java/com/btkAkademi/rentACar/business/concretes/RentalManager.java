@@ -71,9 +71,10 @@ public class RentalManager implements RentalService {
 		Result result = BusinessRules.run(
 
 				checkIfCustomerExist(createRentalRequest.getCustomerId()),
-				checkIfCarInMaintanance(createRentalRequest.getCarId()),
+				carMaintananceService.checkIfCarIsInMaintanance(createRentalRequest.getCarId()),
 				checkIfCityExist(createRentalRequest.getPickUpCityId()),
-				checkIfCityExist(createRentalRequest.getReturnCityId())
+				checkIfCityExist(createRentalRequest.getReturnCityId()),
+				checkIfCarIsRented(createRentalRequest.getCarId())
 				);
 
 		if (result != null) {
@@ -86,11 +87,11 @@ public class RentalManager implements RentalService {
 	}
 
 	@Override
-	public boolean isCarRented(int carId) {
+	public Result checkIfCarIsRented(int carId) {
 		if (rentalDao.findByCarIdAndReturnDateIsNull(carId) != null) {
-			return true;
+			return new ErrorResult(Messages.carRented);
 		} else
-			return false;
+			return new SuccessResult();
 	}
 	
 	@Override
@@ -131,13 +132,7 @@ public class RentalManager implements RentalService {
 		return new SuccessResult();
 	}
 
-	// checks car is in maintanance
-	private Result checkIfCarInMaintanance(int carId) {
-		if (carMaintananceService.checkIfCarIsInMaintanance(carId)) {
-			return new ErrorResult(Messages.carInMaintanance);
-		}
-		return new SuccessResult();
-	}
+
 	
 	// checks is there a city with that id 
 		private Result checkIfCityExist(int cityId) {
