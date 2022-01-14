@@ -1,6 +1,7 @@
 package com.btkAkademi.rentACar.business.concretes;
 
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,9 +59,10 @@ public class PaymentManager implements PaymentService{
 	private double totalPriceCalculator(Rental rental) {
 		
 		double totalPrice = 0.0;
+
 		//finds usage day
-		int days = Period.between(rental.getReturnDate(),rental.getRentDate()).getDays();
-		
+		long days = ChronoUnit.DAYS.between( rental.getRentDate() , rental.getReturnDate()) ;
+	
 		//if  return date and rent date are equal than we charge one day
 		if(days==0) days=1;
 		//calculates total usage price by day
@@ -72,7 +74,7 @@ public class PaymentManager implements PaymentService{
 			totalPrice+=additionalService.getPrice();
 			
 		}
-		
+		System.out.println(totalPrice);
 		return totalPrice;
 	}
 

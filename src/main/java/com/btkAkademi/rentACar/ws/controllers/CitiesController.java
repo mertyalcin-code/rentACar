@@ -1,5 +1,8 @@
 package com.btkAkademi.rentACar.ws.controllers;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +20,7 @@ import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
 import com.btkAkademi.rentACar.business.requests.cityRequest.CreateCityRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 @RestController
 @RequestMapping("/api/city")
@@ -31,7 +35,8 @@ public class CitiesController {
 	}
 	//lists all cities in the database
 	@GetMapping("getall")
-	public DataResult<List<CityListDto>> getAll(){
+	public DataResult<List<CityListDto>> getAll(){		
+		
 		return cityService.getAll();
 	}
 	//Adds a new city 
