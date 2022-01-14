@@ -38,14 +38,14 @@ public class CustomerPaymentDetailManager implements CustomerPaymentDetailServic
 	//lists payment for one paymentDetail
 	@Override
 	public DataResult<List<CustomerPaymentDetailListDto>> findCustomerPaymentDetailsByCustomerId(int customerId) {
-		if(customerPaymentDetailDao.existsById(customerId)) {
-			List<CustomerPaymentDetail> customerPaymentDetails = customerPaymentDetailDao.findByCustomerId(customerId);
+	
+			List<CustomerPaymentDetail> customerPaymentDetails = customerPaymentDetailDao.findAllByCustomerId(customerId);
 			List<CustomerPaymentDetailListDto> response = customerPaymentDetails.stream().map(customerPaymentDetail -> modelMapperService.forDto().map(customerPaymentDetail, CustomerPaymentDetailListDto.class))
 					.collect(Collectors.toList());
 
 			return new SuccessDataResult<>(response);
-		}
-		return new ErrorDataResult<>();
+		
+	
 	}
 
 	//Find Payment by id

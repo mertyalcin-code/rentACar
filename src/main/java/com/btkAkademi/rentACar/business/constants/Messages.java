@@ -65,6 +65,9 @@ public class Messages {
 	public static final String paymentDeleted = "payment.deleted";
 	public static final String rentalUpdated = "rental.updated";
 	public static final String rentalDeleted = "rental.deleted";
+	public static final String brandDeleted = "brand.deleted";
+	public static final String paymentAdded = "payment.added";
+	public static final String paymentUpdated = "payment.updated";
 	
 	
 }

@@ -1,5 +1,7 @@
 package com.btkAkademi.rentACar.business.concretes;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,7 +45,7 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 	@Override
 	public DataResult<List<CityListDto>> getAll() {
 			
-		List<City> cityList = this.cityDao.findAll();
+		List<City> cityList = this.cityDao.findAllByOrderByCityNameAsc();
 		List<CityListDto> response = cityList.stream()
 				.map(city->modelMapperService.forDto()
 				.map(city, CityListDto.class))

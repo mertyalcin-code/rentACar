@@ -12,5 +12,6 @@ public class CustomerPaymentDetailListDto {
 	private String cardNo;
 	private String day;
 	private String month;
-	private String cVV;
+	private String cvv;
+	private int customerId;
 }

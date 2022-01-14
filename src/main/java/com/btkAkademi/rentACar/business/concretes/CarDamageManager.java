@@ -46,7 +46,7 @@ public class CarDamageManager implements CarDamageService {
 		List<CarDamage> carDamages = carDamageDao.findAllByCarId(id);
 		List<CarDamageListDto> response = carDamages.stream()
 				.map(carDamage -> modelMapperService.forDto()
-						.map(carDamages, CarDamageListDto.class)).collect(Collectors.toList());
+						.map(carDamage, CarDamageListDto.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<CarDamageListDto>>(response);
 	}
 
@@ -92,6 +92,7 @@ public class CarDamageManager implements CarDamageService {
 	@Override
 	public Result delete(int id) {
 		if(carDamageDao.existsById(id)) {
+			carDamageDao.deleteById(id);
 			return new SuccessResult();
 		}
 		else return new ErrorResult();

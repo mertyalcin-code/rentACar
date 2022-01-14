@@ -51,7 +51,7 @@ public class BrandManager implements BrandService {
 
 	// Finds brand by id
 	@Override
-	public DataResult<BrandListDto> findById(int id) {
+	public DataResult<BrandListDto> findById(int id) {	
 		if (brandDao.existsById(id)) {
 			Brand brand = this.brandDao.findById(id).get();
 			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
@@ -97,8 +97,12 @@ public class BrandManager implements BrandService {
 	// Deletes brand by id
 	@Override
 	public Result delete(int id) {
-		brandDao.deleteById(id);
-		return new SuccessResult();
+		if(brandDao.existsById(id)) {
+			brandDao.deleteById(id);
+			return new SuccessResult(Messages.brandDeleted);
+		}else return new ErrorResult();
+		
+		
 	}
 
 	// checks is there a brand with that id

@@ -48,7 +48,7 @@ public class CarDamagesController {
 		return this.carDamageService.update(updateCarDamageRequest);
 	}
 	@DeleteMapping("delete/{id}")
-	public Result delete(@RequestBody @Valid int id) {
+	public Result delete(@PathVariable int  id) {
 		return this.carDamageService.delete(id);
 	}
 }

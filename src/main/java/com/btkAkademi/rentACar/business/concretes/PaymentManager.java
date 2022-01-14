@@ -77,7 +77,7 @@ public class PaymentManager implements PaymentService{
 	@Override
 	public DataResult<List<PaymentListDto>> getAllByRentalId(int id) {
 		
-		List<Payment> paymentList = this.paymentDao.getAllByRentalId(id);
+		List<Payment> paymentList = this.paymentDao.getAllByRentalId(id); //id yoksa error veriyor
 		List<PaymentListDto> response = paymentList.stream().map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<>(response);
@@ -126,7 +126,7 @@ public class PaymentManager implements PaymentService{
 		
 		this.paymentDao.save(payment);
 		
-		return new SuccessResult(Messages.rentalAdded);
+		return new SuccessResult(Messages.paymentAdded);
 	}
 	//updates a payment
 	@Override
@@ -136,7 +136,7 @@ public class PaymentManager implements PaymentService{
 		
 		this.paymentDao.save(payment);
 		
-		return new SuccessResult(Messages.rentalUpdated);
+		return new SuccessResult(Messages.paymentUpdated);
 	}
 	//deletes a payment
 	@Override

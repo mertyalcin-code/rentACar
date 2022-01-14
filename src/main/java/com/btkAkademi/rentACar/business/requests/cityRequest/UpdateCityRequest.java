@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateCityRequest {
-	private String cityId;
+	private int id;
 	@NotBlank
 	private String cityName;
 }

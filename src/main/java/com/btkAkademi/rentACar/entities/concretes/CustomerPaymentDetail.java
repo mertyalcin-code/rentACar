@@ -28,10 +28,14 @@ public class CustomerPaymentDetail {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
+	@Column(name="card_no")
 	private String cardNo;
+	@Column(name="day")
 	private String day;
+	@Column(name="month")
 	private String month;
-	private String cVV;
+	@Column(name="cvv")
+	private String cvv;
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")

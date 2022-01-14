@@ -3,9 +3,11 @@ package com.btkAkademi.rentACar.ws.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +28,12 @@ public class CustomerPaymentDetailsController {
 		this.customerPaymentDetailService = customerPaymentDetailService;
 	}
 	@GetMapping ("findbycustomerid/{id}")
-	public Result findByCustomerId(@Valid @PathVariable int id) {
+	public Result findByCustomerId(@PathVariable int id) {
 
 		return this.customerPaymentDetailService.findCustomerPaymentDetailsByCustomerId(id);
 	}
 	@GetMapping ("findbyid/{id}")
-	public Result get(@Valid @PathVariable int id) {
+	public Result get(@PathVariable int id) {
 
 		return this.customerPaymentDetailService.findById(id);
 	}
@@ -42,12 +44,12 @@ public class CustomerPaymentDetailsController {
 
 		return this.customerPaymentDetailService.add(createCustomerPaymentDetailRequest);
 	}
-	@PostMapping("update")
+	@PutMapping("update")
 	public Result update(@RequestBody @Valid UpdateCustomerPamentDetailsRequest updateCustomerPamentDetailsRequest) {
 
 		return this.customerPaymentDetailService.update(updateCustomerPamentDetailsRequest);
 	}
-	@PostMapping("delete/{id}")
+	@DeleteMapping("delete/{id}")
 	public Result delete(@PathVariable int id) {
 
 		return this.customerPaymentDetailService.delete(id);

@@ -72,7 +72,7 @@ public class CarManager implements CarService {
 	@Override
 	public DataResult<List<CarListDto>> getAllByColorId(int colorId, int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		List<Car> carList = this.carDao.getAllByBrandId(colorId,pageable);
+		List<Car> carList = this.carDao.getAllByColorId(colorId,pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarListDto>>(response);

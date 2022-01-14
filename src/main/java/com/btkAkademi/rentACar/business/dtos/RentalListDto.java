@@ -19,8 +19,8 @@ public class RentalListDto {
 	private int id ;
 	private LocalDate rentDate;
 	private LocalDate returnDate;
-	private int rentedKilometer;
-	private int returnedKilometer;
+	private Integer rentedKilometer;
+	private Integer returnedKilometer;
 	private int customerId;
 	private int carId;
 }

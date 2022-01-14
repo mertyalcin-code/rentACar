@@ -96,6 +96,8 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 		IndividualCustomer individualCustomer = this.modelMapperService.forRequest()
 				.map(updateIndividualCustomerRequest, IndividualCustomer.class);
+		//avoid null password 
+		individualCustomer.setPassword(individualCustomerDao.findById(individualCustomer.getId()).get().getPassword());
 		this.individualCustomerDao.save(individualCustomer);
 		return new SuccessResult(Messages.individualCustomerUpdated);
 	}

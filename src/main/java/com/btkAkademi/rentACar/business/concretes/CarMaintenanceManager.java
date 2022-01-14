@@ -111,10 +111,9 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		if(result!=null) {			
 			return result;
 		}
-		
 		CarMaintenance carMaintanance = this.modelMapperService.forRequest()
 				.map(updateCarMaintananceRequest,CarMaintenance.class);
-	
+		
 		this.carMaintananceDao.save(carMaintanance);		
 		return new SuccessResult(Messages.carMaintananceUpdated);
 	}

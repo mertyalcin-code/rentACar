@@ -71,7 +71,7 @@ public class RentalManager implements RentalService {
 	// Lists all rentals for one customer
 	@Override
 	public DataResult<List<RentalListDto>> getAllByCustomerId(int id) {
-
+		//customer yoksa hata versin
 		List<Rental> rentalList = this.rentalDao.getAllByCustomerId(id);
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
@@ -86,6 +86,7 @@ public class RentalManager implements RentalService {
 			
 			return new SuccessDataResult<>(response);
 		}
+		
 		else return new ErrorDataResult<>();
 	}
 	// Adds a new rental
@@ -97,8 +98,6 @@ public class RentalManager implements RentalService {
 				checkIfCityExist(createRentalRequest.getPickUpCityId()),
 				checkIfCityExist(createRentalRequest.getReturnCityId()),
 				checkIfCarIsRented(createRentalRequest.getCarId())
-				
-				
 				);
 
 		if (result != null) {
@@ -106,6 +105,7 @@ public class RentalManager implements RentalService {
 		}
 
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
+		rental.setReturnedKilometer(null);
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.rentalAdded);
 	}
@@ -113,13 +113,11 @@ public class RentalManager implements RentalService {
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
 		Result result = BusinessRules.run(
-				checkIfCustomerExist(updateRentalRequest.getCustomerId()),
-				
+				checkIfCustomerExist(updateRentalRequest.getCustomerId()),				
 				checkIfCityExist(updateRentalRequest.getPickUpCityId()),
-				checkIfCityExist(updateRentalRequest.getReturnCityId()),
-				checkIfCarIsRented(updateRentalRequest.getCarId()),
-				checkIfKilometerCorrect(updateRentalRequest.getRentedKilometer(), updateRentalRequest.getReturnKilometer()),
-				checkIfDatesCorrect(updateRentalRequest.getRentDate(),updateRentalRequest.getRentDate())
+				checkIfCityExist(updateRentalRequest.getReturnCityId()),			
+				checkIfKilometerCorrect(updateRentalRequest.getRentedKilometer(), updateRentalRequest.getReturnedKilometer()),
+				checkIfDatesCorrect(updateRentalRequest.getRentDate(),updateRentalRequest.getReturnDate())
 				);
 
 		if (result != null) {
@@ -128,7 +126,7 @@ public class RentalManager implements RentalService {
 		
 		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
 		this.rentalDao.save(rental);
-		return new SuccessResult(Messages.rentalAdded);
+		return new SuccessResult(Messages.rentalUpdated);
 	}
 	//delete rental
 	@Override

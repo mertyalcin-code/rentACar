@@ -8,5 +8,5 @@ import com.btkAkademi.rentACar.entities.concretes.CustomerPaymentDetail;
 
 public interface CustomerPaymentDetailDao extends JpaRepository<CustomerPaymentDetail, Integer>{
 	
-	List<CustomerPaymentDetail> findByCustomerId(int customerId);
+	List<CustomerPaymentDetail> findAllByCustomerId(int customerId);
 }

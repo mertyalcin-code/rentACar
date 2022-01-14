@@ -39,7 +39,7 @@ public class BrandsController {
 	//finds by id
 	@GetMapping("findbyid/{id}")
 	public Result findById(@PathVariable int id) {
-		return this.brandService.delete(id);
+		return this.brandService.findById(id);
 	}
 
 	// adds a new brand
