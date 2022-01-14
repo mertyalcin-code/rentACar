@@ -66,7 +66,7 @@ public class PaymentManager implements PaymentService{
 		payment.setTotalPaymentAmount(totalPrice);
 		
 		//Bussiness logic
-		Result result = BusinessRules.run(checkIfLimitIsEnough("123456",totalPrice));
+		Result result = BusinessRules.run(bankAdapterService.checkIfLimitIsEnough("123456","","","",totalPrice));
 		if (result != null) {
 			return result;
 		}
@@ -102,13 +102,7 @@ public class PaymentManager implements PaymentService{
 		return totalPrice;
 	}
 
-	//checks if credit has limit
-	private Result checkIfLimitIsEnough(String cardNo, double amount) {
-		if (!bankAdapterService.checkIfLimitIsEnough(cardNo,amount)) {
-			return new ErrorResult(Messages.limitNotEnough);
-		}
-		return new SuccessResult();
-	}
+
 
 	
 }

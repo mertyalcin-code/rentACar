@@ -2,10 +2,10 @@ package com.btkAkademi.rentACar.exernals.banks;
 
 import org.springframework.stereotype.Component;
 
-@Component
-public class IsBankManager {
+
+public class IsBank {
 	
-	public boolean isLimitExists(String cardNo,double amount) {
+	public boolean isLimitExists(String cardNo,String day,String mounth,String cVV,double amount) {
 		return true;
 	}
 }
