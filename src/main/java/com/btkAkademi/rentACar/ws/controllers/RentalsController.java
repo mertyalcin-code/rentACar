@@ -18,6 +18,7 @@ import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.Creat
 import com.btkAkademi.rentACar.business.requests.rentalRequest.createRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+import com.btkAkademi.rentACar.entities.concretes.Rental;
 
 @RestController
 @RequestMapping("/api/rental")
@@ -34,6 +35,10 @@ public class RentalsController {
 	@GetMapping("getAll")
 	public DataResult<List<RentalListDto>> getAll(@RequestParam int pageNo, @RequestParam(defaultValue = "10") int pageSize){
 		return rentalService.getAll(pageNo, pageSize);
+	}	
+	@GetMapping("getbyid")
+	public DataResult<Rental> getAll(@RequestParam int id){
+		return rentalService.findById(id);
 	}	
 	//Adds a new rental
 	@PostMapping("add")

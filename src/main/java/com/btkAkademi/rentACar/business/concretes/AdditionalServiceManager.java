@@ -51,7 +51,7 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 	}
 	// Checks if car is exists
 		private Result checkIfRentalIsExists(int rentalId) {
-			if (!rentalService.findRentalById(rentalId).isSuccess()) {
+			if (!rentalService.findById(rentalId).isSuccess()) {
 				return new ErrorResult(Messages.rentalIsNotFound);
 			} else
 				return new SuccessResult();

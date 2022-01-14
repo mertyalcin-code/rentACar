@@ -33,30 +33,43 @@ public class PaymentManager implements PaymentService{
 	
 	
 	@Override
-	public Result add(CreatePaymentRequest createPaymentRequest) {
-	
-	
+	public Result add(CreatePaymentRequest createPaymentRequest) {	
 		
 		Payment payment = this.modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
 		
-		System.out.println(rentalService.findRentalById(1).getData());
+		int rentalId= createPaymentRequest.getRentalId();
 		
-		/*payment.setTotalPaymentAmount(totalPriceCalculator(rentalService.findRentalById(createPaymentRequest.getRentalId()).getData()));
+		Rental rental = rentalService.findById(rentalId).getData();
+	
+		payment.setTotalPaymentAmount(totalPriceCalculator(rental));
+		
+		payment.setId(0);
+		
+		System.out.println(payment.getRental().getId());		
+		
 		this.paymentDao.save(payment);
-		*/
+		
 		return new SuccessResult(Messages.rentalAdded);
 	}
 	
 	private double totalPriceCalculator(Rental rental) {
-		double totalPrice = 0.0;
 		
-		totalPrice+=Period.between(rental.getRentDate(), rental.getReturnDate()).getDays()*rental.getCar().getDailyPrice();
+		double totalPrice = 0.0;
+		//finds usage day
+		int days = Period.between(rental.getReturnDate(),rental.getRentDate()).getDays();
+		//if  return date and rent date are equal than we charge one day
+		if(days==0) days=1;
+		//calculates total usage price by day
+		totalPrice+=days*rental.getCar().getDailyPrice();
+		//calculates total additonal service price 
 		for(AdditionalService additionalService:rental.getAddtionalServices()) {
+			
 			totalPrice+=additionalService.getPrice();
+			
 		}
+		
 		return totalPrice;
 	}
-
 
 	
 }

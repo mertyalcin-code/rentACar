@@ -1,5 +1,6 @@
 package com.btkAkademi.rentACar.business.requests.paymentRequest;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -14,6 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreatePaymentRequest {
-	private LocalDateTime paymentTime;
+	private LocalDate paymentTime;
 	private int rentalId;
 }

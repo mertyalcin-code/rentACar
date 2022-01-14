@@ -1,11 +1,14 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
 import javax.annotation.Generated;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +31,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name="rentals")
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","products"})
+// @JsonIgnoreProperties({"hibernateLazyInitializer","handler","payments"})
 public class Rental {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +66,6 @@ public class Rental {
 	@OneToMany(mappedBy = "rental")
 	private List<AdditionalService> addtionalServices;
 	
-	@OneToOne
-	@JoinColumn(name="payment_id")
-	private Payment payment;
+	@OneToMany(mappedBy = "rental")
+	private List<Payment> payments;
 }
