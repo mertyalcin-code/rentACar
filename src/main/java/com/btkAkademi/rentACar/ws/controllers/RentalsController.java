@@ -36,15 +36,15 @@ public class RentalsController {
 		this.rentalService = rentalService;
 	}
 	//lists all rentals in the system
-	@GetMapping("getAll")
-	public DataResult<List<RentalListDto>> getAll(@RequestParam int pageNo, @RequestParam(defaultValue = "10") int pageSize){
+	@GetMapping("get-all")
+	public DataResult<List<RentalListDto>> findAll(@RequestParam int pageNo, @RequestParam(defaultValue = "10") int pageSize){
 		return rentalService.findAll(pageNo, pageSize);
 	}	
-	@GetMapping("findallbycustomerid/{id}")
-	public DataResult<List<RentalListDto>> getAllByCustomerId(@PathVariable int id){
+	@GetMapping("find-all-by-customer-id/{id}")
+	public DataResult<List<RentalListDto>> findAllByCustomerId(@PathVariable int id){
 		return rentalService.findAllByCustomerId(id);
 	}	
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<RentalListDto> findById(@PathVariable int id){
 		return rentalService.findById(id);
 	}	

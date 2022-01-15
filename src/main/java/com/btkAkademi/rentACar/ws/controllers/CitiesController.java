@@ -38,12 +38,12 @@ public class CitiesController {
 		this.cityService = cityService;
 	}
 	//lists all cities in the database
-	@GetMapping("getall")
-	public DataResult<List<CityListDto>> getAll(){		
+	@GetMapping("find-all")
+	public DataResult<List<CityListDto>> findAll(){		
 		
 		return cityService.findAll();
 	}
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<CityListDto> findById(@PathVariable int id){				
 		return cityService.findById(id);
 	}

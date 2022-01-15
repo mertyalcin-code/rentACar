@@ -25,7 +25,7 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
-@RequestMapping("/api/corporatecustomer")
+@RequestMapping("/api/corporate-customers")
 public class CorporateCustomersController {
 	// Dependencies
 	private CorporateCustomerService corporateCustomerService;
@@ -35,12 +35,12 @@ public class CorporateCustomersController {
 		super();
 		this.corporateCustomerService = corporateCustomerService;
 	}
-	@GetMapping("getAll")
-	public DataResult<List<CorporateCustomerListDto>> getAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
+	@GetMapping("find-all")
+	public DataResult<List<CorporateCustomerListDto>> findAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
 
 		return this.corporateCustomerService.findAll(pageNo,pageSize);
 	}
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<CorporateCustomerListDto> findById(@PathVariable int id) {
 
 		return this.corporateCustomerService.findById(id);

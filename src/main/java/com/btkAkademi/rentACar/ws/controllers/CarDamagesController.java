@@ -31,11 +31,11 @@ public class CarDamagesController {
 		super();
 		this.carDamageService = carDamageService;
 	}
-	@GetMapping("getallbycarid/{id}")
-	public DataResult<List<CarDamageListDto>> getAllByCarId(@PathVariable int id) {
+	@GetMapping("find-all-by-car-id/{id}")
+	public DataResult<List<CarDamageListDto>> findAllByCarId(@PathVariable int id) {
 		return this.carDamageService.findAllByCarId(id);
 	}
-	@GetMapping("findbyid{id}")
+	@GetMapping("find-by-id{id}")
 	public Result findById(@PathVariable int id) {
 		return this.carDamageService.findById(id);
 	}

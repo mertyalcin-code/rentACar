@@ -47,7 +47,9 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 	@Override
 	public DataResult<List<AdditionalServiceListDto>> findAllByRentalId(int RentalId) {
 		List<AdditionalService> additionalServiceList = this.additionalServiceDao.findAllByRentalId(RentalId);
-		List<AdditionalServiceListDto> response = additionalServiceList.stream().map(additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceListDto.class))
+		List<AdditionalServiceListDto> response = additionalServiceList.stream()
+				.map(additionalService -> modelMapperService.forDto()
+						.map(additionalService, AdditionalServiceListDto.class))
 				.collect(Collectors.toList());
 
 		return new SuccessDataResult<List<AdditionalServiceListDto>>(response);
@@ -57,7 +59,7 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 	@Override
 	public Result add(CreateAdditionalServiceRequest createAdditionalService) {
 		Result result = BusinessRules.run(
-				checkIfRentalIsExists(createAdditionalService.getRentalId()));		
+				checkIfRentalExists(createAdditionalService.getRentalId()));		
 		if(result!=null) {			
 			return result;
 		}
@@ -70,7 +72,8 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 	@Override
 	public Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
 		Result result = BusinessRules.run(
-				checkIfRentalIsExists(updateAdditionalServiceRequest.getRentalId()));
+				checkIfRentalExists(updateAdditionalServiceRequest.getRentalId())
+				);
 		
 		if(result!=null) {			
 			return result;
@@ -90,7 +93,7 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 	}
 	
 	// Checks if rental is exists
-		private Result checkIfRentalIsExists(int rentalId) {
+		private Result checkIfRentalExists(int rentalId) {
 			if (!rentalService.findById(rentalId).isSuccess()) {
 				return new ErrorResult(Messages.rentalIsNotFound);
 			} else

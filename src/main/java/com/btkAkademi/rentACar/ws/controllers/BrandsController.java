@@ -32,12 +32,12 @@ public class BrandsController {
 	}
 
 	// lists all brands
-	@GetMapping("getall")
-	public DataResult<List<BrandListDto>> getall() {
+	@GetMapping("find-all")
+	public DataResult<List<BrandListDto>> findAll() {
 		return this.brandService.findAll();
 	}
 	//finds by id
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public Result findById(@PathVariable int id) {
 		return this.brandService.findById(id);
 	}

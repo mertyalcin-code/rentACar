@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.btkAkademi.rentACar.entities.concretes.CustomerPaymentDetail;
+import com.btkAkademi.rentACar.entities.concretes.CustomerCardDetail;
 
-public interface CustomerPaymentDetailDao extends JpaRepository<CustomerPaymentDetail, Integer>{
+public interface CustomerPaymentDetailDao extends JpaRepository<CustomerCardDetail, Integer>{
 	
-	List<CustomerPaymentDetail> findAllByCustomerId(int customerId);
+	List<CustomerCardDetail> findAllByCustomerId(int customerId);
 }

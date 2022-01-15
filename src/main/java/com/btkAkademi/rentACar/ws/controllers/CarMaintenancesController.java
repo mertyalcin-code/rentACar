@@ -24,7 +24,7 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
-@RequestMapping("/api/carmaintenance")
+@RequestMapping("/api/car-maintanance")
 public class CarMaintenancesController {
 	private CarMaintenanceService carMaintenanceService;
 	@Autowired
@@ -32,12 +32,12 @@ public class CarMaintenancesController {
 		super();
 		this.carMaintenanceService = carMaintenanceService;
 	}
-	@GetMapping("getall")
-	public DataResult<List<CarMaintenanceListDto>> getall() {
+	@GetMapping("find-all")
+	public DataResult<List<CarMaintenanceListDto>> findAll() {
 		return this.carMaintenanceService.findAll();
 	}
-	@GetMapping("getallbycarid/{id}")
-	public DataResult<List<CarMaintenanceListDto>> getAllByCarId(@PathVariable int id) {
+	@GetMapping("find-all-by-car-id/{id}")
+	public DataResult<List<CarMaintenanceListDto>> findAllByCarId(@PathVariable int id) {
 		return this.carMaintenanceService.findAllByCarId(id);
 	}
 	@GetMapping("findbyid/{id}")

@@ -33,16 +33,16 @@ public class PaymentsController {
 		super();
 		this.paymentService = paymentService;
 	} 
-	@GetMapping("getall")
-	public DataResult<List<PaymentListDto>> getall(@RequestParam int pageNo,
+	@GetMapping("find-all")
+	public DataResult<List<PaymentListDto>> findAll(@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.paymentService.findAll(pageNo, pageSize);
 	}
-	@GetMapping("getallbyrentalid/{id}")
+	@GetMapping("find-all-by-rental-id/{id}")
 	public DataResult<List<PaymentListDto>> getAllByRentalId(@PathVariable int rentalId) {
 		return this.paymentService.findAllByRentalId(rentalId);
 	}
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<PaymentListDto> findById(@PathVariable int id) {
 		return this.paymentService.getById(id);
 	}

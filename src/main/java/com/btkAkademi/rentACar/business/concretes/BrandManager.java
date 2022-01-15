@@ -105,15 +105,7 @@ public class BrandManager implements BrandService {
 		
 	}
 
-	// checks is there a brand with that id
-	@Override
-	public Result checkIfBrandExists(int brandId) {
-		if (!brandDao.existsById(brandId)) {
-			return new ErrorResult(Messages.brandNotFound);
-		} else
-			return new SuccessResult();
 
-	}
 
 	// Checks brand name exists in the database
 	private Result checkIfBrandNameExists(String brandname) {

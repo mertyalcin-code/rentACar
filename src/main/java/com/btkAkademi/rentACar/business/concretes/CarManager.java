@@ -92,8 +92,9 @@ public class CarManager implements CarService {
 	// Adds a new car
 	@Override
 	public Result add(CreateCarRequest createCarRequest) {
-		Result result = BusinessRules.run(colorService.checkIfColorExist(createCarRequest.getColorId()),
-				brandService.checkIfBrandExists(createCarRequest.getBrandId()));
+		Result result = BusinessRules.run(
+				checkIfColorExist(createCarRequest.getColorId()),
+				checkIfBrandExists(createCarRequest.getBrandId()));
 		if (result != null) {
 			return result;
 		}
@@ -140,9 +141,22 @@ public class CarManager implements CarService {
 		}
 		return new SuccessResult();
 	}
+	//checks is there a color with that id
+	
+	private Result checkIfColorExist(int colorId) {
+		if(!colorService.findById(colorId).isSuccess()) {
+			return new ErrorResult(Messages.colorNotFound);					
+		}else return new SuccessResult();			
+	}
 
-
-
+	// checks is there a brand with that id
+	
+	private Result checkIfBrandExists(int brandId) {
+		if (!brandService.findById(brandId).isSuccess()) {
+			return new ErrorResult(Messages.brandNotFound);
+		} else
+			return new SuccessResult();
+	}
 
 
 }

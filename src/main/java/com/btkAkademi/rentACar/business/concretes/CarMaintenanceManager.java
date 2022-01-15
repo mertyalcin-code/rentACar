@@ -86,8 +86,8 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
 		Result result = BusinessRules.run(				
 				checkIfCarIsExists(createCarMaintananceRequest.getCarId()),
-				rentalService.checkIfCarIsRented(createCarMaintananceRequest.getCarId()),
-				checkIfCarIsInMaintanance(createCarMaintananceRequest.getCarId())
+				checkIfCarIsRented(createCarMaintananceRequest.getCarId()),
+				checkIfCarIsAlreadyInMaintanance(createCarMaintananceRequest.getCarId())
 				)	;		
 		if(result!=null) {			
 			return result;
@@ -106,7 +106,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	public Result update(UpdateCarMaintananceRequest updateCarMaintananceRequest) {
 		Result result = BusinessRules.run(				
 				checkIfCarIsExists(updateCarMaintananceRequest.getCarId()),
-				rentalService.checkIfCarIsRented(updateCarMaintananceRequest.getCarId()))
+				checkIfCarIsRented(updateCarMaintananceRequest.getCarId()))
 				;		
 		if(result!=null) {			
 			return result;
@@ -128,12 +128,13 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	
 	//Returns Error Result if car is in maintenance
 	@Override
-	public Result checkIfCarIsInMaintanance(int carId) {
+	public boolean isCarInMaintenance(int carId) {
 		if(carMaintananceDao.findByCarIdAndMaintenanceEndIsNull(carId)!=null) {
-			return new ErrorResult(Messages.carInMaintanance);
+			return true;
 		}
-		else return new SuccessResult();
+		else return false;
 	}	
+	
 	//Checks if car is exists
 	private Result checkIfCarIsExists(int carId) {
 		if(!carService.findCarById(carId).isSuccess()) {
@@ -141,6 +142,19 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 		}
 		else return new SuccessResult();
 	}
-
+	//Checks if car is exists
+	private Result checkIfCarIsRented(int carId) {
+		if(rentalService.isCarRented(carId)) {
+			return new ErrorResult(Messages.carRented);
+		}
+		else return new SuccessResult();
+	}
+	//
+	private Result checkIfCarIsAlreadyInMaintanance(int carId) {
+		if(isCarInMaintenance(carId)) {
+			return new ErrorResult(Messages.carInMaintanance);
+		}
+		else return new SuccessResult();
+	}
 
 }

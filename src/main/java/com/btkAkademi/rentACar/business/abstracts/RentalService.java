@@ -20,7 +20,7 @@ public interface RentalService {
 	Result update(UpdateRentalRequest updateRentalRequest);
 	Result delete(int id);
 	
-	Result checkIfCarIsRented(int carId);
+	boolean isCarRented(int carId);
 
 	
 }

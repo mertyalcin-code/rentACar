@@ -16,10 +16,11 @@ public interface BrandService {
 
     DataResult<List<BrandListDto>> findAll();
     DataResult<BrandListDto> findById(int id);
+    
 	Result add(CreateBrandRequest createBrandRequest);
 	Result update(UpdateBrandRequest updateBrandRequest);
 	Result delete(int id);
-	Result checkIfBrandExists(int brandId);
+	
 	
 }
 

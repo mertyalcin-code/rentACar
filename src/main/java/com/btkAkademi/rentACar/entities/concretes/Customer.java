@@ -26,6 +26,6 @@ public class Customer extends User{
 	
 	@OneToMany(mappedBy = "customer")
 	@JsonIgnore
-	private List<CustomerPaymentDetail> customerPaymentDetails;
+	private List<CustomerCardDetail> customerPaymentDetails;
 }
 

@@ -36,12 +36,12 @@ public class IndividualCustomersController {
 		this.individualCustomerService = individualCustomerService;
 	}
 	//lists individual customers according to page
-	@GetMapping("getAll")
-	public DataResult<List<IndividualCustomerListDto>> getAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
+	@GetMapping("find-all")
+	public DataResult<List<IndividualCustomerListDto>> findAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
 		
 		return this.individualCustomerService.findAll(pageNo,pageSize);
 	}
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<IndividualCustomerListDto> findById(@PathVariable int id) {
 		
 		return this.individualCustomerService.findById(id);

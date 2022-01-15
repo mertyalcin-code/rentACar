@@ -34,30 +34,31 @@ public class CarsController {
 	}
 
 	// lists all cars with pageSize
-	@GetMapping("getall")
-	public DataResult<List<CarListDto>> getall(@RequestParam int pageNo,
+	@GetMapping("find-all")
+	public DataResult<List<CarListDto>> findAll(
+			@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.carService.findAll(pageNo, pageSize);
 	}
 	
-	@GetMapping("getallbybrandid")
-	public DataResult<List<CarListDto>> getAllByBrandId(
+	@GetMapping("find-all-by-brand-id")
+	public DataResult<List<CarListDto>> findAllByBrandId(
 			@RequestParam int brandId,
 			@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.carService.findAllByBrandId(brandId,pageNo, pageSize);
 	}
 	
-	@GetMapping("getallbycolorid")
-	public DataResult<List<CarListDto>> getAllByColorId(
+	@GetMapping("find-all-by-color-id")
+	public DataResult<List<CarListDto>> findAllByColorId(
 			@RequestParam int colorId,
 			@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.carService.findAllByColorId(colorId,pageNo, pageSize);
 	}
 	
-	@GetMapping("findcarbyid/{id}")
-	public DataResult<CarListDto> findCarById(@PathVariable int id) {
+	@GetMapping("find-by-id/{id}")
+	public DataResult<CarListDto> findById(@PathVariable int id) {
 		return this.carService.findCarById(id);
 	}
 

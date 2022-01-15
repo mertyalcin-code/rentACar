@@ -44,7 +44,6 @@ public class RentalManager implements RentalService {
 	private CarMaintenanceService carMaintananceService;
 	private CityService cityService;
 
-	
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
@@ -56,49 +55,50 @@ public class RentalManager implements RentalService {
 		this.carMaintananceService = carMaintananceService;
 		this.cityService = cityService;
 	}
-	
+
 	// Lists all rentals
 	@Override
 	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Rental> rentalList = this.rentalDao.findAll(pageable).getContent();
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<RentalListDto>>(response);
 	}
-	
+
 	// Lists all rentals for one customer
 	@Override
 	public DataResult<List<RentalListDto>> findAllByCustomerId(int id) {
-		//customer yoksa hata versin
+		// customer yoksa hata versin
 		List<Rental> rentalList = this.rentalDao.findAllByCustomerId(id);
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<RentalListDto>>(response);
 	}
-	//finds specific rental
+
+	// finds specific rental
 	@Override
 	public DataResult<RentalListDto> findById(int id) {
-		if(rentalDao.existsById(id)) {
+		if (rentalDao.existsById(id)) {
 			RentalListDto response = modelMapperService.forDto().map(rentalDao.findById(id).get(), RentalListDto.class);
-			
+
 			return new SuccessDataResult<>(response);
 		}
-		
-		else return new ErrorDataResult<>();
+
+		else
+			return new ErrorDataResult<>();
 	}
+
 	// Adds a new rental
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
-		Result result = BusinessRules.run(
-				checkIfCustomerExist(createRentalRequest.getCustomerId()),
-				carMaintananceService.checkIfCarIsInMaintanance(createRentalRequest.getCarId()),
+		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),
+				checkIfIsCarInMaintanance(createRentalRequest.getCarId()),
 				checkIfCityExist(createRentalRequest.getPickUpCityId()),
 				checkIfCityExist(createRentalRequest.getReturnCityId()),
-				checkIfCarIsRented(createRentalRequest.getCarId())
-				);
+				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()));
 
 		if (result != null) {
 			return result;
@@ -109,48 +109,49 @@ public class RentalManager implements RentalService {
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.rentalAdded);
 	}
+
 	// Updates rental
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
-		Result result = BusinessRules.run(
-				checkIfCustomerExist(updateRentalRequest.getCustomerId()),				
+		Result result = BusinessRules.run(checkIfCustomerExist(updateRentalRequest.getCustomerId()),
 				checkIfCityExist(updateRentalRequest.getPickUpCityId()),
-				checkIfCityExist(updateRentalRequest.getReturnCityId()),			
-				checkIfKilometerCorrect(updateRentalRequest.getRentedKilometer(), updateRentalRequest.getReturnedKilometer()),
-				checkIfDatesCorrect(updateRentalRequest.getRentDate(),updateRentalRequest.getReturnDate())
-				);
+				checkIfCityExist(updateRentalRequest.getReturnCityId()),
+				checkIfKilometersAreCorrect(updateRentalRequest.getRentedKilometer(),
+						updateRentalRequest.getReturnedKilometer()),
+				checkIfDatesAreCorrect(updateRentalRequest.getRentDate(), updateRentalRequest.getReturnDate()));
 
 		if (result != null) {
 			return result;
 		}
-		
+
 		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.rentalUpdated);
 	}
-	//delete rental
+
+	// delete rental
 	@Override
 	public Result delete(int id) {
-		if(rentalDao.existsById(id)) {
+		if (rentalDao.existsById(id)) {
 			rentalDao.deleteById(id);
 			return new SuccessResult(Messages.rentalDeleted);
 		}
 		return new ErrorResult();
 	}
 
-	//controls is car actively rented
+	// controls is car actively rented
 	@Override
-	public Result checkIfCarIsRented(int carId) {
+	public boolean isCarRented(int carId) {
 		if (rentalDao.findByCarIdAndReturnDateIsNull(carId) != null) {
-			return new ErrorResult(Messages.carRented);
+			return true;
 		} else
-			return new SuccessResult();
+			return false;
 	}
-	
+
 	// Helpers
 
 	// Dates validation
-	private Result checkIfDatesCorrect(LocalDate rentDate, LocalDate returnDate) {
+	private Result checkIfDatesAreCorrect(LocalDate rentDate, LocalDate returnDate) {
 		if (!rentDate.isBefore(returnDate)) {
 			return new ErrorResult(Messages.returnDateShouldBeAfterTheRentDate);
 
@@ -160,7 +161,7 @@ public class RentalManager implements RentalService {
 	}
 
 	// Kilometer validation
-	private Result checkIfKilometerCorrect(int rentedKilometer, int returnedKilometer) {
+	private Result checkIfKilometersAreCorrect(int rentedKilometer, int returnedKilometer) {
 		if (rentedKilometer > returnedKilometer) {
 			return new ErrorResult(Messages.returnedKilometerShouldNotBeLowerThanRentedKilometer);
 		}
@@ -176,16 +177,28 @@ public class RentalManager implements RentalService {
 
 		return new SuccessResult();
 	}
-	
-	// checks is there a city with that id 
-		private Result checkIfCityExist(int cityId) {
-			if (!cityService.findById(cityId).isSuccess()) {
-				return new ErrorResult(Messages.carInMaintanance);
-			}
-			return new SuccessResult();
+
+	// checks is there a city with that id
+	private Result checkIfCityExist(int cityId) {
+		if (!cityService.findById(cityId).isSuccess()) {
+			return new ErrorResult(Messages.carInMaintanance);
 		}
+		return new SuccessResult();
+	}
 
-	
-
+	//
+	private Result checkIfIsCarInMaintanance(int carId) {
+		if (carMaintananceService.isCarInMaintenance(carId)) {
+			return new ErrorResult(Messages.carInMaintanance);
+		}
+		return new SuccessResult();
+	}
+	//
+	private Result checkIfIsCarAlreadyRented(int carId) {
+		if (isCarRented(carId)) {
+			return new ErrorResult(Messages.carRented);
+		}
+		return new SuccessResult();
+	}
 
 }

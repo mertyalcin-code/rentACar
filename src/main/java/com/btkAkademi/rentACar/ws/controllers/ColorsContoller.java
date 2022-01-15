@@ -33,11 +33,11 @@ public class ColorsContoller {
 		this.colorService = colorService;
 	}
 	// lists all colors
-	@GetMapping("getall")
-	public DataResult<List<ColorListDto>> getall() {
+	@GetMapping("find-all")
+	public DataResult<List<ColorListDto>> findAll() {
 		return this.colorService.findAll();
 	}
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<ColorListDto> findById(@PathVariable int id) {
 		return this.colorService.findById(id);
 	}

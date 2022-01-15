@@ -21,6 +21,6 @@ public interface CarMaintenanceService {
 	Result update(UpdateCarMaintananceRequest updateCarMaintananceRequest);
 	Result delete(int id);
 	
-	Result checkIfCarIsInMaintanance (int carId) ;
+	boolean isCarInMaintenance (int carId) ;
 
 }

@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="customer_payment_details")
-public class CustomerPaymentDetail {
+@Table(name="customer_card_details")
+public class CustomerCardDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

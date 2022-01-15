@@ -20,7 +20,7 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.AdditionalService;
 
 @RestController
-@RequestMapping("/api/additionalservice")
+@RequestMapping("/api/additional-service")
 public class AdditionalServicesController {
 	private AdditionalServiceService additionalServiceService;
 	@Autowired
@@ -28,8 +28,8 @@ public class AdditionalServicesController {
 		super();
 		this.additionalServiceService = additionalServiceService;
 	}
-	@GetMapping("getallbyrentalid/{id}")
-	public Result getAllByRentalId(@PathVariable int id) {
+	@GetMapping("find-all-by-rental-id/{id}")
+	public Result findAllByRentalId(@PathVariable int id) {
 		return additionalServiceService.findAllByRentalId(id);
 		
 	}

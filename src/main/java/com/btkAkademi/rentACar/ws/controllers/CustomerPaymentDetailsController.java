@@ -19,7 +19,7 @@ import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequests.U
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
-@RequestMapping("/api/customerpaymentdetails")
+@RequestMapping("/api/customer-card-details")
 public class CustomerPaymentDetailsController {
 	private CustomerPaymentDetailService customerPaymentDetailService;
 	@Autowired
@@ -27,13 +27,13 @@ public class CustomerPaymentDetailsController {
 		super();
 		this.customerPaymentDetailService = customerPaymentDetailService;
 	}
-	@GetMapping ("findbycustomerid/{id}")
+	@GetMapping ("find-by-customer-id/{id}")
 	public Result findByCustomerId(@PathVariable int id) {
 
 		return this.customerPaymentDetailService.findCustomerPaymentDetailsByCustomerId(id);
 	}
-	@GetMapping ("findbyid/{id}")
-	public Result get(@PathVariable int id) {
+	@GetMapping ("find-by-id/{id}")
+	public Result findById(@PathVariable int id) {
 
 		return this.customerPaymentDetailService.findById(id);
 	}
