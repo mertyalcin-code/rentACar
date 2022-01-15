@@ -23,7 +23,7 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
-@RequestMapping("/api/cardamage")
+@RequestMapping("/api/car-damages")
 public class CarDamagesController {
 	private CarDamageService carDamageService;
 	@Autowired

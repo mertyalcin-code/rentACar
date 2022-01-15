@@ -25,7 +25,7 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
-@RequestMapping("/api/individualcustomer")
+@RequestMapping("/api/individual-customers")
 public class IndividualCustomersController {
 	//dependencies
 	private IndividualCustomerService individualCustomerService;

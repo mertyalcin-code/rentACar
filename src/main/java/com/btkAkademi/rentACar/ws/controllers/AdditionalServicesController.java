@@ -20,7 +20,7 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.AdditionalService;
 
 @RestController
-@RequestMapping("/api/additional-service")
+@RequestMapping("/api/additional-services")
 public class AdditionalServicesController {
 	private AdditionalServiceService additionalServiceService;
 	@Autowired

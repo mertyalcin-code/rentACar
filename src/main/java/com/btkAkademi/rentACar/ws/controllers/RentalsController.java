@@ -25,7 +25,7 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
 
 @RestController
-@RequestMapping("/api/rental")
+@RequestMapping("/api/rentals")
 public class RentalsController {
 	//Dependencies
 	private RentalService rentalService;
