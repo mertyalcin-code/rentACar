@@ -10,8 +10,8 @@ import com.btkAkademi.rentACar.business.abstracts.CarDamageService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarDamageListDto;
-import com.btkAkademi.rentACar.business.requests.carDamageRequest.CreateCarDamageRequest;
-import com.btkAkademi.rentACar.business.requests.carDamageRequest.UpdateCarDamageRequest;
+import com.btkAkademi.rentACar.business.requests.carDamageRequests.CreateCarDamageRequest;
+import com.btkAkademi.rentACar.business.requests.carDamageRequests.UpdateCarDamageRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -42,7 +42,7 @@ public class CarDamageManager implements CarDamageService {
 
 	// Lists damages of one car
 	@Override
-	public DataResult<List<CarDamageListDto>> getAllByCarId(int id) {
+	public DataResult<List<CarDamageListDto>> findAllByCarId(int id) {
 		List<CarDamage> carDamages = carDamageDao.findAllByCarId(id);
 		List<CarDamageListDto> response = carDamages.stream()
 				.map(carDamage -> modelMapperService.forDto()

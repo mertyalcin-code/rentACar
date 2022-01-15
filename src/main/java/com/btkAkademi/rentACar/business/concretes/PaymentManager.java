@@ -20,8 +20,8 @@ import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
-import com.btkAkademi.rentACar.business.requests.paymentRequest.CreatePaymentRequest;
-import com.btkAkademi.rentACar.business.requests.paymentRequest.UpdatePaymentRequest;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.adapters.banks.abstracts.BankAdapterService;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
@@ -65,7 +65,7 @@ public class PaymentManager implements PaymentService{
 	}
 	//Gets All Payments
 	@Override
-	public DataResult<List<PaymentListDto>> getAll(int pageNo, int pageSize) {
+	public DataResult<List<PaymentListDto>> findAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Payment> paymentList = this.paymentDao.findAll(pageable).getContent();
 		List<PaymentListDto> response = paymentList.stream().map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
@@ -75,7 +75,7 @@ public class PaymentManager implements PaymentService{
 	}
 	//Gets All Payments for one rental
 	@Override
-	public DataResult<List<PaymentListDto>> getAllByRentalId(int id) {
+	public DataResult<List<PaymentListDto>> findAllByRentalId(int id) {
 		
 		List<Payment> paymentList = this.paymentDao.getAllByRentalId(id); //id yoksa error veriyor
 		List<PaymentListDto> response = paymentList.stream().map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
@@ -161,7 +161,7 @@ public class PaymentManager implements PaymentService{
 		//calculates total usage price by day
 		totalPrice+=days* carService.findCarById(rental.getCarId()).getData().getDailyPrice();
 		
-		List<AdditionalServiceListDto> services = additionalServiceService.getAllByRentalId(rental.getId()).getData();
+		List<AdditionalServiceListDto> services = additionalServiceService.findAllByRentalId(rental.getId()).getData();
 		//calculates total additional service price 
 		for(AdditionalServiceListDto additionalService : services) {
 			

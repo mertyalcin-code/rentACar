@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
-import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
-import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.UpdateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.colorRequests.CreateColorRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.UpdateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -39,7 +39,7 @@ public class IndividualCustomersController {
 	@GetMapping("getAll")
 	public DataResult<List<IndividualCustomerListDto>> getAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
 		
-		return this.individualCustomerService.getAll(pageNo,pageSize);
+		return this.individualCustomerService.findAll(pageNo,pageSize);
 	}
 	@GetMapping("findbyid/{id}")
 	public DataResult<IndividualCustomerListDto> findById(@PathVariable int id) {

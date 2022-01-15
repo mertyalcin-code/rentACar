@@ -19,8 +19,8 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
-import com.btkAkademi.rentACar.business.requests.rentalRequest.CreateRentalRequest;
-import com.btkAkademi.rentACar.business.requests.rentalRequest.UpdateRentalRequest;
+import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
+import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -59,7 +59,7 @@ public class RentalManager implements RentalService {
 	
 	// Lists all rentals
 	@Override
-	public DataResult<List<RentalListDto>> getAll(int pageNo, int pageSize) {
+	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
 		List<Rental> rentalList = this.rentalDao.findAll(pageable).getContent();
 		List<RentalListDto> response = rentalList.stream()
@@ -70,9 +70,9 @@ public class RentalManager implements RentalService {
 	
 	// Lists all rentals for one customer
 	@Override
-	public DataResult<List<RentalListDto>> getAllByCustomerId(int id) {
+	public DataResult<List<RentalListDto>> findAllByCustomerId(int id) {
 		//customer yoksa hata versin
-		List<Rental> rentalList = this.rentalDao.getAllByCustomerId(id);
+		List<Rental> rentalList = this.rentalDao.findAllByCustomerId(id);
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());

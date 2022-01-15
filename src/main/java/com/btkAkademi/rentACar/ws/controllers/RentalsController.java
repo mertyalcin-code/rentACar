@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
-import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.rentalRequest.CreateRentalRequest;
-import com.btkAkademi.rentACar.business.requests.rentalRequest.UpdateRentalRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
+import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
@@ -38,11 +38,11 @@ public class RentalsController {
 	//lists all rentals in the system
 	@GetMapping("getAll")
 	public DataResult<List<RentalListDto>> getAll(@RequestParam int pageNo, @RequestParam(defaultValue = "10") int pageSize){
-		return rentalService.getAll(pageNo, pageSize);
+		return rentalService.findAll(pageNo, pageSize);
 	}	
 	@GetMapping("findallbycustomerid/{id}")
 	public DataResult<List<RentalListDto>> getAllByCustomerId(@PathVariable int id){
-		return rentalService.getAllByCustomerId(id);
+		return rentalService.findAllByCustomerId(id);
 	}	
 	@GetMapping("findbyid/{id}")
 	public DataResult<RentalListDto> findById(@PathVariable int id){

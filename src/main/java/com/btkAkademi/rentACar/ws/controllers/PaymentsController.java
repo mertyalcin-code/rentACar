@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
-import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.paymentRequest.CreatePaymentRequest;
-import com.btkAkademi.rentACar.business.requests.paymentRequest.UpdatePaymentRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -36,11 +36,11 @@ public class PaymentsController {
 	@GetMapping("getall")
 	public DataResult<List<PaymentListDto>> getall(@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
-		return this.paymentService.getAll(pageNo, pageSize);
+		return this.paymentService.findAll(pageNo, pageSize);
 	}
 	@GetMapping("getallbyrentalid/{id}")
 	public DataResult<List<PaymentListDto>> getAllByRentalId(@PathVariable int rentalId) {
-		return this.paymentService.getAllByRentalId(rentalId);
+		return this.paymentService.findAllByRentalId(rentalId);
 	}
 	@GetMapping("findbyid/{id}")
 	public DataResult<PaymentListDto> findById(@PathVariable int id) {

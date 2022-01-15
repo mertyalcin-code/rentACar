@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.dtos.CityListDto;
-import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
-import com.btkAkademi.rentACar.business.requests.cityRequest.CreateCityRequest;
-import com.btkAkademi.rentACar.business.requests.cityRequest.UpdateCityRequest;
+import com.btkAkademi.rentACar.business.requests.carRequests.CreateCarRequest;
+import com.btkAkademi.rentACar.business.requests.cityRequests.CreateCityRequest;
+import com.btkAkademi.rentACar.business.requests.cityRequests.UpdateCityRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -41,7 +41,7 @@ public class CitiesController {
 	@GetMapping("getall")
 	public DataResult<List<CityListDto>> getAll(){		
 		
-		return cityService.getAll();
+		return cityService.findAll();
 	}
 	@GetMapping("findbyid/{id}")
 	public DataResult<CityListDto> findById(@PathVariable int id){				

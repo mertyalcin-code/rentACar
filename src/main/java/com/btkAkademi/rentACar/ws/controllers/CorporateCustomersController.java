@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
-import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.UpdateCorporateCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.UpdateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -38,7 +38,7 @@ public class CorporateCustomersController {
 	@GetMapping("getAll")
 	public DataResult<List<CorporateCustomerListDto>> getAll(@RequestParam int pageNo,@RequestParam(defaultValue = "10") int pageSize) {
 
-		return this.corporateCustomerService.getAll(pageNo,pageSize);
+		return this.corporateCustomerService.findAll(pageNo,pageSize);
 	}
 	@GetMapping("findbyid/{id}")
 	public DataResult<CorporateCustomerListDto> findById(@PathVariable int id) {

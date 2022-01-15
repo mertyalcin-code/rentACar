@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.ColorService;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
-import com.btkAkademi.rentACar.business.requests.brandRequest.CreateBrandRequest;
-import com.btkAkademi.rentACar.business.requests.brandRequest.UpdateBrandRequest;
-import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
-import com.btkAkademi.rentACar.business.requests.colorRequest.UpdateColorRequest;
+import com.btkAkademi.rentACar.business.requests.brandRequests.CreateBrandRequest;
+import com.btkAkademi.rentACar.business.requests.brandRequests.UpdateBrandRequest;
+import com.btkAkademi.rentACar.business.requests.colorRequests.CreateColorRequest;
+import com.btkAkademi.rentACar.business.requests.colorRequests.UpdateColorRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -35,7 +35,7 @@ public class ColorsContoller {
 	// lists all colors
 	@GetMapping("getall")
 	public DataResult<List<ColorListDto>> getall() {
-		return this.colorService.getAll();
+		return this.colorService.findAll();
 	}
 	@GetMapping("findbyid/{id}")
 	public DataResult<ColorListDto> findById(@PathVariable int id) {

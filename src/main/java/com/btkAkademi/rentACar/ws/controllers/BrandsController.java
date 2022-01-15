@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.BrandService;
 import com.btkAkademi.rentACar.business.dtos.BrandListDto;
-import com.btkAkademi.rentACar.business.requests.brandRequest.CreateBrandRequest;
-import com.btkAkademi.rentACar.business.requests.brandRequest.UpdateBrandRequest;
+import com.btkAkademi.rentACar.business.requests.brandRequests.CreateBrandRequest;
+import com.btkAkademi.rentACar.business.requests.brandRequests.UpdateBrandRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -34,7 +34,7 @@ public class BrandsController {
 	// lists all brands
 	@GetMapping("getall")
 	public DataResult<List<BrandListDto>> getall() {
-		return this.brandService.getAll();
+		return this.brandService.findAll();
 	}
 	//finds by id
 	@GetMapping("findbyid/{id}")

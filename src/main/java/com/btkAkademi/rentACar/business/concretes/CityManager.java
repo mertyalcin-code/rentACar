@@ -16,8 +16,8 @@ import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.CityListDto;
-import com.btkAkademi.rentACar.business.requests.cityRequest.CreateCityRequest;
-import com.btkAkademi.rentACar.business.requests.cityRequest.UpdateCityRequest;
+import com.btkAkademi.rentACar.business.requests.cityRequests.CreateCityRequest;
+import com.btkAkademi.rentACar.business.requests.cityRequests.UpdateCityRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -43,7 +43,7 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 	}
 	//lists all cities in the database
 	@Override
-	public DataResult<List<CityListDto>> getAll() {
+	public DataResult<List<CityListDto>> findAll() {
 			
 		List<City> cityList = this.cityDao.findAllByOrderByCityNameAsc();
 		List<CityListDto> response = cityList.stream()
@@ -57,7 +57,7 @@ import com.btkAkademi.rentACar.entities.concretes.City;
 		@Override
 		public DataResult<CityListDto> findById(int id) {
 			if(cityDao.existsById(id)) {
-				City city= cityDao.getById(id);
+				City city= cityDao.findById(id).get();
 				CityListDto response = modelMapperService.forDto().map(city, CityListDto.class);
 				return new SuccessDataResult<CityListDto>(response);
 			}

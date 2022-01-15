@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.ColorService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
-import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
-import com.btkAkademi.rentACar.business.requests.colorRequest.UpdateColorRequest;
+import com.btkAkademi.rentACar.business.requests.colorRequests.CreateColorRequest;
+import com.btkAkademi.rentACar.business.requests.colorRequests.UpdateColorRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -38,7 +38,7 @@ public class ColorManager implements ColorService {
 
 	// Lists all colors
 	@Override
-	public DataResult<List<ColorListDto>> getAll() {
+	public DataResult<List<ColorListDto>> findAll() {
 		List<Color> colorList = this.colorDao.findAll();
 		List<ColorListDto> response = colorList.stream()
 				.map(color -> modelMapperService.forDto().map(color, ColorListDto.class)).collect(Collectors.toList());

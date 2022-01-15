@@ -12,8 +12,8 @@ import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
-import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.UpdateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.UpdateCorporateCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -41,7 +41,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	// Lists all corporate customer
 	@Override
-	public DataResult<List<CorporateCustomerListDto>> getAll(int pageNo, int pageSize) {
+	public DataResult<List<CorporateCustomerListDto>> findAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<CorporateCustomer> corporateCustomers = this.corporateCustomerDao.findAll(pageable).getContent();
 		List<CorporateCustomerListDto> response = corporateCustomers.stream()

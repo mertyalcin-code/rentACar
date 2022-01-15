@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
-import com.btkAkademi.rentACar.business.requests.corporateCustomerRequest.CreateCorporateCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.CreateCustomerPaymentDetailRequest;
-import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequest.UpdateCustomerPamentDetailsRequest;
+import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequests.CreateCustomerPaymentDetailRequest;
+import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequests.UpdateCustomerPamentDetailsRequest;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController

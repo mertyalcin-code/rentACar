@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.BrandService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.BrandListDto;
-import com.btkAkademi.rentACar.business.requests.brandRequest.CreateBrandRequest;
-import com.btkAkademi.rentACar.business.requests.brandRequest.UpdateBrandRequest;
+import com.btkAkademi.rentACar.business.requests.brandRequests.CreateBrandRequest;
+import com.btkAkademi.rentACar.business.requests.brandRequests.UpdateBrandRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -41,7 +41,7 @@ public class BrandManager implements BrandService {
 
 	// Lists all brands
 	@Override
-	public DataResult<List<BrandListDto>> getAll() {
+	public DataResult<List<BrandListDto>> findAll() {
 		List<Brand> brandList = this.brandDao.findAll();
 		List<BrandListDto> response = brandList.stream()
 				.map(brand -> modelMapperService.forDto().map(brand, BrandListDto.class)).collect(Collectors.toList());

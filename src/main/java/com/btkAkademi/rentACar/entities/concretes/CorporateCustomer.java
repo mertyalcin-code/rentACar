@@ -1,7 +1,5 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrimaryKeyJoinColumn;

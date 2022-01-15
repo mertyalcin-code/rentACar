@@ -18,8 +18,8 @@ import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.CarMaintenanceListDto;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.UpdateCarMaintananceRequest;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequests.CreateCarMaintenanceRequest;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequests.UpdateCarMaintananceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -51,7 +51,7 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	}
 	//Lists cars in maintenance or cars that have been maintained before
 	@Override
-	public DataResult<List<CarMaintenanceListDto>> getAll() {
+	public DataResult<List<CarMaintenanceListDto>> findAll() {
 		List<CarMaintenance> carMaintananceList = this.carMaintananceDao.findAll();
 		List<CarMaintenanceListDto> response = carMaintananceList.stream()
 				.map(carMaintanance->modelMapperService.forDto()
@@ -62,8 +62,8 @@ public class CarMaintenanceManager implements CarMaintenanceService{
 	}
 	//Lists maintenance records for one car
 	@Override
-	public DataResult<List<CarMaintenanceListDto>> getAllByCarId(int id) {
-		List<CarMaintenance> carMaintananceList = this.carMaintananceDao.getAllByCarId(id);
+	public DataResult<List<CarMaintenanceListDto>> findAllByCarId(int id) {
+		List<CarMaintenance> carMaintananceList = this.carMaintananceDao.findAllByCarId(id);
 		List<CarMaintenanceListDto> response = carMaintananceList.stream()
 				.map(carMaintanance->modelMapperService.forDto()
 				.map(carMaintanance, CarMaintenanceListDto.class))

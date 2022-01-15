@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CarDamageService;
 import com.btkAkademi.rentACar.business.dtos.CarDamageListDto;
-import com.btkAkademi.rentACar.business.requests.carDamageRequest.CreateCarDamageRequest;
-import com.btkAkademi.rentACar.business.requests.carDamageRequest.UpdateCarDamageRequest;
-import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
+import com.btkAkademi.rentACar.business.requests.carDamageRequests.CreateCarDamageRequest;
+import com.btkAkademi.rentACar.business.requests.carDamageRequests.UpdateCarDamageRequest;
+import com.btkAkademi.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -33,7 +33,7 @@ public class CarDamagesController {
 	}
 	@GetMapping("getallbycarid/{id}")
 	public DataResult<List<CarDamageListDto>> getAllByCarId(@PathVariable int id) {
-		return this.carDamageService.getAllByCarId(id);
+		return this.carDamageService.findAllByCarId(id);
 	}
 	@GetMapping("findbyid{id}")
 	public Result findById(@PathVariable int id) {

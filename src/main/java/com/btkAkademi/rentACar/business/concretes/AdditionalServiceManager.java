@@ -14,8 +14,8 @@ import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
-import com.btkAkademi.rentACar.business.requests.additionalService.CreateAdditionalServiceRequest;
-import com.btkAkademi.rentACar.business.requests.additionalService.UpdateAdditionalServiceRequest;
+import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.CreateAdditionalServiceRequest;
+import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.UpdateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -45,8 +45,8 @@ public class AdditionalServiceManager implements AdditionalServiceService{
 	}
 	//list all additional services for one rental
 	@Override
-	public DataResult<List<AdditionalServiceListDto>> getAllByRentalId(int RentalId) {
-		List<AdditionalService> additionalServiceList = this.additionalServiceDao.getAllByRentalId(RentalId);
+	public DataResult<List<AdditionalServiceListDto>> findAllByRentalId(int RentalId) {
+		List<AdditionalService> additionalServiceList = this.additionalServiceDao.findAllByRentalId(RentalId);
 		List<AdditionalServiceListDto> response = additionalServiceList.stream().map(additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceListDto.class))
 				.collect(Collectors.toList());
 

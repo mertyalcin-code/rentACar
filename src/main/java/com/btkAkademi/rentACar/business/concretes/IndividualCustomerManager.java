@@ -14,8 +14,8 @@ import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
-import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.CreateIndividualCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.individualCustomerRequest.UpdateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
+import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.UpdateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -49,7 +49,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 	// Lists all individual customers according to page
 	@Override
-	public DataResult<List<IndividualCustomerListDto>> getAll(int pageNo, int pageSize) {
+	public DataResult<List<IndividualCustomerListDto>> findAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
 		List<IndividualCustomer> individualCustomers = this.individualCustomerDao.findAll(pageable).getContent();
 		List<IndividualCustomerListDto> response = individualCustomers.stream()

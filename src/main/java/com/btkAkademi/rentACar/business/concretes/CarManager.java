@@ -15,8 +15,8 @@ import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.abstracts.ColorService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
-import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
-import com.btkAkademi.rentACar.business.requests.carRequest.UpdateCarRequest;
+import com.btkAkademi.rentACar.business.requests.carRequests.CreateCarRequest;
+import com.btkAkademi.rentACar.business.requests.carRequests.UpdateCarRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -50,7 +50,7 @@ public class CarManager implements CarService {
 
 	// Lists all cars with pageNo and Page Size
 	@Override
-	public DataResult<List<CarListDto>> getAll(int pageNo, int pageSize) {
+	public DataResult<List<CarListDto>> findAll(int pageNo, int pageSize) {
 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
@@ -60,19 +60,19 @@ public class CarManager implements CarService {
 	}
 	//lists cars according to brand
 	@Override
-	public DataResult<List<CarListDto>> getAllByBrandId(int brandId, int pageNo, int pageSize) {
+	public DataResult<List<CarListDto>> findAllByBrandId(int brandId, int pageNo, int pageSize) {
 		
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		List<Car> carList = this.carDao.getAllByBrandId(brandId,pageable);
+		List<Car> carList = this.carDao.findAllByBrandId(brandId,pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
 	//lists cars according to color
 	@Override
-	public DataResult<List<CarListDto>> getAllByColorId(int colorId, int pageNo, int pageSize) {
+	public DataResult<List<CarListDto>> findAllByColorId(int colorId, int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		List<Car> carList = this.carDao.getAllByColorId(colorId,pageable);
+		List<Car> carList = this.carDao.findAllByColorId(colorId,pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarListDto>>(response);

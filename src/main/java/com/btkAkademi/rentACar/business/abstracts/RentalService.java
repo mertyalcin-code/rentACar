@@ -5,15 +5,15 @@ import java.util.List;
 import javax.validation.Valid;
 
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
-import com.btkAkademi.rentACar.business.requests.rentalRequest.CreateRentalRequest;
-import com.btkAkademi.rentACar.business.requests.rentalRequest.UpdateRentalRequest;
+import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
+import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
 
 public interface RentalService {
-	DataResult<List<RentalListDto>>  getAll(int pageNo,int pageSize);
-	DataResult<List<RentalListDto>>  getAllByCustomerId(int id);
+	DataResult<List<RentalListDto>>  findAll(int pageNo,int pageSize);
+	DataResult<List<RentalListDto>>  findAllByCustomerId(int id);
 	DataResult<RentalListDto> findById(int id);
 	
 	Result add(CreateRentalRequest createRentalRequest);	

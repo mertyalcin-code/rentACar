@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
 import com.btkAkademi.rentACar.business.dtos.CarMaintenanceListDto;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.CreateCarMaintenanceRequest;
-import com.btkAkademi.rentACar.business.requests.carMaintananceRequest.UpdateCarMaintananceRequest;
-import com.btkAkademi.rentACar.business.requests.colorRequest.CreateColorRequest;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequests.CreateCarMaintenanceRequest;
+import com.btkAkademi.rentACar.business.requests.carMaintananceRequests.UpdateCarMaintananceRequest;
+import com.btkAkademi.rentACar.business.requests.colorRequests.CreateColorRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -34,11 +34,11 @@ public class CarMaintenancesController {
 	}
 	@GetMapping("getall")
 	public DataResult<List<CarMaintenanceListDto>> getall() {
-		return this.carMaintenanceService.getAll();
+		return this.carMaintenanceService.findAll();
 	}
 	@GetMapping("getallbycarid/{id}")
 	public DataResult<List<CarMaintenanceListDto>> getAllByCarId(@PathVariable int id) {
-		return this.carMaintenanceService.getAllByCarId(id);
+		return this.carMaintenanceService.findAllByCarId(id);
 	}
 	@GetMapping("findbyid/{id}")
 	public DataResult<CarMaintenanceListDto> findById(@PathVariable int id) {

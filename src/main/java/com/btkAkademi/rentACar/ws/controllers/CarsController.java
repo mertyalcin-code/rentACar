@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
-import com.btkAkademi.rentACar.business.requests.carRequest.CreateCarRequest;
-import com.btkAkademi.rentACar.business.requests.carRequest.UpdateCarRequest;
+import com.btkAkademi.rentACar.business.requests.carRequests.CreateCarRequest;
+import com.btkAkademi.rentACar.business.requests.carRequests.UpdateCarRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -37,7 +37,7 @@ public class CarsController {
 	@GetMapping("getall")
 	public DataResult<List<CarListDto>> getall(@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
-		return this.carService.getAll(pageNo, pageSize);
+		return this.carService.findAll(pageNo, pageSize);
 	}
 	
 	@GetMapping("getallbybrandid")
@@ -45,7 +45,7 @@ public class CarsController {
 			@RequestParam int brandId,
 			@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
-		return this.carService.getAllByBrandId(brandId,pageNo, pageSize);
+		return this.carService.findAllByBrandId(brandId,pageNo, pageSize);
 	}
 	
 	@GetMapping("getallbycolorid")
@@ -53,7 +53,7 @@ public class CarsController {
 			@RequestParam int colorId,
 			@RequestParam int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
-		return this.carService.getAllByColorId(colorId,pageNo, pageSize);
+		return this.carService.findAllByColorId(colorId,pageNo, pageSize);
 	}
 	
 	@GetMapping("findcarbyid/{id}")
