@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.btkAkademi.rentACar.entities.concretes.CustomerCardDetail;
 
-public interface CustomerPaymentDetailDao extends JpaRepository<CustomerCardDetail, Integer>{
-	
+public interface CustomerCardDetailDao extends JpaRepository<CustomerCardDetail, Integer>{
+
 	List<CustomerCardDetail> findAllByCustomerId(int customerId);
 }

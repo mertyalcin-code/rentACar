@@ -11,7 +11,7 @@ import com.btkAkademi.rentACar.entities.concretes.Car;
 
 
 public interface CarDao  extends JpaRepository<Car, Integer>{
-	
+
 	List<Car> findAllByBrandId(int brandId,Pageable pagable);
 	List<Car> findAllByColorId(int colorId,Pageable pagable);
 

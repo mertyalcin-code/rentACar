@@ -12,46 +12,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
+import com.btkAkademi.rentACar.business.abstracts.CustomerCardDetailService;
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
-import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequests.CreateCustomerPaymentDetailRequest;
-import com.btkAkademi.rentACar.business.requests.customerPaymentDetailRequests.UpdateCustomerPamentDetailsRequest;
+import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.CreateCustomerCardDetailRequest;
+import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.UpdateCustomerCardDetailsRequest;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
 @RequestMapping("/api/customer-card-details")
-public class CustomerPaymentDetailsController {
-	private CustomerPaymentDetailService customerPaymentDetailService;
+public class CustomerCardDetailsController {
+	private CustomerCardDetailService customerCardDetailService;
 	@Autowired
-	public CustomerPaymentDetailsController(CustomerPaymentDetailService customerPaymentDetailService) {
+	public CustomerCardDetailsController(CustomerCardDetailService customerCardDetailService) {
 		super();
-		this.customerPaymentDetailService = customerPaymentDetailService;
+		this.customerCardDetailService = customerCardDetailService;
 	}
 	@GetMapping ("find-by-customer-id/{id}")
 	public Result findByCustomerId(@PathVariable int id) {
 
-		return this.customerPaymentDetailService.findCustomerPaymentDetailsByCustomerId(id);
+		return this.customerCardDetailService.findCustomerPaymentDetailsByCustomerId(id);
 	}
 	@GetMapping ("find-by-id/{id}")
 	public Result findById(@PathVariable int id) {
 
-		return this.customerPaymentDetailService.findById(id);
+		return this.customerCardDetailService.findById(id);
 	}
 	
 	
 	@PostMapping("add")
-	public Result add(@RequestBody @Valid CreateCustomerPaymentDetailRequest createCustomerPaymentDetailRequest) {
+	public Result add(@RequestBody @Valid CreateCustomerCardDetailRequest createCustomerPaymentDetailRequest) {
 
-		return this.customerPaymentDetailService.add(createCustomerPaymentDetailRequest);
+		return this.customerCardDetailService.add(createCustomerPaymentDetailRequest);
 	}
 	@PutMapping("update")
-	public Result update(@RequestBody @Valid UpdateCustomerPamentDetailsRequest updateCustomerPamentDetailsRequest) {
+	public Result update(@RequestBody @Valid UpdateCustomerCardDetailsRequest updateCustomerPamentDetailsRequest) {
 
-		return this.customerPaymentDetailService.update(updateCustomerPamentDetailsRequest);
+		return this.customerCardDetailService.update(updateCustomerPamentDetailsRequest);
 	}
 	@DeleteMapping("delete/{id}")
 	public Result delete(@PathVariable int id) {
 
-		return this.customerPaymentDetailService.delete(id);
+		return this.customerCardDetailService.delete(id);
 	}
 }

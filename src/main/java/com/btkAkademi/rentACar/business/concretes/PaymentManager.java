@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
-import com.btkAkademi.rentACar.business.abstracts.CustomerPaymentDetailService;
+import com.btkAkademi.rentACar.business.abstracts.CustomerCardDetailService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
@@ -47,13 +47,13 @@ public class PaymentManager implements PaymentService{
 	private CarService carService;
 	private AdditionalServiceService additionalServiceService;
 	private BankAdapterService bankAdapterService;
-	private CustomerPaymentDetailService customerPaymentDetailService;
+	private CustomerCardDetailService customerPaymentDetailService;
 	
 	//Dependency injection 
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
 			CarService carService, AdditionalServiceService additionalServiceService,
-			BankAdapterService bankAdapterService, CustomerPaymentDetailService customerPaymentDetailService) {
+			BankAdapterService bankAdapterService, CustomerCardDetailService customerPaymentDetailService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
