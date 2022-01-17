@@ -63,15 +63,19 @@ public class PromoCodeManager implements PromoCodeService{
 	}
 
 	@Override
-	public Result update(UpdatePromoCodeRequest updatePromoCodeRequest) {
-		// TODO Auto-generated method stub
-		return null;
+	public Result update(UpdatePromoCodeRequest updatePromoCodeRequest) {		
+		PromoCode promoCode = this.modelMapperService.forRequest().map(updatePromoCodeRequest, PromoCode.class);		
+		this.promoCodeDao.save(promoCode);
+		return new SuccessResult(Messages.promoCodeUpdated);
 	}
 
 	@Override
 	public Result delete(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		if(promoCodeDao.existsById(id)) {
+			promoCodeDao.deleteById(id);
+			return new SuccessResult(Messages.promoCodeDeleted);
+		}else return new ErrorResult();
+	
 	}
 	private Result checkIfPromoCodeExistsByCode(String code){
 		if(promoCodeDao.findByCode(code)!=null) {

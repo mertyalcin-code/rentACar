@@ -78,6 +78,8 @@ public class Messages {
 	public static final String invoiceAlreadyExists = "invoice.already.exists";
 	public static final String promoCodeAlreadyExists = "promo.code.already.exists";
 	public static final String promoCodeAdded = "promo.code.added";
+	public static final String promoCodeUpdated = "promo.code.updated";
+	public static final String promoCodeDeleted = "promo.code.deleted";
 
 
 	

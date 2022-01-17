@@ -20,6 +20,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
+import com.btkAkademi.rentACar.business.dtos.PromoCodeDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
@@ -169,15 +170,17 @@ public class PaymentManager implements PaymentService{
 		//if  return date and rent date are equal than we charge one day
 		if(days==0) days=1;
 		//calculates total usage price by day
-		totalPrice+=days* carService.findCarById(rental.getCarId()).getData().getDailyPrice();
-		
+		totalPrice+=days* carService.findCarById(rental.getCarId()).getData().getDailyPrice();	
 		
 		
 		// discount
 		if(rental.getPromoCodeId()!=0) {
-			double discountRate = 0;
-			discountRate= promoCodeService.findById(rental.getPromoCodeId()).getData().getDiscountRate();
-			totalPrice = totalPrice - (totalPrice*discountRate);
+			PromoCodeDto promoCode =  promoCodeService.findById(rental.getPromoCodeId()).getData();
+			if(!promoCode.getEndDate().isAfter(rental.getReturnDate())) {
+				double discountRate = 0;
+				discountRate=promoCode.getDiscountRate();
+				totalPrice = totalPrice - (totalPrice*discountRate);
+			}			
 		}
 		List<AdditionalServiceListDto> services = additionalServiceService.findAllByRentalId(rental.getId()).getData();
 		//calculates total additional service price 
