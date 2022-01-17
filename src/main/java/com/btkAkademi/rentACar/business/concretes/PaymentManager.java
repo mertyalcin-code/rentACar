@@ -23,6 +23,7 @@ import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.adapters.banks.abstracts.BankAdapterService;
+import com.btkAkademi.rentACar.core.utilities.adapters.creditScore.abstracts.CreditScoreAdapterService;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -48,12 +49,14 @@ public class PaymentManager implements PaymentService{
 	private AdditionalServiceService additionalServiceService;
 	private BankAdapterService bankAdapterService;
 	private CustomerCardDetailService customerPaymentDetailService;
+	private CreditScoreAdapterService creditScoreAdapterService;
 	
 	//Dependency injection 
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
 			CarService carService, AdditionalServiceService additionalServiceService,
-			BankAdapterService bankAdapterService, CustomerCardDetailService customerPaymentDetailService) {
+			BankAdapterService bankAdapterService, CustomerCardDetailService customerPaymentDetailService,
+			CreditScoreAdapterService creditScoreAdapterService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
@@ -62,6 +65,7 @@ public class PaymentManager implements PaymentService{
 		this.additionalServiceService = additionalServiceService;
 		this.bankAdapterService = bankAdapterService;
 		this.customerPaymentDetailService = customerPaymentDetailService;
+		this.creditScoreAdapterService = creditScoreAdapterService;
 	}
 	//Gets All Payments
 	@Override
@@ -73,6 +77,7 @@ public class PaymentManager implements PaymentService{
 		return new SuccessDataResult<>(response);
 	
 	}
+	
 	//Gets All Payments for one rental
 	@Override
 	public DataResult<List<PaymentListDto>> findAllByRentalId(int id) {
@@ -171,9 +176,9 @@ public class PaymentManager implements PaymentService{
 		System.out.println(totalPrice);
 		return totalPrice;
 	}
+	
 
-
-
+	
 
 
 

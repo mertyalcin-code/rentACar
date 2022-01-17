@@ -17,3 +17,8 @@ tüm operasyonlar için ekleme silme arama güncelleme listeleme gibi operasyonl
 Rest Api nedir Http protokolünde çalışıyor xml json gibi formatta servislerin birbiriyle iletişimde olmasını sağlar
 Soap Nedir - farklı protokollerde gidebilir tcp gibi genelde local servislerin birbirleri ile iletişiminde kullanılır
 
+17.01.2020
+
+findex 650 -1900 arasında olur
+her arabanın min kiralabilir findex scoreunda olması gerekir..
+dış servis olarak müşterinin findex scoruna bakacağız. 

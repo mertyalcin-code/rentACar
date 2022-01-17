@@ -50,9 +50,13 @@ public class RentalsController {
 	}	
 
 	//Adds a new rental
-	@PostMapping("add")
-	public Result add(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
-		return this.rentalService.add(createRentalRequest);
+	@PostMapping("add-for-individual-customer")
+	public Result addForIndividualCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
+		return this.rentalService.addForIndividualCustomer(createRentalRequest);
+	}
+	@PostMapping("add-for-corporate-customer")
+	public Result addForCorporateCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
+		return this.rentalService.addForCorporateCustomer(createRentalRequest);
 	}
 	@PutMapping("update")
 	public Result update(@RequestBody @Valid UpdateRentalRequest updateRentalRequest) {

@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class IndividualCustomerListDto {
 	private int id;
+	private String nationalityId;
 	private String email;
 	private String firstName;
 	private String lastName;

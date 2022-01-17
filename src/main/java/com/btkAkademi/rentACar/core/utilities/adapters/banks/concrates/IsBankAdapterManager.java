@@ -25,6 +25,7 @@ public class IsBankAdapterManager implements BankAdapterService{
 		
 	}
 
+
 	
 
 

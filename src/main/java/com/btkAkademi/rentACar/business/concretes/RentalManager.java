@@ -12,8 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CarMaintenanceService;
+import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.abstracts.CityService;
+import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
+import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
@@ -21,6 +24,7 @@ import com.btkAkademi.rentACar.business.dtos.ColorListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
+import com.btkAkademi.rentACar.core.utilities.adapters.creditScore.abstracts.CreditScoreAdapterService;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -43,19 +47,27 @@ public class RentalManager implements RentalService {
 	private CustomerService customerService;
 	private CarMaintenanceService carMaintananceService;
 	private CityService cityService;
-
+	private CreditScoreAdapterService creditScoreAdapterService;
+	private IndividualCustomerService individualCustomerService;
+	private CorporateCustomerService corporateCustomerService; 
+	private CarService carService; 
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
-			CarMaintenanceService carMaintananceService, CityService cityService) {
+			CarMaintenanceService carMaintananceService, CityService cityService,
+			CreditScoreAdapterService creditScoreAdapterService, IndividualCustomerService individualCustomerService,
+			CorporateCustomerService corporateCustomerService, CarService carService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
 		this.customerService = customerService;
 		this.carMaintananceService = carMaintananceService;
 		this.cityService = cityService;
+		this.creditScoreAdapterService = creditScoreAdapterService;
+		this.individualCustomerService = individualCustomerService;
+		this.corporateCustomerService = corporateCustomerService;
+		this.carService = carService;
 	}
-
 	// Lists all rentals
 	@Override
 	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
@@ -66,6 +78,14 @@ public class RentalManager implements RentalService {
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<RentalListDto>>(response);
 	}
+
+	
+
+
+
+
+
+
 
 	// Lists all rentals for one customer
 	@Override
@@ -93,12 +113,16 @@ public class RentalManager implements RentalService {
 
 	// Adds a new rental
 	@Override
-	public Result add(CreateRentalRequest createRentalRequest) {
+	public Result addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
 		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),
 				checkIfIsCarInMaintanance(createRentalRequest.getCarId()),
 				checkIfCityExist(createRentalRequest.getPickUpCityId()),
 				checkIfCityExist(createRentalRequest.getReturnCityId()),
-				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()));
+				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()),
+				checkIfIndividualCustomerHasEnoughCreditScore(
+						individualCustomerService.findById(createRentalRequest.getCustomerId()).getData().getNationalityId(),
+						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()))	;
+			
 
 		if (result != null) {
 			return result;
@@ -109,6 +133,28 @@ public class RentalManager implements RentalService {
 		this.rentalDao.save(rental);
 		return new SuccessResult(Messages.rentalAdded);
 	}
+	@Override
+	public Result addForCorporateCustomer(CreateRentalRequest createRentalRequest) {
+		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),
+				checkIfIsCarInMaintanance(createRentalRequest.getCarId()),
+				checkIfCityExist(createRentalRequest.getPickUpCityId()),
+				checkIfCityExist(createRentalRequest.getReturnCityId()),
+				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()),
+				checkIfCorporateCustomerHasEnoughCreditScore(
+						corporateCustomerService.findById(createRentalRequest.getCustomerId()).getData().getTaxNumber(),
+						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore())	
+				);
+
+		if (result != null) {
+			return result;
+		}
+
+		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
+		rental.setReturnedKilometer(null);
+		this.rentalDao.save(rental);
+		return new SuccessResult(Messages.rentalAdded);
+	}
+
 
 	// Updates rental
 	@Override
@@ -200,5 +246,20 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
-
+	private Result checkIfIndividualCustomerHasEnoughCreditScore(String nationalityId,int minCreditScore ) {
+		System.out.println("min :"+minCreditScore);
+		if(creditScoreAdapterService.getScoreOfIndividualCustomer(nationalityId).getData()>=minCreditScore) {
+			return new SuccessResult();
+		}
+		else return new ErrorResult(Messages.lowCreditScore);		
+		
+	}
+	private Result checkIfCorporateCustomerHasEnoughCreditScore(String taxNumber,int minCreditScore ) {
+		System.out.println("min :"+minCreditScore);
+		if(creditScoreAdapterService.getScoreOfCorporateCustomer(taxNumber).getData()>=minCreditScore) {
+			return new SuccessResult();
+		}
+		else return new ErrorResult(Messages.lowCreditScore);		
+		
+	}
 }
