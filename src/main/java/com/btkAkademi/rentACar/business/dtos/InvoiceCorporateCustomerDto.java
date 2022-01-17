@@ -20,7 +20,7 @@ public class InvoiceCorporateCustomerDto {
 	private LocalDate rentDate;
 	private LocalDate returnedDate;
 	private double totalPrice;
-	LocalDate creationDate;
+	private LocalDate creationDate;
 	private List<AdditionalServiceListDto> additonalServices;
 
 }
