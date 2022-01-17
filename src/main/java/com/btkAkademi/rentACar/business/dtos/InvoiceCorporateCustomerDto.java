@@ -12,12 +12,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InvoiceCorporateCustomerDto {
+public class InvoiceCorporateCustomerDto {	
 	private int id;
 	private String taxNumber;
 	private String companyName;
-	private String rentDuration;
-	private double TotalPrice;
+	private String email;
+	private LocalDate rentDate;
+	private LocalDate returnedDate;
+	private double totalPrice;
 	LocalDate creationDate;
 	private List<AdditionalServiceListDto> additonalServices;
 

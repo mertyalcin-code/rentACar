@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateIndividualCustomerRequest {
-	@Size(min=11,max=11)
+	
 	private String nationalityId;
 	@Email
 	@NotBlank

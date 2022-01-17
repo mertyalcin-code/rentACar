@@ -74,7 +74,6 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	public Result add(CreateIndividualCustomerRequest createIndividualCustomerRequest) {
 		Result result = BusinessRules.run(checkIfEmailExists(createIndividualCustomerRequest.getEmail()),
 				checkIfUserInAgeLimit(createIndividualCustomerRequest.getBirthDate()));
-
 		if (result != null) {
 			return result;
 		}

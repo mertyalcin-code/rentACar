@@ -38,8 +38,9 @@ public class PaymentsController {
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.paymentService.findAll(pageNo, pageSize);
 	}
-	@GetMapping("find-all-by-rental-id/{id}")
+	@GetMapping("find-all-by-rental-id/{rentalId}")
 	public DataResult<List<PaymentListDto>> getAllByRentalId(@PathVariable int rentalId) {
+
 		return this.paymentService.findAllByRentalId(rentalId);
 	}
 	@GetMapping("find-by-id/{id}")

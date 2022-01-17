@@ -17,6 +17,7 @@ import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
+import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceCorporateCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceIndividualCustomerDto;
@@ -28,6 +29,7 @@ import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.InvoiceDao;
 import com.btkAkademi.rentACar.entities.concretes.City;
@@ -88,13 +90,34 @@ public class InvoiceManager implements InvoiceService{
 				.creationDate(invoice.getCreationDate())
 				.additonalServices(additionalServices)
 				.build();
-		return null;
+		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto);
 	}
 
 	@Override
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(int rentalId) {
-		// TODO Auto-generated method stub
-		return null;
+		Invoice invoice = invoiceDao.findByRentalId(rentalId);
+		RentalListDto rental = rentalService.findById(rentalId).getData();
+		CorporateCustomerListDto customer = corporateCustomerService.findById(rental.getCustomerId()).getData();
+		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId).getData();
+		CarListDto car = carService.findCarById(rental.getCarId()).getData();
+		List<PaymentListDto> payments = paymentService.findAllByRentalId(rentalId).getData();
+		double totalPrice = 0;
+		for(PaymentListDto payment:payments) {
+			totalPrice+=payment.getTotalPaymentAmount();
+		}
+		
+		InvoiceCorporateCustomerDto responseCustomerDto = InvoiceCorporateCustomerDto.builder()
+				.id(invoice.getId())
+				.companyName(customer.getCompanyName())
+				.taxNumber(customer.getTaxNumber())
+				.email(customer.getEmail())
+				.totalPrice(totalPrice)
+				.rentDate(rental.getRentDate())
+				.returnedDate(rental.getReturnDate())
+				.creationDate(invoice.getCreationDate())
+				.additonalServices(additionalServices)
+				.build();
+		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto);
 	}
 
 
