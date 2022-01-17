@@ -22,3 +22,5 @@ Soap Nedir - farklı protokollerde gidebilir tcp gibi genelde local servislerin 
 findex 650 -1900 arasında olur
 her arabanın min kiralabilir findex scoreunda olması gerekir..
 dış servis olarak müşterinin findex scoruna bakacağız. 
+
+arabalara min yaş kuralı ekliyoruz

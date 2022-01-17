@@ -22,4 +22,5 @@ public class UpdateCarRequest {
 	private int kilometer;
 	@NotBlank
 	private String description;
+	private int minAge;	
 }

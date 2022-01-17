@@ -73,6 +73,7 @@ public class Messages {
 	public static final String customerPaymentDetailUpdated = "customer.payment.detail.updated";
 	public static final String customerPaymentDetailDeleted = "customer.payment.detail.deleted";
 	public static final String lowCreditScore = "low.credit.score";
+	public static final String ageIsNotEnough = "age.is.not.enough";
 
 
 	

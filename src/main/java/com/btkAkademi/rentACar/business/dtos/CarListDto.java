@@ -26,4 +26,5 @@ public class CarListDto{
 	private int kilometer;	
 	private String brandName;	
 	private String colorName;
+	private int minAge;
 }

@@ -37,7 +37,8 @@ public class Car {
 	private int findexScore;
 	@Column(name="kilometer")
 	private int kilometer;	
-
+	@Column(name="min_age")
+	private int minAge;	
 	
 	
 	@ManyToOne

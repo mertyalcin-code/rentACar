@@ -21,4 +21,5 @@ public class CreateCarRequest {
 	private int kilometer;
 	@NotBlank
 	private String description;
+	private int minAge;	
 }

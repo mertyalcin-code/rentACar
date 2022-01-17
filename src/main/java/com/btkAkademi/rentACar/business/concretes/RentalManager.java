@@ -2,6 +2,7 @@ package com.btkAkademi.rentACar.business.concretes;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -121,7 +122,10 @@ public class RentalManager implements RentalService {
 				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()),
 				checkIfIndividualCustomerHasEnoughCreditScore(
 						individualCustomerService.findById(createRentalRequest.getCustomerId()).getData().getNationalityId(),
-						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()))	;
+						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
+				checkIfCustomerAgeIsEnough(createRentalRequest.getCustomerId(),createRentalRequest.getCarId())
+				
+				)	;
 			
 
 		if (result != null) {
@@ -260,6 +264,16 @@ public class RentalManager implements RentalService {
 			return new SuccessResult();
 		}
 		else return new ErrorResult(Messages.lowCreditScore);		
+		
+	}
+	private Result checkIfCustomerAgeIsEnough(int customerId, int carId) {
+	
+		int age = Period.between(individualCustomerService.findById(customerId).getData().getBirthDate(), LocalDate.now()).getYears();
+		int minAge = carService.findCarById(carId).getData().getMinAge();
+		if(age<minAge) {
+			return new ErrorResult(Messages.ageIsNotEnough);
+		}
+		return new SuccessResult();
 		
 	}
 }
