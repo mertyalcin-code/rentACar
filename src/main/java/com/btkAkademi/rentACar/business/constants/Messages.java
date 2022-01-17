@@ -74,6 +74,8 @@ public class Messages {
 	public static final String customerPaymentDetailDeleted = "customer.payment.detail.deleted";
 	public static final String lowCreditScore = "low.credit.score";
 	public static final String ageIsNotEnough = "age.is.not.enough";
+	public static  final String invoiceAdded ="invoice.added";
+	public static final String invoiceAlreadyExists = "invoice.already.exists";
 
 
 	

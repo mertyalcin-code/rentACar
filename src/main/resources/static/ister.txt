@@ -24,3 +24,10 @@ her arabanın min kiralabilir findex scoreunda olması gerekir..
 dış servis olarak müşterinin findex scoruna bakacağız. 
 
 arabalara min yaş kuralı ekliyoruz
+
+bir kiralama için fatura oluşturacaksın 
+bireysel kurumsal ayrı fatura olacak 
+kiralanan gün ek servis total price 
+fatura tablosunda id - creation date - hangi rental 
+bir kere fatura oluşturulduysa birdaha o rental için fatura oluşturulamaz
+
