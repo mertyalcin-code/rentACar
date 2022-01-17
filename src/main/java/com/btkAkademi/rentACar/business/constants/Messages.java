@@ -76,6 +76,8 @@ public class Messages {
 	public static final String ageIsNotEnough = "age.is.not.enough";
 	public static  final String invoiceAdded ="invoice.added";
 	public static final String invoiceAlreadyExists = "invoice.already.exists";
+	public static final String promoCodeAlreadyExists = "promo.code.already.exists";
+	public static final String promoCodeAdded = "promo.code.added";
 
 
 	

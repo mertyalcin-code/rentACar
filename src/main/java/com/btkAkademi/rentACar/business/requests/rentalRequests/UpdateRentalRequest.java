@@ -19,4 +19,5 @@ public class UpdateRentalRequest {
 	private int returnCityId;
 	private int customerId;	
 	private int carId;
+	private int promoCodeId;
 }

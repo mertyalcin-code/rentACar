@@ -64,5 +64,8 @@ public class Rental {
 	@OneToOne(mappedBy = "rental")
 	private Invoice invoice;
 	
+	@ManyToOne
+	@JoinColumn(name="promo_code")
+	private PromoCode promoCode;
 }
 

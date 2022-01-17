@@ -23,4 +23,5 @@ public class RentalListDto {
 	private Integer returnedKilometer;
 	private int customerId;
 	private int carId;
+	private int promoCodeId;
 }

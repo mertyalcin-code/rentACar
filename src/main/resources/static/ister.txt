@@ -31,3 +31,10 @@ kiralanan gün ek servis total price
 fatura tablosunda id - creation date - hangi rental 
 bir kere fatura oluşturulduysa birdaha o rental için fatura oluşturulamaz
 
+ister: 
+kiralamalarda promosyon kodu da eklenebilmeli 
+promosyon kodunun indirim oranı neyse kiralama bedeline o kadar indirim uygulanır. 
+kiralama tablosuna kirama birim fiyatı da eklenir. 
+additional service olmasın 
+promosyon kodunun id name indirim oranı promosyon başlangıç tarihi promosyon bitiş tarihi
+eğer girilen promosyon kod geçerli değilse indirim uygulanmayacak. 

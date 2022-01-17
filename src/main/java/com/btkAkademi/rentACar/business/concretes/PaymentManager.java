@@ -14,6 +14,7 @@ import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerCardDetailService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
+import com.btkAkademi.rentACar.business.abstracts.PromoCodeService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
@@ -50,13 +51,14 @@ public class PaymentManager implements PaymentService{
 	private BankAdapterService bankAdapterService;
 	private CustomerCardDetailService customerPaymentDetailService;
 	private CreditScoreAdapterService creditScoreAdapterService;
+	private PromoCodeService promoCodeService;
 	
 	//Dependency injection 
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
 			CarService carService, AdditionalServiceService additionalServiceService,
 			BankAdapterService bankAdapterService, CustomerCardDetailService customerPaymentDetailService,
-			CreditScoreAdapterService creditScoreAdapterService) {
+			CreditScoreAdapterService creditScoreAdapterService, PromoCodeService promoCodeService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
@@ -66,6 +68,7 @@ public class PaymentManager implements PaymentService{
 		this.bankAdapterService = bankAdapterService;
 		this.customerPaymentDetailService = customerPaymentDetailService;
 		this.creditScoreAdapterService = creditScoreAdapterService;
+		this.promoCodeService = promoCodeService;
 	}
 	//Gets All Payments
 	@Override
@@ -78,6 +81,8 @@ public class PaymentManager implements PaymentService{
 	
 	}
 	
+	
+
 	//Gets All Payments for one rental
 	@Override
 	public DataResult<List<PaymentListDto>> findAllByRentalId(int id) {
@@ -166,13 +171,20 @@ public class PaymentManager implements PaymentService{
 		//calculates total usage price by day
 		totalPrice+=days* carService.findCarById(rental.getCarId()).getData().getDailyPrice();
 		
+		
+		
+		// discount
+		if(rental.getPromoCodeId()!=0) {
+			double discountRate = 0;
+			discountRate= promoCodeService.findById(rental.getPromoCodeId()).getData().getDiscountRate();
+			totalPrice = totalPrice - (totalPrice*discountRate);
+		}
 		List<AdditionalServiceListDto> services = additionalServiceService.findAllByRentalId(rental.getId()).getData();
 		//calculates total additional service price 
-		for(AdditionalServiceListDto additionalService : services) {
-			
-			totalPrice+=additionalService.getPrice();
-			
+		for(AdditionalServiceListDto additionalService : services) {			
+			totalPrice+=additionalService.getPrice();			
 		}
+		
 		System.out.println(totalPrice);
 		return totalPrice;
 	}

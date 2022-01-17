@@ -1,6 +1,7 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -19,20 +21,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="payments")
-public class Payment {
+@Table(name="promo_codes")
+public class PromoCode {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private int id;
-	@Column(name="paymen_time")
-	private LocalDate paymentTime;
-	@Column(name="total_payment_amount")
-	private double totalPaymentAmount;		
-	@ManyToOne
-	@JoinColumn(name="rental_id")
-	private Rental rental;
-
+	private int id ;
+	@Column(name="code")
+	private String code ;	
+	@Column(name="discount_rate")
+	private double discountRate;
+	@Column(name="rent_date")
+	private LocalDate startDate;
+	@Column(name="return_date")
+	private LocalDate endDate;
+	@Column(name="description")
+	private String description;
 	
-	
+	@OneToMany(mappedBy = "promoCode")	
+	private List<Rental> rentals;
 }
