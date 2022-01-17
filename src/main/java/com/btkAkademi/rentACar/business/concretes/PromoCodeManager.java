@@ -50,11 +50,13 @@ public class PromoCodeManager implements PromoCodeService {
 	// finds all active codes
 	@Override
 	public DataResult<List<PromoCodeDto>> findAllNotExpired() {
-		List<PromoCode> promoCodeList = promoCodeDao.findAllActiveCodes(LocalDate.now());
+	/*	List<PromoCode> promoCodeList = promoCodeDao.findAllActiveCodes(LocalDate.now());
 		List<PromoCodeDto> response = promoCodeList.stream()
 				.map(promoCode -> modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<PromoCodeDto>>(response);
+		*/
+		return null;
 	}
 
 	// finds by id
@@ -80,7 +82,9 @@ public class PromoCodeManager implements PromoCodeService {
 	// Creates a new code
 	@Override
 	public Result add(CreatePromoCodeRequest createPromoCodeRequest) {
-		Result result = BusinessRules.run(checkIfPromoCodeExistsByCode(createPromoCodeRequest.getCode()));
+		Result result = BusinessRules.run(checkIfPromoCodeExistsByCode(createPromoCodeRequest.getCode()),
+				checkIfDatesAreCorrect(createPromoCodeRequest.getStartDate(),createPromoCodeRequest.getEndDate())
+				);
 		if (result != null) {
 			return result;
 		}
@@ -94,6 +98,12 @@ public class PromoCodeManager implements PromoCodeService {
 	// Update
 	@Override
 	public Result update(UpdatePromoCodeRequest updatePromoCodeRequest) {
+		Result result = BusinessRules.run(
+				checkIfDatesAreCorrect(updatePromoCodeRequest.getStartDate(),updatePromoCodeRequest.getEndDate())
+				);
+		if (result != null) {
+			return result;
+		}
 		PromoCode promoCode = this.modelMapperService.forRequest().map(updatePromoCodeRequest, PromoCode.class);
 		this.promoCodeDao.save(promoCode);
 		return new SuccessResult(Messages.promoCodeUpdated);
@@ -117,5 +127,11 @@ public class PromoCodeManager implements PromoCodeService {
 		} else
 			return new SuccessResult();
 	}
-
+	// codes should be unique
+	private Result checkIfDatesAreCorrect(LocalDate startDate, LocalDate endDate) {
+		if (startDate.isBefore(endDate)) {
+			return new ErrorResult(Messages.datesAreIncorrect);
+		} else
+			return new SuccessResult();
+	}
 }

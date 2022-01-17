@@ -2,6 +2,8 @@ package com.btkAkademi.rentACar.business.requests.promoCodeRequest;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreatePromoCodeRequest {
+	@NotEmpty
 	private String code;
 	private double discountRate;
 	private LocalDate startDate;

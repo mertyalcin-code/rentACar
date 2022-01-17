@@ -92,5 +92,6 @@ public class Messages {
 
 	// Common
 	public static final String notFound = "not.found";
+	public static final String datesAreIncorrect = "dates.are.incorrect";
 
 }

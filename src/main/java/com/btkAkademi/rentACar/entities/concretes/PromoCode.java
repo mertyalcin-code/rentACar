@@ -29,9 +29,9 @@ public class PromoCode {
 	private String code;
 	@Column(name = "discount_rate")
 	private double discountRate;
-	@Column(name = "rent_date")
+	@Column(name = "start_date")
 	private LocalDate startDate;
-	@Column(name = "return_date")
+	@Column(name = "end_date")
 	private LocalDate endDate;
 	@Column(name = "description")
 	private String description;

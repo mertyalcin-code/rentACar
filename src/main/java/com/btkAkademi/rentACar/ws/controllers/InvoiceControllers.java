@@ -14,6 +14,7 @@ import com.btkAkademi.rentACar.business.abstracts.InvoiceService;
 import com.btkAkademi.rentACar.business.dtos.InvoiceCorporateCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceIndividualCustomerDto;
 import com.btkAkademi.rentACar.business.requests.invoiceRequest.CreateInvoiceRequest;
+import com.btkAkademi.rentACar.business.requests.invoiceRequest.UpdateInvoiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -42,5 +43,15 @@ public class InvoiceControllers {
 	public Result add(@RequestBody @Valid CreateInvoiceRequest createInvoiceRequest) {
 
 		return this.invoiceService.add(createInvoiceRequest);
+	}
+	@PostMapping("update")
+	public Result update(@RequestBody @Valid UpdateInvoiceRequest updateInvoiceRequest) {
+
+		return this.invoiceService.update(updateInvoiceRequest);
+	}
+	@PostMapping("delete/{id}")
+	public Result delete(@PathVariable int id) {
+
+		return this.invoiceService.delete(id);
 	}
 }
