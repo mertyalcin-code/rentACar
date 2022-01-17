@@ -22,7 +22,6 @@ import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.CarDamageDao;
 import com.btkAkademi.rentACar.entities.concretes.CarDamage;
-import com.btkAkademi.rentACar.entities.concretes.CarMaintenance;
 
 @Service
 public class CarDamageManager implements CarDamageService {
@@ -45,16 +44,16 @@ public class CarDamageManager implements CarDamageService {
 	public DataResult<List<CarDamageListDto>> findAllByCarId(int id) {
 		List<CarDamage> carDamages = carDamageDao.findAllByCarId(id);
 		List<CarDamageListDto> response = carDamages.stream()
-				.map(carDamage -> modelMapperService.forDto()
-						.map(carDamage, CarDamageListDto.class)).collect(Collectors.toList());
+				.map(carDamage -> modelMapperService.forDto().map(carDamage, CarDamageListDto.class))
+				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarDamageListDto>>(response);
 	}
 
 	// find specific damage of the car
 	@Override
 	public DataResult<CarDamageListDto> findById(int id) {
-		if(carDamageDao.existsById(id)) {
-			CarDamage carDamage= carDamageDao.findById(id).get();
+		if (carDamageDao.existsById(id)) {
+			CarDamage carDamage = carDamageDao.findById(id).get();
 			CarDamageListDto response = modelMapperService.forDto().map(carDamage, CarDamageListDto.class);
 			return new SuccessDataResult<CarDamageListDto>(response);
 		}
@@ -83,7 +82,7 @@ public class CarDamageManager implements CarDamageService {
 			return result;
 		}
 		CarDamage carDamage = this.modelMapperService.forRequest().map(updateCarDamageRequest, CarDamage.class);
-	
+
 		this.carDamageDao.save(carDamage);
 		return new SuccessResult(Messages.carDamageUpdated);
 	}
@@ -91,11 +90,11 @@ public class CarDamageManager implements CarDamageService {
 	// delete
 	@Override
 	public Result delete(int id) {
-		if(carDamageDao.existsById(id)) {
+		if (carDamageDao.existsById(id)) {
 			carDamageDao.deleteById(id);
-			return new SuccessResult();
-		}
-		else return new ErrorResult();
+			return new SuccessResult(Messages.carDamageDeleted);
+		} else
+			return new ErrorResult(Messages.notFound);
 	}
 
 	// Helpers

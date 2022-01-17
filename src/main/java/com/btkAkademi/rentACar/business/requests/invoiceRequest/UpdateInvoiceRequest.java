@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateInvoiceRequest {
+public class UpdateInvoiceRequest {
+	private int id;
 	private int rentalId;
 	private LocalDate creationDate;
 }

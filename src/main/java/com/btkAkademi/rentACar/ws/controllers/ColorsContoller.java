@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.ColorService;
 import com.btkAkademi.rentACar.business.dtos.ColorListDto;
-import com.btkAkademi.rentACar.business.requests.brandRequests.CreateBrandRequest;
-import com.btkAkademi.rentACar.business.requests.brandRequests.UpdateBrandRequest;
 import com.btkAkademi.rentACar.business.requests.colorRequests.CreateColorRequest;
 import com.btkAkademi.rentACar.business.requests.colorRequests.UpdateColorRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -27,20 +25,24 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 public class ColorsContoller {
 	// Dependencies
 	private ColorService colorService;
+
 	// Dependency Injection
 	public ColorsContoller(ColorService colorService) {
 		super();
 		this.colorService = colorService;
 	}
+
 	// lists all colors
 	@GetMapping("find-all")
 	public DataResult<List<ColorListDto>> findAll() {
 		return this.colorService.findAll();
 	}
+
 	@GetMapping("find-by-id/{id}")
 	public DataResult<ColorListDto> findById(@PathVariable int id) {
 		return this.colorService.findById(id);
 	}
+
 	// adds a new color
 	@PostMapping("add")
 
@@ -48,6 +50,7 @@ public class ColorsContoller {
 
 		return this.colorService.add(createColorRequest);
 	}
+
 	// updates a current color
 	@PutMapping("update")
 
@@ -55,7 +58,8 @@ public class ColorsContoller {
 
 		return this.colorService.update(updateColorRequest);
 	}
-	//deletes a color
+
+	// deletes a color
 	@DeleteMapping("delete/{id}")
 	public Result delete(@Valid @PathVariable int id) {
 

@@ -36,7 +36,8 @@ public class BrandsController {
 	public DataResult<List<BrandListDto>> findAll() {
 		return this.brandService.findAll();
 	}
-	//finds by id
+
+	// finds by id
 	@GetMapping("find-by-id/{id}")
 	public Result findById(@PathVariable int id) {
 		return this.brandService.findById(id);
@@ -48,13 +49,15 @@ public class BrandsController {
 
 		return this.brandService.add(createBrandRequest);
 	}
+
 	// updates a current brand
 	@PostMapping("update")
 	public Result update(@RequestBody @Valid UpdateBrandRequest updateBrandRequest) {
 
 		return this.brandService.update(updateBrandRequest);
 	}
-	//deletes a brand
+
+	// deletes a brand
 	@DeleteMapping("delete/{id}")
 	public Result delete(@Valid @PathVariable int id) {
 		return this.brandService.delete(id);

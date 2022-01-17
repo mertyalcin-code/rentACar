@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="corporate_customer")
-@PrimaryKeyJoinColumn(name="customer_id")
-public class CorporateCustomer extends Customer{
-	@Column(name="campany_name")
+@Table(name = "corporate_customer")
+@PrimaryKeyJoinColumn(name = "customer_id")
+public class CorporateCustomer extends Customer {
+	@Column(name = "campany_name")
 	private String companyName;
-	@Column(name="tax_Number")
+	@Column(name = "tax_Number")
 	private String taxNumber;
 }

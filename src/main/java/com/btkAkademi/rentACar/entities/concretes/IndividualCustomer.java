@@ -15,16 +15,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="individual_customer")
-@PrimaryKeyJoinColumn(name="customer_id")
-public class IndividualCustomer extends Customer{
-	@Column(name="nationality_id")
+@Table(name = "individual_customer")
+@PrimaryKeyJoinColumn(name = "customer_id")
+public class IndividualCustomer extends Customer {
+	@Column(name = "nationality_id")
 	private String nationalityId;
-	@Column(name="first_name")
+	@Column(name = "first_name")
 	private String firstName;
-	@Column(name="last_name")
+	@Column(name = "last_name")
 	private String lastName;
-	@Column(name="birth_Date")
-	private LocalDate birthDate;	
+	@Column(name = "birth_Date")
+	private LocalDate birthDate;
 
 }

@@ -1,6 +1,5 @@
 package com.btkAkademi.rentACar.entities.concretes;
 
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,17 +20,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="colors")
-public class Color{
-	
+@Table(name = "colors")
+public class Color {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	
-	@Column(name="name")
+
+	@Column(name = "name")
 	private String name;
-	
+
 	@OneToMany(mappedBy = "color")
 	@JsonIgnore
 	private List<Car> cars;

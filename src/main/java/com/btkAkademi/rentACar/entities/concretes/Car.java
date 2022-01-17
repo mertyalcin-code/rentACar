@@ -20,42 +20,40 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="cars")
+@Table(name = "cars")
 public class Car {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="daily_price")
+	@Column(name = "daily_price")
 	private double dailyPrice;
-	@Column(name="model")
+	@Column(name = "model")
 	private int model;
-	@Column(name="description")
+	@Column(name = "description")
 	private String description;
-	@Column(name="findex_score")
+	@Column(name = "findex_score")
 	private int findexScore;
-	@Column(name="kilometer")
-	private int kilometer;	
-	@Column(name="min_age")
-	private int minAge;	
-	
-	
+	@Column(name = "kilometer")
+	private int kilometer;
+	@Column(name = "min_age")
+	private int minAge;
+
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "color_id")
 	private Color color;
-	
+
 	@OneToMany(mappedBy = "car")
 	private List<CarMaintenance> maintanances;
-	
 
 	@OneToMany(mappedBy = "car")
 	private List<Rental> rentals;
-	
+
 	@OneToMany(mappedBy = "car")
 	private List<CarDamage> carDamages;
 

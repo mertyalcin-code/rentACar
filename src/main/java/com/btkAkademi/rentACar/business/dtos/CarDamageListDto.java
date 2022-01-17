@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CarDamageListDto {
 	private int id;
-	private String description; 
+	private String description;
 	private int carId;
 }

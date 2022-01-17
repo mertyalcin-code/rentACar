@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCarMaintananceRequest {
 	private int id;
-	private int carId ;	
+	private int carId;
 	private LocalDate maintenanceStart;
 	private LocalDate maintenanceEnd;
 }

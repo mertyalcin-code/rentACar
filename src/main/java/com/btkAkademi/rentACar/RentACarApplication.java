@@ -4,7 +4,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Scope;
 
 @SpringBootApplication
 public class RentACarApplication {
@@ -15,7 +14,7 @@ public class RentACarApplication {
 	}
 
 	// To create an instance of Model Mapper
-	@Bean	
+	@Bean
 	public ModelMapper getModelMapper() {
 		return new ModelMapper();
 	}

@@ -16,10 +16,10 @@ public class UpdateCorporateCustomerRequest {
 	@Email
 	@NotBlank
 	private String email;
-	@Size(min=4,max=30)
-	private String password;	
-	@Size(min=3,max=255)
+	@Size(min = 4, max = 30)
+	private String password;
+	@Size(min = 3, max = 255)
 	private String companyName;
-	@Size(min=4,max=255)
+	@Size(min = 4, max = 255)
 	private String taxNumber;
 }

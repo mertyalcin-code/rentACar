@@ -19,19 +19,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="car_maintanance")
+@Table(name = "car_maintanance")
 public class CarMaintenance {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="maintenance_start")
+	@Column(name = "maintenance_start")
 	private LocalDate maintenanceStart;
-	@Column(name="maintenance_end")
+	@Column(name = "maintenance_end")
 	private LocalDate maintenanceEnd;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "car_id")
-	private Car car ;	
+	private Car car;
 
 }

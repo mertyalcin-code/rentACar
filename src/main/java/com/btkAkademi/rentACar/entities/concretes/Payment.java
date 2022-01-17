@@ -19,20 +19,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="payments")
+@Table(name = "payments")
 public class Payment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="paymen_time")
+	@Column(name = "paymen_time")
 	private LocalDate paymentTime;
-	@Column(name="total_payment_amount")
-	private double totalPaymentAmount;		
+	@Column(name = "total_payment_amount")
+	private double totalPaymentAmount;
 	@ManyToOne
-	@JoinColumn(name="rental_id")
+	@JoinColumn(name = "rental_id")
 	private Rental rental;
 
-	
-	
 }

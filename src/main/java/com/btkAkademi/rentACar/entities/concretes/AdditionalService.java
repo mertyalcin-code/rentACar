@@ -17,19 +17,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="additional_service")
+@Table(name = "additional_service")
 public class AdditionalService {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="name")
+	@Column(name = "name")
 	private String name;
-	@Column(name="price")
+	@Column(name = "price")
 	private double price;
-	
+
 	@ManyToOne
-	@JoinColumn(name="rental_id")
+	@JoinColumn(name = "rental_id")
 	private Rental rental;
-	
+
 }

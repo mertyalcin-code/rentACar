@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.constants.Messages;
-import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.UpdateIndividualCustomerRequest;
@@ -25,8 +24,6 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.IndividualCustomerDao;
-import com.btkAkademi.rentACar.entities.concretes.Car;
-import com.btkAkademi.rentACar.entities.concretes.Color;
 import com.btkAkademi.rentACar.entities.concretes.IndividualCustomer;
 
 @Service
@@ -50,23 +47,25 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	// Lists all individual customers according to page
 	@Override
 	public DataResult<List<IndividualCustomerListDto>> findAll(int pageNo, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo-1, pageSize);		
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<IndividualCustomer> individualCustomers = this.individualCustomerDao.findAll(pageable).getContent();
 		List<IndividualCustomerListDto> response = individualCustomers.stream()
-				.map(individualCustomer->modelMapperService.forDto()
-				.map(individualCustomer, IndividualCustomerListDto.class))
-				.collect(Collectors.toList());		
+				.map(individualCustomer -> modelMapperService.forDto().map(individualCustomer,
+						IndividualCustomerListDto.class))
+				.collect(Collectors.toList());
 		return new SuccessDataResult<List<IndividualCustomerListDto>>(response);
 	}
-	//find by id
+
+	// find by id
 	@Override
 	public DataResult<IndividualCustomerListDto> findById(int id) {
-		if(individualCustomerDao.existsById(id)) {
+		if (individualCustomerDao.existsById(id)) {
 			IndividualCustomer individualCustomer = individualCustomerDao.findById(id).get();
-			IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer, IndividualCustomerListDto.class);
+			IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer,
+					IndividualCustomerListDto.class);
 			return new SuccessDataResult<IndividualCustomerListDto>(response);
-		}
-		else return new ErrorDataResult<IndividualCustomerListDto>();
+		} else
+			return new ErrorDataResult<IndividualCustomerListDto>(Messages.notFound);
 	}
 
 	// Adds a new individual customer
@@ -83,31 +82,31 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		this.individualCustomerDao.save(individualCustomer);
 		return new SuccessResult(Messages.individualCustomerAdded);
 	}
-	
+
 	// Update a customer
 	@Override
 	public Result update(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) {
-		Result result = BusinessRules.run(
-				checkIfUserInAgeLimit(updateIndividualCustomerRequest.getBirthDate()));
+		Result result = BusinessRules.run(checkIfUserInAgeLimit(updateIndividualCustomerRequest.getBirthDate()));
 		if (result != null) {
 			return result;
 		}
 
 		IndividualCustomer individualCustomer = this.modelMapperService.forRequest()
 				.map(updateIndividualCustomerRequest, IndividualCustomer.class);
-		//avoid null password 
+		// avoid null password
 		individualCustomer.setPassword(individualCustomerDao.findById(individualCustomer.getId()).get().getPassword());
 		this.individualCustomerDao.save(individualCustomer);
 		return new SuccessResult(Messages.individualCustomerUpdated);
 	}
-	
+
 	// Delete a customer
 	@Override
 	public Result delete(int id) {
-	if(individualCustomerDao.existsById(id)) {
-		individualCustomerDao.deleteById(id);
-		return new SuccessResult();
-	}else return new ErrorResult();
+		if (individualCustomerDao.existsById(id)) {
+			individualCustomerDao.deleteById(id);
+			return new SuccessResult();
+		} else
+			return new ErrorResult(Messages.notFound);
 	}
 
 	// Helpers
@@ -128,10 +127,5 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		}
 		return new SuccessResult();
 	}
-
-
-
-
-
 
 }

@@ -22,50 +22,48 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="rentals")
+@Table(name = "rentals")
 // @JsonIgnoreProperties({"hibernateLazyInitializer","handler","payments"})
 public class Rental {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id ;
-	@Column(name="rent_date")
+	@Column(name = "id")
+	private int id;
+	@Column(name = "rent_date")
 	private LocalDate rentDate;
-	@Column(name="return_date")
+	@Column(name = "return_date")
 	private LocalDate returnDate;
-	@Column(name="rented_kilometer")
+	@Column(name = "rented_kilometer")
 	private Integer rentedKilometer;
-	@Column(name="returned_kilometer")
+	@Column(name = "returned_kilometer")
 	private Integer returnedKilometer;
-	
 
 	@ManyToOne
-	@JoinColumn(name="pick_up_city_id")
+	@JoinColumn(name = "pick_up_city_id")
 	private City pickUpCity;
-	
+
 	@ManyToOne
-	@JoinColumn(name="return_city_id")
+	@JoinColumn(name = "return_city_id")
 	private City returnCity;
 
 	@ManyToOne
-	@JoinColumn(name="customer_id")
+	@JoinColumn(name = "customer_id")
 	private Customer customer;
-	
+
 	@ManyToOne
-	@JoinColumn(name="car_id")
+	@JoinColumn(name = "car_id")
 	private Car car;
-	
+
 	@OneToMany(mappedBy = "rental")
 	private List<AdditionalService> addtionalServices;
-	
+
 	@OneToMany(mappedBy = "rental")
 	private List<Payment> payments;
-	
+
 	@OneToOne(mappedBy = "rental")
 	private Invoice invoice;
-	
+
 	@ManyToOne
-	@JoinColumn(name="promo_code")
+	@JoinColumn(name = "promo_code")
 	private PromoCode promoCode;
 }
-

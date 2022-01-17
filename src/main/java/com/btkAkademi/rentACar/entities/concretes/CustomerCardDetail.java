@@ -17,23 +17,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="customer_card_details")
+@Table(name = "customer_card_details")
 public class CustomerCardDetail {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="card_no")
+	@Column(name = "card_no")
 	private String cardNo;
-	@Column(name="day")
+	@Column(name = "day")
 	private String day;
-	@Column(name="month")
+	@Column(name = "month")
 	private String month;
-	@Column(name="cvv")
+	@Column(name = "cvv")
 	private String cvv;
-	
+
 	@ManyToOne
-	@JoinColumn(name="customer_id")
-	private Customer customer; 
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 }

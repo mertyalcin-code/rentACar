@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class UpdateCarDamageRequest {
 	private int id;
 	@NotBlank
-	@Size(min=0,max=255)
-	private String description;	
-	private int carId ;
+	@Size(min = 0, max = 255)
+	private String description;
+	private int carId;
 
 }

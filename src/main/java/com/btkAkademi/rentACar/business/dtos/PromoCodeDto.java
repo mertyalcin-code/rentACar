@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PromoCodeDto {
 	private int id;
-	private String code ;		
+	private String code;
 	private double discountRate;
-	private LocalDate startDate;	
+	private LocalDate startDate;
 	private LocalDate endDate;
 	private String description;
 }

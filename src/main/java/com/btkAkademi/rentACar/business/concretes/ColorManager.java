@@ -14,12 +14,12 @@ import com.btkAkademi.rentACar.business.requests.colorRequests.UpdateColorReques
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.ColorDao;
-
 import com.btkAkademi.rentACar.entities.concretes.Color;
 
 @Service
@@ -44,13 +44,19 @@ public class ColorManager implements ColorService {
 				.map(color -> modelMapperService.forDto().map(color, ColorListDto.class)).collect(Collectors.toList());
 		return new SuccessDataResult<List<ColorListDto>>(response);
 	}
+
 	// Finds Color with id
 	@Override
 	public DataResult<ColorListDto> findById(int id) {
-		Color color = colorDao.findById(id).get();
-		ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
-		return new SuccessDataResult<>(response);
+		if (colorDao.existsById(id)) {
+			Color color = colorDao.findById(id).get();
+			ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
+			return new SuccessDataResult<>(response);
+		} else
+			return new ErrorDataResult<>(Messages.notFound);
+
 	}
+
 	// Adds a new color
 	@Override
 	public Result add(CreateColorRequest createColorRequest) {
@@ -83,17 +89,17 @@ public class ColorManager implements ColorService {
 
 		return new SuccessResult(Messages.colorUpdate);
 	}
-	//Delete
+
+	// Delete
 	@Override
 	public Result delete(int id) {
-		if(colorDao.existsById(id)) {
+		if (colorDao.existsById(id)) {
 			colorDao.deleteById(id);
 			return new SuccessResult(Messages.colorDeleted);
-		}else return new ErrorResult();
-
+		} else
+			return new ErrorResult(Messages.notFound);
 
 	}
-	
 
 	// Helpers
 
@@ -117,8 +123,5 @@ public class ColorManager implements ColorService {
 		return new SuccessResult();
 
 	}
-
-
-	
 
 }

@@ -10,21 +10,22 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateIndividualCustomerRequest {
 
 	private int id;
-	@Size(min =11,max=11)
+	@Size(min = 11, max = 11)
 	private String nationalityId;
 	@Email
 	@NotBlank
 	private String email;
-	@Size(min=2,max=100)
+	@Size(min = 2, max = 100)
 	private String firstName;
-	@Size(min=2,max=100)
-	private String lastName;	
+	@Size(min = 2, max = 100)
+	private String lastName;
 	@NotNull
 	private LocalDate birthDate;
 }

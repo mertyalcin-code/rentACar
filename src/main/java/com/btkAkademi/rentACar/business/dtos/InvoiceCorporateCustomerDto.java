@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class InvoiceCorporateCustomerDto {	
+public class InvoiceCorporateCustomerDto {
 	private int id;
 	private String taxNumber;
 	private String companyName;

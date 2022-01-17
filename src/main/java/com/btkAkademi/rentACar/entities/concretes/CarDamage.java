@@ -17,17 +17,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="car_damages")
+@Table(name = "car_damages")
 public class CarDamage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="description")
+	@Column(name = "description")
 	private String description;
-	
+
 	@ManyToOne
-	@JoinColumn(name="car_id")
-	private Car car ;
+	@JoinColumn(name = "car_id")
+	private Car car;
 
 }

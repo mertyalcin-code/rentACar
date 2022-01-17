@@ -1,12 +1,9 @@
 package com.btkAkademi.rentACar.business.dtos;
 
-import javax.persistence.Column;
-
-import com.btkAkademi.rentACar.entities.concretes.CorporateCustomer;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

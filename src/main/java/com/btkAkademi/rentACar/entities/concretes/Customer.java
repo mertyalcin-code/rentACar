@@ -16,16 +16,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="customers")
-public class Customer extends User{
-	
+@Table(name = "customers")
+public class Customer extends User {
+
 	@OneToMany(mappedBy = "customer")
 	@JsonIgnore
 	private List<Rental> rentals;
-	
-	
+
 	@OneToMany(mappedBy = "customer")
 	@JsonIgnore
 	private List<CustomerCardDetail> customerPaymentDetails;
 }
-
