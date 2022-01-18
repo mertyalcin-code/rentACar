@@ -94,5 +94,9 @@ public class Messages {
 	public static final String notFound = "not.found";
 	public static final String datesAreIncorrect = "dates.are.incorrect";
 	public static final String noAvailableCarInThisSegment = "no.available.car.in.this.segment";
+	public static final String segmentAlreadyExists = "segment.already.exists";
+	public static final String segmentAdded = "segment.added";
+	public static final String segmentUpdated = "segment.updated";
+	public static final String segmentDeleted = "segment.deleted";
 
 }
