@@ -1,6 +1,8 @@
 package com.btkAkademi.rentACar.business.requests.customerCardDetailRequests;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,13 +13,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateCustomerCardDetailsRequest {
 	private int id;
-	@NotEmpty
+	@NotBlank
+	@Size(min=16,max=16)
 	private String cardNo;
-	@NotEmpty
+	@NotBlank
+	@Size(min=2,max=2)
 	private String day;
-	@NotEmpty
+	@NotBlank
+	@Size(min=2,max=2)
 	private String month;
-	@NotEmpty
+	@NotBlank
+	@Size(min=3,max=3)
 	private String cvv;
 	private int customerId;
 }
