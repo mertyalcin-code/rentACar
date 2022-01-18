@@ -26,7 +26,7 @@ public class Segment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	@Column(name="segment_name")
+	@Column(name="segment_name",unique=true)
 	private String segmentName;
 	@OneToMany(mappedBy = "segment")
 	private List<Car> cars;
