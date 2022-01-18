@@ -103,8 +103,10 @@ public class RentalManager implements RentalService {
 	// Adds a new rental
 	@Override
 	public Result addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
+
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess() || !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
 			CarListDto car = findAvailableCar(carService.findCarById(createRentalRequest.getCarId()).getData().getSegmentId()).getData();
+			
 			if(car!=null) {
 				createRentalRequest.setCarId(car.getId());
 			}else return new ErrorResult(Messages.noAvailableCarInThisSegment);
@@ -137,6 +139,7 @@ public class RentalManager implements RentalService {
 			CarListDto car = findAvailableCar(carService.findCarById(createRentalRequest.getCarId()).getData().getSegmentId()).getData();
 			if(car!=null) {
 				createRentalRequest.setCarId(car.getId());
+				
 			} else return new ErrorResult(Messages.noAvailableCarInThisSegment);
 		}
 		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),			
@@ -280,13 +283,12 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
+	
+	//
 	private DataResult<CarListDto> findAvailableCar(int SegmentId) {
-		List<CarListDto> cars = carService.findAllBySegmentId(SegmentId).getData();
-		for(CarListDto car :cars) {			
-			if(!isCarRented(car.getId()) && !carMaintananceService.isCarInMaintenance(car.getId())){
-				return new SuccessDataResult<CarListDto>(car);
-			}			
-		}
-		return new ErrorDataResult<CarListDto>();
+		if(carService.findAvailableCarsBySegmentId(SegmentId).isSuccess()) {
+			CarListDto car = carService.findCarById(carService.findAvailableCarsBySegmentId(SegmentId).getData().get(0)).getData();
+			return new SuccessDataResult<CarListDto>(car);
+		}else return new ErrorDataResult<CarListDto>();
 	}
 }

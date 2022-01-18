@@ -6,4 +6,5 @@ import com.btkAkademi.rentACar.entities.concretes.Segment;
 
 public interface SegmentDao extends JpaRepository<Segment, Integer>{
 
+	
 }

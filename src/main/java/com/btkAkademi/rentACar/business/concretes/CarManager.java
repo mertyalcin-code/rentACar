@@ -48,7 +48,10 @@ public class CarManager implements CarService {
 	// Lists all cars with pageNo and Page Size
 	@Override
 	public DataResult<List<CarListDto>> findAll(int pageNo, int pageSize) {
-
+		 System.out.println(carDao.findAvailableCarBySegment(1));
+		 
+		 
+		 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
@@ -164,6 +167,14 @@ public class CarManager implements CarService {
 			return new ErrorResult(Messages.brandNotFound);
 		} else
 			return new SuccessResult();
+	}
+
+	@Override
+	public DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId) {
+		
+		if(carDao.findAvailableCarBySegment(segmentId).size()<1) {
+			return new ErrorDataResult<List<Integer>>();
+		}else return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId));
 	}
 
 
