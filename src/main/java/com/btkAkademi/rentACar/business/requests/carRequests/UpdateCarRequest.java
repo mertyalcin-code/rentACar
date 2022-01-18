@@ -20,4 +20,5 @@ public class UpdateCarRequest {
 	@NotBlank
 	private String description;
 	private int minAge;
+	private int segmentId;
 }

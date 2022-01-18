@@ -18,6 +18,7 @@ import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
@@ -102,11 +103,15 @@ public class RentalManager implements RentalService {
 	// Adds a new rental
 	@Override
 	public Result addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
-		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),
-				checkIfIsCarInMaintanance(createRentalRequest.getCarId()),
+		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess() || !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
+			CarListDto car = findAvailableCar(carService.findCarById(createRentalRequest.getCarId()).getData().getSegmentId()).getData();
+			if(car!=null) {
+				createRentalRequest.setCarId(car.getId());
+			}else return new ErrorResult(Messages.noAvailableCarInThisSegment);
+		}
+		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),				
 				checkIfCityExist(createRentalRequest.getPickUpCityId()),
-				checkIfCityExist(createRentalRequest.getReturnCityId()),
-				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()),
+				checkIfCityExist(createRentalRequest.getReturnCityId()),				
 				checkIfIndividualCustomerHasEnoughCreditScore(
 						individualCustomerService.findById(createRentalRequest.getCustomerId()).getData()
 								.getNationalityId(),
@@ -128,19 +133,22 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result addForCorporateCustomer(CreateRentalRequest createRentalRequest) {
-		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),
-				checkIfIsCarInMaintanance(createRentalRequest.getCarId()),
+		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess() || !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
+			CarListDto car = findAvailableCar(carService.findCarById(createRentalRequest.getCarId()).getData().getSegmentId()).getData();
+			if(car!=null) {
+				createRentalRequest.setCarId(car.getId());
+			} else return new ErrorResult(Messages.noAvailableCarInThisSegment);
+		}
+		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),			
 				checkIfCityExist(createRentalRequest.getPickUpCityId()),
-				checkIfCityExist(createRentalRequest.getReturnCityId()),
-				checkIfIsCarAlreadyRented(createRentalRequest.getCarId()),
+				checkIfCityExist(createRentalRequest.getReturnCityId()),				
 				checkIfCorporateCustomerHasEnoughCreditScore(
 						corporateCustomerService.findById(createRentalRequest.getCustomerId()).getData().getTaxNumber(),
 						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()));
-
 		if (result != null) {
 			return result;
 		}
-
+		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		// if we don't this ReturnedKilometer will be 0
 		rental.setReturnedKilometer(null);
@@ -271,6 +279,14 @@ public class RentalManager implements RentalService {
 			return new ErrorResult(Messages.ageIsNotEnough);
 		}
 		return new SuccessResult();
-
+	}
+	private DataResult<CarListDto> findAvailableCar(int SegmentId) {
+		List<CarListDto> cars = carService.findAllBySegmentId(SegmentId).getData();
+		for(CarListDto car :cars) {			
+			if(!isCarRented(car.getId()) && !carMaintananceService.isCarInMaintenance(car.getId())){
+				return new SuccessDataResult<CarListDto>(car);
+			}			
+		}
+		return new ErrorDataResult<CarListDto>();
 	}
 }

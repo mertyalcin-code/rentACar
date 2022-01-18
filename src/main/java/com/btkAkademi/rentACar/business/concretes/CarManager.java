@@ -76,6 +76,13 @@ public class CarManager implements CarService {
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
+	@Override
+	public DataResult<List<CarListDto>> findAllBySegmentId(int segmentId) {
+		List<Car> cars= carDao.findAllBySegmentId(segmentId);
+		List<CarListDto> response = cars.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<CarListDto>>(response);
+	}
 
 	// Finds Car by id
 	@Override
@@ -158,5 +165,7 @@ public class CarManager implements CarService {
 		} else
 			return new SuccessResult();
 	}
+
+
 
 }

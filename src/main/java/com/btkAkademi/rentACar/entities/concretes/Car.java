@@ -38,8 +38,8 @@ public class Car {
 	@Column(name = "kilometer")
 	private int kilometer;
 	@Column(name = "min_age")
-	private int minAge;
-
+	private int minAge;	
+	
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
@@ -56,5 +56,8 @@ public class Car {
 
 	@OneToMany(mappedBy = "car")
 	private List<CarDamage> carDamages;
-
+	
+	@ManyToOne
+	@JoinColumn(name="segment_id")
+	private Segment segment;
 }

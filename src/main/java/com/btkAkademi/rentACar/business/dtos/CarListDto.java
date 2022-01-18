@@ -18,4 +18,5 @@ public class CarListDto {
 	private String brandName;
 	private String colorName;
 	private int minAge;
+	private int segmentId;
 }

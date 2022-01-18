@@ -38,3 +38,31 @@ kiralama tablosuna kirama birim fiyatı da eklenir.
 additional service olmasın 
 promosyon kodunun id name indirim oranı promosyon başlangıç tarihi promosyon bitiş tarihi
 eğer girilen promosyon kod geçerli değilse indirim uygulanmayacak. 
+
+
+
+
+// 18.01.2022
+
+-- first mission
+
+-arabalar ekonomi orta ve prestij sınıflarına ayrılabilmelidir. 
+   *bir sınıfaki arabadan müsaitlik yoksa o sınıftaki başka benzer araba otomatik olarak kiralanır. 
+   * bir araba kiralamak istediğinde eğer bir araba bakımdaysa veya kirada ise aynı sınıftan başka araç kiralanır oda yoksa kiralanamaz. 
+   
+   
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+

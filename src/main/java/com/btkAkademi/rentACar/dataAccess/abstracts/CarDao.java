@@ -12,5 +12,7 @@ public interface CarDao extends JpaRepository<Car, Integer> {
 	List<Car> findAllByBrandId(int brandId, Pageable pagable);
 
 	List<Car> findAllByColorId(int colorId, Pageable pagable);
+	
+	List<Car> findAllBySegmentId(int segmentId);
 
 }

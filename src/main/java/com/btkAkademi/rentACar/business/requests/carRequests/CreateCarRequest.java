@@ -19,4 +19,5 @@ public class CreateCarRequest {
 	@NotBlank
 	private String description;
 	private int minAge;
+	private int segmentId;
 }
