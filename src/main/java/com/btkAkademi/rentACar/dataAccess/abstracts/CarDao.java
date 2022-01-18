@@ -22,6 +22,6 @@ public interface CarDao extends JpaRepository<Car, Integer> {
 			+ "from cars\r\n"
 			+ "left join car_maintenances on cars.id = car_maintenances.car_id and car_maintenances.maintenance_end is null\r\n"
 			+ "left join rentals on cars.id = rentals.car_id and (rentals.return_date is null or rentals.return_date>NOW())\r\n"
-			+ "where car_maintenances.id is null and rentals.id is null and cars.segment_id =?1	limit 1",nativeQuery = true)
-	List<Integer> findAvailableCarBySegment(Integer segmentId);
+			+ "where car_maintenances.id is null and rentals.id is null and cars.segment_id =?1	and cars.city_id =?2 limit 1",nativeQuery = true)
+	List<Integer> findAvailableCarBySegment(Integer segmentId,Integer cityId);
 }

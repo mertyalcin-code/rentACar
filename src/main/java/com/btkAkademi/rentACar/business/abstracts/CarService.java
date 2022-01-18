@@ -20,7 +20,7 @@ public interface CarService {
 	
 	DataResult<List<CarListDto>> findAllBySegmentId(int segmentId);
 	
-	DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId);
+	DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId,int cityId);
 
 	Result add(CreateCarRequest createCarRequest);
 

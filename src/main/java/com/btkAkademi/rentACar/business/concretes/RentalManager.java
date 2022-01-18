@@ -108,9 +108,9 @@ public class RentalManager implements RentalService {
 	// Adds a new rental
 	@Override
 	public Result addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
-		
+		CarListDto wantedCar = carService.findCarById(createRentalRequest.getCarId()).getData();
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess() || !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
-			CarListDto car = findAvailableCar(carService.findCarById(createRentalRequest.getCarId()).getData().getSegmentId()).getData();
+			CarListDto car = findAvailableCar(wantedCar.getSegmentId(),wantedCar.getCityId()).getData();
 			
 			if(car!=null) {
 				createRentalRequest.setCarId(car.getId());
@@ -145,8 +145,9 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result addForCorporateCustomer(CreateRentalRequest createRentalRequest) {
+		CarListDto wantedCar = carService.findCarById(createRentalRequest.getCarId()).getData();
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess() || !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
-			CarListDto car = findAvailableCar(carService.findCarById(createRentalRequest.getCarId()).getData().getSegmentId()).getData();
+			CarListDto car = findAvailableCar(wantedCar.getSegmentId(),wantedCar.getCityId()).getData();
 			if(car!=null) {
 				createRentalRequest.setCarId(car.getId());
 				
@@ -306,9 +307,9 @@ public class RentalManager implements RentalService {
 	}
 	
 	//
-	private DataResult<CarListDto> findAvailableCar(int SegmentId) {
-		if(carService.findAvailableCarsBySegmentId(SegmentId).isSuccess()) {
-			CarListDto car = carService.findCarById(carService.findAvailableCarsBySegmentId(SegmentId).getData().get(0)).getData();
+	private DataResult<CarListDto> findAvailableCar(int SegmentId,int cityId) {
+		if(carService.findAvailableCarsBySegmentId(SegmentId, cityId).isSuccess()) {
+			CarListDto car = carService.findCarById(carService.findAvailableCarsBySegmentId(SegmentId, cityId).getData().get(0)).getData();
 			return new SuccessDataResult<CarListDto>(car);
 		}else return new ErrorDataResult<CarListDto>();
 	}

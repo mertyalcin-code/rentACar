@@ -52,9 +52,6 @@ public class CarManager implements CarService {
 	// Lists all cars with pageNo and Page Size
 	@Override
 	public DataResult<List<CarListDto>> findAll(int pageNo, int pageSize) {
-		 System.out.println(carDao.findAvailableCarBySegment(1));
-		 
-		 
 		 
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
@@ -193,11 +190,11 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId) {
+	public DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId,int cityId) {
 		
-		if(carDao.findAvailableCarBySegment(segmentId).size()<1) {
+		if(carDao.findAvailableCarBySegment(segmentId,cityId).size()<1) {
 			return new ErrorDataResult<List<Integer>>();
-		}else return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId));
+		}else return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId,cityId));
 	}
 
 
