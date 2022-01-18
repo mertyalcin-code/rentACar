@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.LanguageService;
 import com.btkAkademi.rentACar.business.abstracts.TranslationService;
 import com.btkAkademi.rentACar.business.abstracts.WordService;
-import com.btkAkademi.rentACar.core.utilities.Languages;
+import com.btkAkademi.rentACar.core.constants.Languages;
 
 import lombok.var;
 

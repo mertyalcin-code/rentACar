@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.LanguageService;
+import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.LanguageSearchListDto;
 import com.btkAkademi.rentACar.business.requests.languageRequests.CreateLanguageRequest;
 import com.btkAkademi.rentACar.business.requests.languageRequests.DeleteLanguageRequest;
@@ -37,28 +38,28 @@ public class LanguageManager implements LanguageService {
 		List<LanguageSearchListDto> languageSearchListDtos = languages.stream()
 				.map(language -> modelMapperService.forDto().map(language, LanguageSearchListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<LanguageSearchListDto>>(languageSearchListDtos, "All languages are listed.");
+		return new SuccessDataResult<List<LanguageSearchListDto>>(languageSearchListDtos);
 	}
 
 	@Override
 	public Result add(CreateLanguageRequest createLanguageRequest) {
 		Language language = modelMapperService.forRequest().map(createLanguageRequest, Language.class);
 		languageDao.save(language);
-		return new SuccessResult("Language successfully added.");
+		return new SuccessResult(Messages.LANGUAGEADD);
 	}
 
 	@Override
 	public Result delete(DeleteLanguageRequest deleteLanguageRequest) {
 		Language language = modelMapperService.forRequest().map(deleteLanguageRequest, Language.class);
 		languageDao.delete(language);
-		return new SuccessResult("Language successfully deleted.");
+		return new SuccessResult(Messages.LANGUAGEDELETE);
 	}
 
 	@Override
 	public Result update(UpdateLanguageRequest updateLanguageRequests) {
 		Language language = modelMapperService.forRequest().map(updateLanguageRequests, Language.class);
 		languageDao.save(language);
-		return new SuccessResult("Given language is successfully updated.");
+		return new SuccessResult(Messages.LANGUAGEUPDATE);
 	}
 
 	@Override
@@ -67,6 +68,6 @@ public class LanguageManager implements LanguageService {
 		// var result=this.languageDao.getById(id);
 		LanguageSearchListDto languageSearchListDto = modelMapperService.forDto().map(language,
 				LanguageSearchListDto.class);
-		return new SuccessDataResult<LanguageSearchListDto>(languageSearchListDto, "id lestelendi");
+		return new SuccessDataResult<LanguageSearchListDto>(languageSearchListDto);
 	}
 }

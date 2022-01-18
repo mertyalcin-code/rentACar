@@ -1,4 +1,4 @@
-package com.btkAkademi.rentACar.core.utilities;
+package com.btkAkademi.rentACar.core.constants;
 
 public class Languages {
 
