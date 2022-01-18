@@ -1,5 +1,7 @@
 package com.btkAkademi.rentACar.ws.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
+import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.CreateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.UpdateAdditionalServiceRequest;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
@@ -29,7 +33,7 @@ public class AdditionalServicesController {
 	}
 
 	@GetMapping("find-all-by-rental-id/{id}")
-	public Result findAllByRentalId(@PathVariable int id) {
+	public DataResult<List<AdditionalServiceListDto>> findAllByRentalId(@PathVariable int id) {
 		return additionalServiceService.findAllByRentalId(id);
 
 	}
