@@ -20,11 +20,11 @@ public class ColorDataLoader implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		// TODO Auto-generated method stub
+		loadColors();
 
 	}
 
-	private void loadBrands() {
+	private void loadColors() {
 		if(colorDao.count()==0) {
 			HashSet<Color> colors = new HashSet<>();
 			colors.add(new Color(0,"Beyaz",null));
@@ -37,8 +37,7 @@ public class ColorDataLoader implements CommandLineRunner {
 			colors.add(new Color(0,"Bej",null));
 			colors.add(new Color(0,"Sarı",null));
 			colors.add(new Color(0,"Altın",null));
-			colors.add(new Color(0,"Yeşil",null));
-			
+			colors.add(new Color(0,"Yeşil",null));			
 			colorDao.saveAll(colors);
 		}
 	

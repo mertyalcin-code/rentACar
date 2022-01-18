@@ -19,6 +19,11 @@ public class Result {
 	}
 
 	public String getMessage() {
-		return this.message;
+		return get(this.message);
+	}
+	
+	// for language
+	private String get(String message){
+		return LanguageSelector.languageSelector(message);
 	}
 }
