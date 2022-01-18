@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.SegmentService;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
-import com.btkAkademi.rentACar.business.requests.segmentRequest.createSegmentRequest;
+import com.btkAkademi.rentACar.business.requests.segmentRequest.CreateSegmentRequest;
+import com.btkAkademi.rentACar.business.requests.segmentRequest.UpdateSegmentRequest;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
@@ -24,8 +25,16 @@ public class SegmentController {
 	}
 	
 	@PostMapping("add")
-	public Result addForIndividualCustomer(@RequestBody @Valid createSegmentRequest createSegmentRequest) {
+	public Result add(@RequestBody @Valid CreateSegmentRequest createSegmentRequest) {
 		return this.segmentService.add(createSegmentRequest);
+	}
+	@PostMapping("update")
+	public Result update(@RequestBody @Valid UpdateSegmentRequest createSegmentRequest) {
+		return this.segmentService.update(createSegmentRequest);
+	}
+	@PostMapping("delete/{id}")
+	public Result delete(int id) {
+		return this.segmentService.delete(id);
 	}
 	
 }

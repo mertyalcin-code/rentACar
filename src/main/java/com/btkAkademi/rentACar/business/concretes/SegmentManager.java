@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.SegmentService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.SegmentListDto;
-import com.btkAkademi.rentACar.business.requests.segmentRequest.createSegmentRequest;
+import com.btkAkademi.rentACar.business.requests.segmentRequest.CreateSegmentRequest;
+import com.btkAkademi.rentACar.business.requests.segmentRequest.UpdateSegmentRequest;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
@@ -33,10 +34,22 @@ public class SegmentManager implements SegmentService{
 	}
 
 	@Override
-	public Result add(createSegmentRequest createSegmentRequest) {
+	public Result add(CreateSegmentRequest createSegmentRequest) {
 		Segment segment = this.modelMapperService.forRequest().map(createSegmentRequest, Segment.class);
 		this.segmentDao.save(segment);
 		return new SuccessResult(Messages.invoiceAdded);
+	}
+
+	@Override
+	public Result update(UpdateSegmentRequest createSegmentRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Result delete(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class createSegmentRequest {
+public class CreateSegmentRequest {
 	private String segmentName;
 	
 }
