@@ -16,6 +16,7 @@ public class CreateCarRequest {
 	private int model;
 	private int findexScore;
 	private int kilometer;
+	private String imageUrl;
 	@NotBlank
 	private String description;
 	private int minAge;
