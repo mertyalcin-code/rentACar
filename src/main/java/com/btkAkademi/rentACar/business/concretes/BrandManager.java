@@ -25,7 +25,7 @@ import com.btkAkademi.rentACar.entities.concretes.Brand;
 @Service
 public class BrandManager implements BrandService {
 	// Constants
-	private static final int limit = 20;
+	private static final int limit = 50;
 	// Dependencies
 	private BrandDao brandDao;
 	private ModelMapperService modelMapperService;
@@ -56,7 +56,7 @@ public class BrandManager implements BrandService {
 			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
 			return new SuccessDataResult<BrandListDto>(response);
 		} else
-			return new ErrorDataResult<>(Messages.notFound);
+			return new ErrorDataResult<>(Messages.BRANDNOTFOUND);
 	}
 
 	// Adds a new brand
@@ -73,7 +73,7 @@ public class BrandManager implements BrandService {
 		Brand brand = this.modelMapperService.forRequest().map(createBrandRequest, Brand.class);
 		this.brandDao.save(brand);
 
-		return new SuccessResult(Messages.brandAdded);
+		return new SuccessResult(Messages.BRANDADD);
 	}
 
 	// Updates current brand
@@ -90,7 +90,7 @@ public class BrandManager implements BrandService {
 		Brand brand = this.modelMapperService.forRequest().map(updateBrandRequest, Brand.class);
 		this.brandDao.save(brand);
 
-		return new SuccessResult(Messages.brandUpdated);
+		return new SuccessResult(Messages.BRANDUPDATE);
 	}
 
 	// Deletes brand by id
@@ -98,9 +98,9 @@ public class BrandManager implements BrandService {
 	public Result delete(int id) {
 		if (brandDao.existsById(id)) {
 			brandDao.deleteById(id);
-			return new SuccessResult(Messages.brandDeleted);
+			return new SuccessResult(Messages.BRANDDELETE);
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.BRANDNOTFOUND);
 
 	}
 
@@ -110,7 +110,7 @@ public class BrandManager implements BrandService {
 		Brand brand = this.brandDao.findByName(brandname);
 
 		if (brand != null) {
-			return new ErrorResult(Messages.brandNameExists);
+			return new ErrorResult(Messages.BRANDNAMEEXISTS);
 		}
 		return new SuccessResult();
 
@@ -120,7 +120,7 @@ public class BrandManager implements BrandService {
 	private Result checkIfBrandLimitExceeded(int limit) {
 		if (this.brandDao.count() >= limit) {
 
-			return new ErrorResult(Messages.brandLimitExceeded);
+			return new ErrorResult();
 		}
 		return new SuccessResult();
 	}
@@ -129,7 +129,7 @@ public class BrandManager implements BrandService {
 	private Result checkIfBrandIdExists(int id) {
 
 		if (!this.brandDao.existsById(id)) {
-			return new ErrorResult(Messages.brandIdNotExists);
+			return new ErrorResult(Messages.BRANDNOTFOUND);
 
 		}
 

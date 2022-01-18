@@ -16,6 +16,6 @@ public class UpdateBrandRequest {
 
 	private int id;
 	@NotBlank
-	@Size(min = 3, max = 20, message = Messages.invalidBrandName)
+	@Size(min = 3, max = 20, message = Messages.BRANDNAMEERROR)
 	private String name;
 }

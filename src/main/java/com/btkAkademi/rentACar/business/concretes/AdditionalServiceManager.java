@@ -59,11 +59,12 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 			return result;
 		}
 
-		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalService, AdditionalService.class);
-		//avoid error
+		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalService,
+				AdditionalService.class);
+		// avoid error
 		additionalService.setId(0);
 		this.additionalServiceDao.save(additionalService);
-		return new SuccessResult(Messages.additionalServiceAdded);
+		return new SuccessResult(Messages.ADDITIONALSERVICEADD);
 	}
 
 	// Updates additional service
@@ -77,7 +78,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 		AdditionalService additionalService = modelMapperService.forRequest().map(updateAdditionalServiceRequest,
 				AdditionalService.class);
 		additionalServiceDao.save(additionalService);
-		return new SuccessResult(Messages.additionalServiceUpdated);
+		return new SuccessResult(Messages.ADDITIONALSERVICEUPDATE);
 	}
 
 	// delete
@@ -85,15 +86,15 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 	public Result delete(int id) {
 		if (additionalServiceDao.existsById(id)) {
 			additionalServiceDao.deleteById(id);
-			return new SuccessResult(Messages.additionalServiceDeleted);
+			return new SuccessResult(Messages.ADDITIONALSERVICEDELETE);
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.ADDITIONALSERVICENOTFOUND);
 	}
 
 	// Checks if rental is exists
 	private Result checkIfRentalExists(int rentalId) {
 		if (!rentalService.findById(rentalId).isSuccess()) {
-			return new ErrorResult(Messages.rentalIsNotFound);
+			return new ErrorResult(Messages.RENTALNOTFOUND);
 		} else
 			return new SuccessResult();
 	}

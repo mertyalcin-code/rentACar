@@ -1,103 +1,233 @@
 package com.btkAkademi.rentACar.business.constants;
 
 public class Messages {
-	// Brand
-	public static final String invalidBrandName = "invalid.brand.name";
-	public static final String brandAdded = "brand.added";
-	public static final String brandDeleted = "brand.deleted";
-	public static final String brandNameExists = "brand.name.exists";
-	public static final String brandLimitExceeded = "brand.limit.exceeded";
-	public static final String brandUpdated = "brand.updated";
-	public static final String brandIdNotExists = "brand.id.not.exists";
-	public static final String brandNotFound = "brand.not.found";
-	// Color
-	public static final String invalidColorName = "invalid.color.name";
-	public static final String colorNameExists = "color.name.exists";
-	public static final String colorAdded = "color.added";
-	public static final String colorUpdate = "color.updated";
-	public static final String colorDeleted = "color.deleted";
-	public static final String colorIdNotExists = "color.id.not.exists";
-	public static final String colorNotFound = "color.not.found";
-	public static final String carSaved = "card.saved";
-	// Car
-	public static final String carAdded = "car.added";
-	public static final String carUpdated = "car.updated";
-	public static final String carDeleted = "car.deleted";
-	public static final String carIdNotExists = "car.id.not.exists";
-	// User
-	public static final String emailExist = "email.exists";
-	public static final String ageNotInLimit = "age.not.in.limit";
-	public static final String individualCustomerAdded = "individual.customer.added";
-	public static final String corporateCustomerAdded = "corporate.customer.added";
-	public static final String companyNameExists = "company.name.exists";
-	public static final String customerNotFound = "customer.not.found";
-	// Rental
-	public static final String returnDateShouldBeAfterTheRentDate = "return.date.should.be.after.the.return.date";
-	public static final String rentalAdded = "rental.added";
-	public static final String rentalUpdated = "rental.updated";
-	public static final String rentalDeleted = "rental.deleted";
-	public static final String returnedKilometerShouldNotBeLowerThanRentedKilometer = "returned.kilometer.should.not.be.lower.than.rented.kilometer";
-	public static final String carRented = "car.rented";
-	public static final String rentalIsNotFound = "rental.is.not.found";
-	public static final String ageIsNotEnough = "age.is.not.enough";
-	public static final String rentalIsNotFinished = "rentalIsNotFinished";
-	// Maintenance
-	public static final String carMaintananceAdded = "car.maintanance.added";
-	public static final String carMaintananceUpdated = "car.maintanance.updated";
-	public static final String carMaintananceDeleted = "car.maintanance.deleted";
-	public static final String carInMaintanance = "car.in.maintanance";
-	// Car Damage
-	public static final String carDamageAdded = "car.damage.added";
-	public static final String carDamageUpdated = "car.damage.updated";
-	public static final String carDamageDeleted = "car.damage.deleted";
-	// City
-	public static final String cityNameExists = "city.name.exists";
-	public static final String cityAdded = "city.added";
-	public static final String cityUpdated = "city.updated";
-	public static final String cityDeleted = "city.deleted";
-	// Additional Service
-	public static final String additionalServiceAdded = "additional.service.added";
-	public static final String additionalServiceUpdated = "additionalServiceUpdated";
-	public static final String additionalServiceDeleted = "additional.service.deleted";
-	// Payment
-	public static final String limitNotEnough = "limit.not.enough";
-	public static final String paymentAdded = "payment.added";
-	public static final String paymentUpdated = "payment.updated";
-	public static final String paymentDeleted = "payment.deleted";
-	public static final String paymentNotFound = "payment.is.not.found";
-	// Corporate customer
-	public static final String corporateCustomerUpdated = "corporate.customer.updated";
-	public static final String corporateCustomerDeleted = "corporate.customer.added";
-	// Individual Customer
-	public static final String individualCustomerUpdated = "individual.customer.updated";
-	public static final String individualCustomerDeleted = "individual.customer.deleted";
-	// Customer Payment details
-	public static final String customerPaymentDetailAdded = "customer.payment.detail.added";
-	public static final String customerPaymentDetailUpdated = "customer.payment.detail.updated";
-	public static final String customerPaymentDetailDeleted = "customer.payment.detail.deleted";
-	public static final String lowCreditScore = "low.credit.score";
 
-	// Invoice
-	public static final String invoiceAdded = "invoice.added";
-	public static final String invoiceAlreadyExists = "invoice.already.exists";
-	public static final String invoiceDeleted = "invoice.deleted";
-	public static final String invoiceUpdated = "invoice.updated";
+	public static final String DATANOTFOUND = "data.not.found";
 
-	// Promo Code
-	public static final String promoCodeAlreadyExists = "promo.code.already.exists";
-	public static final String promoCodeAdded = "promo.code.added";
-	public static final String promoCodeUpdated = "promo.code.updated";
-	public static final String promoCodeDeleted = "promo.code.deleted";
-	public static final String promoCodeNotFound = "promo.code.not.found";
+	public static final String VALIDATIONERROR = "validation.error";
 
-	// Common
-	public static final String notFound = "not.found";
-	public static final String datesAreIncorrect = "dates.are.incorrect";
-	public static final String noAvailableCarInThisSegment = "no.available.car.in.this.segment";
-	public static final String segmentAlreadyExists = "segment.already.exists";
-	public static final String segmentAdded = "segment.added";
-	public static final String segmentUpdated = "segment.updated";
-	public static final String segmentDeleted = "segment.deleted";
-	public static final String invoiceNotCreated = "invoice.not.created";
+	public static final String FORMATERROR = "format.error";
+
+	public static final String BRANDADD = "brand.added";
+	public static final String BRANDUPDATE = "brand.updated";
+	public static final String BRANDDELETE = "brand.deleted";
+	public static final String BRANDLIST = "brands.listed";
+	public static final String BRANDNAMEERROR = "brand.exists";
+	public static final String BRANDFOUND = "brand.found";
+	public static final String BRANDNOTFOUND = "brand.not.found";
+
+	public static final String CARADD = "car.added";
+	public static final String CARUPDATE = "car.updated";
+	public static final String CARDELETE = "car.deleted";
+	public static final String CARLIST = "cars.listed";
+	public static final String CARFOUND = "car.found";
+	public static final String CARNOTFOUND = "car.not.found";
+	public static final String GETCARBYBRANDID = "get.car.by.brand.id";
+	public static final String GETCARBYCOLORID = "get.car.by.color.id";
+	public static final String GETCARBYCITYID = "get.car.by.city.id";
+
+	public static final String CITYADD = "city.added";
+	public static final String CITYUPDATE = "city.updated";
+	public static final String CITYDELETE = "city.deleted";
+	public static final String CITYLIST = "cities.listed";
+	public static final String CITYNOTFOUND = "city.not.found";
+	public static final String CITYFOUND = "city.found";
+	public static final String CITYBYID = "City is brought by CityId";
+	public static final String CITYEXISTS = "city.exists";
+
+	public static final String COLORADD = "color.added";
+	public static final String COLORUPDATE = "color.updated";
+	public static final String COLORDELETE = "color.deleted";
+	public static final String COLORLIST = "colors.listed";
+	public static final String COLORNAMEERROR = "color.exists";
+	public static final String COLORFOUND = "color.found";
+	public static final String COLORNOTFOUND = "color.not.found";
+	public static final String COLORERROR = "color.error";
+
+	public static final String CUSTOMERADD = "customer.added";
+	public static final String CUSTOMERUPDATE = "customer.updated";
+	public static final String CUSTOMERDELETE = "customer.deleted";
+	public static final String CUSTOMERLIST = "customers.listed";
+	public static final String CUSTOMERGET = "customer.found";
+	public static final String CUSTOMERNOTFOUND = "customer.not.found";
+	public static final String CUSTOMERISALREADYEXISTS = "customer.exists";
+	public static final String CUSTOMERTAXNUMBEREXISTS = "customers.tax.number.already.exists";
+
+	public static final String EMAILERROR = "This email is already in use"; // yapılmadı
+
+	public static final String RENTALADD = "rental.added";
+	public static final String RENTALUPDATE = "rental.updated";
+	public static final String RENTALDELETE = "rental.deleted";
+	public static final String RENTALLIST = "rentals.listed";
+	public static final String RENTALDATEERROR = "rental.date.error";
+	public static final String RENTALDATESUCCESS = "rental.date.success";
+	public static final String RENTALFINDEXSCOREERROR = "rental.findex.score.error";
+	public static final String RENTALMAINTENANCEERROR = "rented.car.is.on.maintenance";
+	public static final String RENTALFOUND = "rental.found";
+	public static final String RENTALNOTFOUND = "rental.not.found";
+	public static final String INSUFFICIENTBALANCE = "rental.balance.insufficient";
+	public static final String SUFFICIENTBALANCE = "rental.balance.insufficient";
+	public static final String RENTALDATEISNULL = "rental.car.is.not.returned.yet";
+
+	public static final String CARIMAGEADD = "car.image.added";
+	public static final String CARIMAGEUPDATE = "car.image.updated";
+	public static final String CARIMAGEDELETE = "car.image.deleted";
+	public static final String CARIMAGELIST = "car.images.listed";
+	public static final String CARIMAGELIMITERROR = "car.image.limit.error";
+	public static final String CARIMAGEDEFAULT = "showing.default.image";
+	public static final String CARIMAGEEMPTY = "no.image.selected";
+	public static final String CARIMAGETYPEERROR = "car.image.type.not.valid";
+	public static final String CARIMAGEGET = "car.image.found";
+	public static final String CARIMAGENOTFOUND = "car.image.not.found";
+
+	public static final String LOGINEMAILERROR = "this.email.is.not.registered";
+	public static final String LOGINPASSWORDERROR = "wrong.password";
+	public static final String LOGINSUCCESS = "login.success";
+	public static final String LOGINFAILED = "login.failed";
+
+	public static final String CREDITCARDADD = "credit.card.added";
+	public static final String CREDITCARDUPDATE = "credit.card.updated";
+	public static final String CREDITCARDELETE = "credit.card.deleted";
+	public static final String CREDITCARDLIST = "credit cards listed";
+	public static final String CREDITCARDNUMBERERROR = "credit.card.number.error";
+	public static final String CREDITCARDDATEERROR = "credit.card.date.error";
+	public static final String CREDITCARDCVCERROR = "credit.card.cvv.error";
+	public static final String CREDITCARDSAVE = "credit.card.registered";
+	public static final String CREDITCARDNOTSAVE = "credit.card.not.save";
+	public static final String CREDITCARDGET = "credit.card.found";
+	public static final String CREDITCARDALREADYEXISTS = "credit.card.exists";
+
+	public static final String DATEFORMATNOTVALID = "date.format.not.valid";
+
+	public static final String PAYMENTADD = "payment.add";
+	public static final String PAYMENTUPDATE = "payment.updated";
+	public static final String PAYMENTDELETE = "payment.deleted";
+	public static final String PAYMENTLIST = "payments.listed";
+	public static final String PAYMENTCARDSAVE = "credit.card.saved";
+	public static final String PAYMENTCARDNOTSAVE = "payment.card.not.saved";
+	public static final String PAYMENTCARDFAIL = "payment.card.fail";
+
+	public static final String CARMAINTENANCEADD = "car.maintenance.added";
+	public static final String CARMAINTENANCEUPDATE = "car.maintenance.updated";
+	public static final String CARMAINTENANCEDELETE = "car.maintenance.deleted";
+	public static final String CARMAINTENANCELIST = "car.maintenances.listed";
+	public static final String CARMAINTENANCERENTALERROR = "car.maintenance.rental.error";
+	public static final String CARMAINTENANCENOTFOUND = "car.maintenance.not.found";
+	public static final String CARMAINTENANCEALREADYEXISTS = "car.maintenance.exists";
+
+	public static final String INVOICEADD = "invoice.added";
+	public static final String INVOICEUPDATE = "invoice.updated";
+	public static final String INVOICEDELETE = "invoice.deleted";
+	public static final String INVOICELIST = "invoices.listed";
+	public static final String INVOICEBYCUSTOMERLIST = "customers.invoices.listed";
+	public static final String INVOICEFOUND = "invoice.found";
+	public static final String INVOICENOTFOUND = "invoice.not.found";
+	public static final String INVOICENUMBERAlREADYEXISTS = "invoice.exists";
+
+	public static final String USEREMAILALREADYEXISTS = "user.email.exists";
+	public static final String USERFOUND = "user.found";
+	public static final String USERNOTFOUND = "user.not.found";
+	public static final String USERLIST = "user.listed";
+
+	public static final String DAMAGEADD = "damage.added";
+	public static final String DAMAGEDELETE = "damage.deleted";
+	public static final String DAMAGEUPDATE = "damage.updated";
+	public static final String DAMAGELIST = "damages.listed";
+	public static final String DAMAGENOTFOUND = "damage.not.found";
+	public static final String DAMAGEFOUND = "damage.found";
+
+	public static final String ADDITIONALSERVICEADD = "additional.service.added";
+	public static final String ADDITIONALSERVICEUPDATE = "additional.service.updated";
+	public static final String ADDITIONALSERVICEDELETE = "additional.service.deleted";
+	public static final String ADDITIONALSERVICELIST = "additional.services.listed";
+	public static final String ADDITIONALSERVICENOTFOUND = "additional.service.not.found";
+
+	public static final String ADDITIONALRENTALITEMADD = "additional.rental.item.added";
+	public static final String ADDITIONALRENTALITEMDELETE = "additional.rental.item.deleted";
+	public static final String ADDITIONALRENTALITEMUPDATE = "additional.rental.item.updated";
+	public static final String ADDITIONALRENTALITEMLIST = "additional.rental.items.listed";
+	public static final String ADDITIONALRENTALITEMNOTFOUND = "additional.rental.item.not.found";
+
+	public static final String LANGUAGEADD = "language.added";
+	public static final String LANGUAGEDELETE = "language.deleted";
+	public static final String LANGUAGEUPDATE = "language.updated";
+	public static final String LANGUAGELIST = "languages.listed";
+	public static final String LANGUAGENOTFOUND = "language.not.found";
+	public static final String LANGUAGEFOUND = "language.found";
+	public static final String LANGUAGEALREADYEXISTS = "language.exists";
+
+	public static final String WORDADD = "word.added";
+	public static final String WORDDELETED = "word.deleted";
+	public static final String WORDUPDATED = "word.updated";
+	public static final String WORDSLISTED = "words.listed";
+	public static final String WORDNOTFOUND = "word.not.found";
+	public static final String WORDFOUND = "word.found";
+	public static final String WORDALREADYEXISTS = "word.exists";
+
+	public static final String TRANSLATIONADD = "translation.added";
+	public static final String TRANSLATIONDELETE = "translation.deleted";
+	public static final String TRANSLATIONUPDATE = "translation.updated";
+	public static final String TRANSLATIONSLISTED = "translations.listed";
+	public static final String TRANSLATIONNOTFOUND = "translation.not.found";
+	public static final String TRANSLATIONFOUND = "translation.found";
+	public static final String TRANSLATIONEXISTS = "translation.exists";
+	// kendi eklediklerim
+	public static final String ADDITIONALSERVICEITEMADDED = "additional.service.item.added";
+	public static final String ADDITIONALSERVICEITEMUPDATED = "additional.service.item.updated";
+	public static final String ADDITIONALSERVICEITEMDELETED = "additional.service.item.deleted";
+
+	public static final String ADDITIONALSERVICEITEMNOTFOUND = "additional.service.item.not.found";
+
+	public static final String ADDITIONALSERVICEITEMLIST = "additional.service.item.list";
+
+	public static final String BRANDNAMEEXISTS = "brand.name.exists";
+
+	public static final String CARDAMAGEADD = "car.damage.add";
+
+	public static final String CARDAMAGEUPDATE = "car.damage.update";
+
+	public static final String CARDAMAGEDELETE = "car.damage.delete";
+
+	public static final String CARDAMAGENOTFOUND = "car.damage.not.found";
+	public static final String CARRENTED = "car.rented";
+	public static final String CARINMANTANANCE = "car.in.maintanance";
+	public static final String CITYNAMEEXISTS = "city.name.exists";
+	public static final String COLORNAMEEXISTS = "color.name.exists";
+
+	public static final String CAMPANYNAMEEXISTS = "company.name.exists";
+
+	public static final String CREDITCARDNOTFOUND = "credit.card.not.found";
+
+	public static final String AGENOTENOUGH = "age.not.enough";
+
+	public static final String RENTALNOTFINISHED = "rental.not.finished";
+
+	public static final String PAYMENTNOTFOUND = "payment.not.found";
+
+	public static final String PROMOCODENOTFOUND = "promo.code.not.found";
+
+	public static final String PROMOCODEADD = "promo.code.add";
+
+	public static final String PROMOCODEUPDATE = "promo.code.update";
+
+	public static final String PROMOCODEDELETE = "promo.code.delete";
+
+	public static final String PROMOCODEALREADYEXISTS = "promo.code.already.exists";
+
+	public static final String DATESARENOTCORRECT = "dates.are.not.correct";
+
+	public static final String NOAVAILABLECARINTHISSEGMENT = "no.available.car.in.this.segment";
+
+	public static final String KILOMETERERROR = "kilometer.error";
+
+	public static final String SEGMENTADD = "segment.add";
+
+	public static final String SEGMENTUPDATE = "segment.update";
+
+	public static final String SEGMENTDELETE = "segment.delete";
+
+	public static final String SEGMENTNAMEALREADYEXISTS = "segment.name.already.exists";
+
+	public static final String SEGMENTNOTFOUND = "segment.not.found";
 
 }

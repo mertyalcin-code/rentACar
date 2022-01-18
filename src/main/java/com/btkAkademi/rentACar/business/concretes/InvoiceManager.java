@@ -22,8 +22,8 @@ import com.btkAkademi.rentACar.business.dtos.InvoiceCorporateCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceIndividualCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
-import com.btkAkademi.rentACar.business.requests.invoiceRequest.CreateInvoiceRequest;
-import com.btkAkademi.rentACar.business.requests.invoiceRequest.UpdateInvoiceRequest;
+import com.btkAkademi.rentACar.business.requests.invoiceRequests.CreateInvoiceRequest;
+import com.btkAkademi.rentACar.business.requests.invoiceRequests.UpdateInvoiceRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -66,24 +66,25 @@ public class InvoiceManager implements InvoiceService {
 		this.additionalServiceItemService = additionalServiceItemService;
 	}
 
-
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceIndividualCustomerDto> getInvoiceForIndividualCustomer(int rentalId) {
-		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),checkIfInvoiceExistsByRentalId(rentalId));
+		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),
+				checkIfInvoiceExistsByRentalId(rentalId));
 		if (result != null) {
 			return new ErrorDataResult<>(result.getMessage());
 		}
 		Invoice invoice = invoiceDao.findByRentalId(rentalId);
 		RentalListDto rental = rentalService.findById(rentalId).getData();
 		IndividualCustomerListDto customer = individualCustomerService.findById(rental.getCustomerId()).getData();
-		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId).getData();
+		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId)
+				.getData();
 		List<AdditionalServiceItemListDto> additionalServiceItems = new ArrayList<AdditionalServiceItemListDto>();
-		for(AdditionalServiceListDto additionalServiceListDto: additionalServices) {
-			additionalServiceItems.add(additionalServiceItemService.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData());
+		for (AdditionalServiceListDto additionalServiceListDto : additionalServices) {
+			additionalServiceItems.add(additionalServiceItemService
+					.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData());
 		}
-		
-		
+
 		List<PaymentListDto> payments = paymentService.findAllByRentalId(rentalId).getData();
 		double totalPrice = 0;
 		for (PaymentListDto payment : payments) {
@@ -98,15 +99,13 @@ public class InvoiceManager implements InvoiceService {
 		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto);
 	}
 
-
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(int rentalId) {
-		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId),
-				checkIfPaymentIsMade(rentalId),
+		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),
 				checkIfInvoiceExistsByRentalId(rentalId)
-				
-				);
+
+		);
 		if (result != null) {
 			return new ErrorDataResult<>(result.getMessage());
 		}
@@ -116,8 +115,9 @@ public class InvoiceManager implements InvoiceService {
 		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId)
 				.getData();
 		List<AdditionalServiceItemListDto> additionalServiceItems = new ArrayList<AdditionalServiceItemListDto>();
-		for(AdditionalServiceListDto additionalServiceListDto: additionalServices) {
-			additionalServiceItems.add(additionalServiceItemService.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData());
+		for (AdditionalServiceListDto additionalServiceListDto : additionalServices) {
+			additionalServiceItems.add(additionalServiceItemService
+					.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData());
 		}
 		List<PaymentListDto> payments = paymentService.findAllByRentalId(rentalId).getData();
 		double totalPrice = 0;
@@ -128,9 +128,7 @@ public class InvoiceManager implements InvoiceService {
 		InvoiceCorporateCustomerDto responseCustomerDto = InvoiceCorporateCustomerDto.builder().id(invoice.getId())
 				.companyName(customer.getCompanyName()).taxNumber(customer.getTaxNumber()).email(customer.getEmail())
 				.totalPrice(totalPrice).rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
-				.creationDate(invoice.getCreationDate())
-				.additonalServiceItems(additionalServiceItems)
-				.build();
+				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems).build();
 		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto);
 	}
 
@@ -143,7 +141,7 @@ public class InvoiceManager implements InvoiceService {
 		}
 		Invoice invoice = this.modelMapperService.forRequest().map(createInvoiceRequest, Invoice.class);
 		this.invoiceDao.save(invoice);
-		return new SuccessResult(Messages.invoiceAdded);
+		return new SuccessResult(Messages.INVOICEADD);
 	}
 
 	// Updates an invoice request
@@ -151,7 +149,7 @@ public class InvoiceManager implements InvoiceService {
 	public Result update(UpdateInvoiceRequest updateInvoiceRequest) {
 		Invoice invoice = this.modelMapperService.forRequest().map(updateInvoiceRequest, Invoice.class);
 		this.invoiceDao.save(invoice);
-		return new SuccessResult(Messages.invoiceUpdated);
+		return new SuccessResult(Messages.INVOICEUPDATE);
 	}
 
 	// Deletes an invoice request
@@ -159,7 +157,7 @@ public class InvoiceManager implements InvoiceService {
 	public Result delete(int id) {
 		if (invoiceDao.existsById(id)) {
 			invoiceDao.deleteById(id);
-			return new SuccessResult(Messages.invoiceDeleted);
+			return new SuccessResult(Messages.INVOICEDELETE);
 		} else
 			return new ErrorResult();
 	}
@@ -168,14 +166,15 @@ public class InvoiceManager implements InvoiceService {
 	// There can be only one invoice
 	private Result checkIfInvoiceAlreadyExists(int rentalId) {
 		if (invoiceDao.findByRentalId(rentalId) != null) {
-			return new ErrorResult(Messages.invoiceAlreadyExists);
+			return new ErrorResult(Messages.INVOICENUMBERAlREADYEXISTS);
 		}
 		return new SuccessResult();
 	}
-	//controls there is a invoice or not
+
+	// controls there is a invoice or not
 	private Result checkIfInvoiceExistsByRentalId(int rentalId) {
 		if (invoiceDao.findByRentalId(rentalId) == null) {
-			return new ErrorResult(Messages.invoiceNotCreated);
+			return new ErrorResult(Messages.INVOICENOTFOUND);
 		}
 		return new SuccessResult();
 	}
@@ -184,11 +183,11 @@ public class InvoiceManager implements InvoiceService {
 	private Result checkIfRentalIsFinished(int rentalId) {
 		if (rentalService.findById(rentalId).getData() != null) {
 			if (rentalService.findById(rentalId).getData().getReturnDate() == null) {
-				return new ErrorResult(Messages.rentalIsNotFinished);
+				return new ErrorResult(Messages.RENTALNOTFINISHED);
 			} else
 				return new SuccessResult();
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.RENTALNOTFOUND);
 	}
 
 	// Checks the car rental is finished
@@ -196,7 +195,7 @@ public class InvoiceManager implements InvoiceService {
 		if (rentalService.findById(rentalId).getData() != null) {
 			return new SuccessResult();
 		} else
-			return new ErrorResult(Messages.paymentNotFound);
+			return new ErrorResult(Messages.PAYMENTNOTFOUND);
 	}
 
 }

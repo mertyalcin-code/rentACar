@@ -75,7 +75,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 					CarMaintenanceListDto.class);
 			return new SuccessDataResult<CarMaintenanceListDto>(response);
 		}
-		return new ErrorDataResult<CarMaintenanceListDto>(Messages.notFound);
+		return new ErrorDataResult<CarMaintenanceListDto>(Messages.CARMAINTENANCENOTFOUND);
 	}
 
 	// Sends the car to maintenance
@@ -94,7 +94,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 		carMaintanance.setId(0);
 
 		this.carMaintananceDao.save(carMaintanance);
-		return new SuccessResult(Messages.carMaintananceAdded);
+		return new SuccessResult(Messages.CARMAINTENANCEADD);
 	}
 
 	// update
@@ -109,7 +109,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 				CarMaintenance.class);
 
 		this.carMaintananceDao.save(carMaintanance);
-		return new SuccessResult(Messages.carMaintananceUpdated);
+		return new SuccessResult(Messages.CARMAINTENANCEUPDATE);
 	}
 
 	// Delete
@@ -117,9 +117,9 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	public Result delete(int id) {
 		if (carMaintananceDao.existsById(id)) {
 			carMaintananceDao.deleteById(id);
-			return new SuccessResult(Messages.carMaintananceDeleted);
+			return new SuccessResult(Messages.CARMAINTENANCEDELETE);
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.CARMAINTENANCENOTFOUND);
 	}
 
 	// Returns Error Result if car is in maintenance
@@ -134,7 +134,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	// Checks if car is exists
 	private Result checkIfCarIsExists(int carId) {
 		if (!carService.findCarById(carId).isSuccess()) {
-			return new ErrorResult(Messages.carIdNotExists);
+			return new ErrorResult(Messages.CARNOTFOUND);
 		} else
 			return new SuccessResult();
 	}
@@ -142,7 +142,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	// Checks if car is exists
 	private Result checkIfCarIsRented(int carId) {
 		if (rentalService.isCarRented(carId)) {
-			return new ErrorResult(Messages.carRented);
+			return new ErrorResult(Messages.CARRENTED);
 		} else
 			return new SuccessResult();
 	}
@@ -150,7 +150,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	//
 	private Result checkIfCarIsAlreadyInMaintanance(int carId) {
 		if (isCarInMaintenance(carId)) {
-			return new ErrorResult(Messages.carInMaintanance);
+			return new ErrorResult(Messages.CARINMANTANANCE);
 		} else
 			return new SuccessResult();
 	}

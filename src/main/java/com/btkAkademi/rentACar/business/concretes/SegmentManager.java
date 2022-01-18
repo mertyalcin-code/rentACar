@@ -15,26 +15,29 @@ import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.SegmentDao;
-import com.btkAkademi.rentACar.entities.concretes.Invoice;
 import com.btkAkademi.rentACar.entities.concretes.Segment;
+
 @Service
-public class SegmentManager implements SegmentService{
-	//Dependencies
+public class SegmentManager implements SegmentService {
+	// Dependencies
 	private ModelMapperService modelMapperService;
 	private SegmentDao segmentDao;
-	//Dependency Injection
+
+	// Dependency Injection
 	@Autowired
 	public SegmentManager(ModelMapperService modelMapperService, SegmentDao segmentDao) {
 		super();
 		this.modelMapperService = modelMapperService;
 		this.segmentDao = segmentDao;
 	}
+
 	// finds a segment
 	@Override
 	public DataResult<SegmentListDto> findById(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	// create a new segment
 	@Override
 	public Result add(CreateSegmentRequest createSegmentRequest) {
@@ -44,27 +47,31 @@ public class SegmentManager implements SegmentService{
 		}
 		Segment segment = this.modelMapperService.forRequest().map(createSegmentRequest, Segment.class);
 		this.segmentDao.save(segment);
-		return new SuccessResult(Messages.segmentAdded);
+		return new SuccessResult(Messages.SEGMENTADD);
 	}
+
 	// updates a new segment
 	@Override
 	public Result update(UpdateSegmentRequest createSegmentRequest) {
 		Segment segment = this.modelMapperService.forRequest().map(createSegmentRequest, Segment.class);
 		this.segmentDao.save(segment);
-		return new SuccessResult(Messages.segmentUpdated);
+		return new SuccessResult(Messages.SEGMENTUPDATE);
 	}
+
 	// deletes a new segment
 	@Override
 	public Result delete(int id) {
-	if(segmentDao.existsById(id)) {
-		segmentDao.deleteById(id);
-		return new SuccessResult(Messages.segmentDeleted);
-	}else return new ErrorResult(Messages.notFound);
+		if (segmentDao.existsById(id)) {
+			segmentDao.deleteById(id);
+			return new SuccessResult(Messages.SEGMENTDELETE);
+		} else
+			return new ErrorResult(Messages.SEGMENTNOTFOUND);
 	}
-	//controls if there is a segment with that name
+
+	// controls if there is a segment with that name
 	private Result CheckIfSegmentNameAlreadyExists(String SegmentName) {
-		if(segmentDao.findBySegmentName(SegmentName)!=null) {
-			return new ErrorResult(Messages.segmentAlreadyExists);
+		if (segmentDao.findBySegmentName(SegmentName) != null) {
+			return new ErrorResult(Messages.SEGMENTNAMEALREADYEXISTS);
 		}
 		return new SuccessResult();
 	}

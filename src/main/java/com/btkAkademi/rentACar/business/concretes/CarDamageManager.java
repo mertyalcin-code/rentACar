@@ -71,7 +71,7 @@ public class CarDamageManager implements CarDamageService {
 		CarDamage carDamage = this.modelMapperService.forRequest().map(createCarDamageRequest, CarDamage.class);
 		carDamage.setId(0);
 		this.carDamageDao.save(carDamage);
-		return new SuccessResult(Messages.carDamageAdded);
+		return new SuccessResult(Messages.CARDAMAGEADD);
 	}
 
 	// update
@@ -84,7 +84,7 @@ public class CarDamageManager implements CarDamageService {
 		CarDamage carDamage = this.modelMapperService.forRequest().map(updateCarDamageRequest, CarDamage.class);
 
 		this.carDamageDao.save(carDamage);
-		return new SuccessResult(Messages.carDamageUpdated);
+		return new SuccessResult(Messages.CARDAMAGEUPDATE);
 	}
 
 	// delete
@@ -92,9 +92,9 @@ public class CarDamageManager implements CarDamageService {
 	public Result delete(int id) {
 		if (carDamageDao.existsById(id)) {
 			carDamageDao.deleteById(id);
-			return new SuccessResult(Messages.carDamageDeleted);
+			return new SuccessResult(Messages.CARDAMAGEDELETE);
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.CARDAMAGENOTFOUND);
 	}
 
 	// Helpers
@@ -102,7 +102,7 @@ public class CarDamageManager implements CarDamageService {
 	// Checks if car is exists
 	private Result checkIfCarIsExists(int carId) {
 		if (!carService.findCarById(carId).isSuccess()) {
-			return new ErrorResult(Messages.carIdNotExists);
+			return new ErrorResult(Messages.CARDAMAGENOTFOUND);
 		} else
 			return new SuccessResult();
 	}

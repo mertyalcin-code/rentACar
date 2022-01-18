@@ -36,6 +36,7 @@ public class CarManager implements CarService {
 	private BrandService brandService;
 	private ColorService colorService;
 	private CityService cityService;
+
 	// Dependency Injection
 	@Autowired
 
@@ -52,7 +53,7 @@ public class CarManager implements CarService {
 	// Lists all cars with pageNo and Page Size
 	@Override
 	public DataResult<List<CarListDto>> findAll(int pageNo, int pageSize) {
-		 
+
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
@@ -80,9 +81,10 @@ public class CarManager implements CarService {
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarListDto>>(response);
 	}
+
 	@Override
 	public DataResult<List<CarListDto>> findAllBySegmentId(int segmentId) {
-		List<Car> cars= carDao.findAllBySegmentId(segmentId);
+		List<Car> cars = carDao.findAllBySegmentId(segmentId);
 		List<CarListDto> response = cars.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<CarListDto>>(response);
@@ -97,7 +99,7 @@ public class CarManager implements CarService {
 
 			return new SuccessDataResult<CarListDto>(response);
 		} else
-			return new ErrorDataResult<>(Messages.notFound);
+			return new ErrorDataResult<>(Messages.CARNOTFOUND);
 	}
 
 	// Adds a new car
@@ -111,7 +113,7 @@ public class CarManager implements CarService {
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		this.carDao.save(car);
 
-		return new SuccessResult(Messages.carAdded);
+		return new SuccessResult(Messages.CARADD);
 	}
 
 	// Updates current car
@@ -128,16 +130,16 @@ public class CarManager implements CarService {
 		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 
 		this.carDao.save(car);
-		return new SuccessResult(Messages.carUpdated);
+		return new SuccessResult(Messages.CARUPDATE);
 	}
-	
+
 	@Override
 	public Result updateCarKilometer(int carId, int kilometer) {
 		Car car = carDao.findById(carId).get();
 		car.setKilometer(kilometer);
 		carDao.save(car);
 		return new SuccessResult();
-				
+
 	}
 
 	@Override
@@ -149,16 +151,15 @@ public class CarManager implements CarService {
 		return new SuccessResult();
 	}
 
-
 	// Deletes a car
 	@Override
 	public Result delete(int id) {
 		if (carDao.existsById(id)) {
 			carDao.deleteById(id);
-			return new SuccessResult(Messages.carDeleted);
+			return new SuccessResult(Messages.CARDELETE);
 		}
 
-		return new ErrorResult(Messages.notFound);
+		return new ErrorResult(Messages.CARNOTFOUND);
 	}
 
 	// Helpers
@@ -167,7 +168,7 @@ public class CarManager implements CarService {
 	private Result checkIfCarIdExists(int id) {
 		if (!this.carDao.existsById(id)) {
 
-			return new ErrorResult(Messages.carIdNotExists);
+			return new ErrorResult(Messages.CARNOTFOUND);
 		}
 		return new SuccessResult();
 	}
@@ -175,7 +176,7 @@ public class CarManager implements CarService {
 
 	private Result checkIfColorExist(int colorId) {
 		if (!colorService.findById(colorId).isSuccess()) {
-			return new ErrorResult(Messages.colorNotFound);
+			return new ErrorResult(Messages.COLORNOTFOUND);
 		} else
 			return new SuccessResult();
 	}
@@ -184,20 +185,18 @@ public class CarManager implements CarService {
 
 	private Result checkIfBrandExists(int brandId) {
 		if (!brandService.findById(brandId).isSuccess()) {
-			return new ErrorResult(Messages.brandNotFound);
+			return new ErrorResult(Messages.BRANDNOTFOUND);
 		} else
 			return new SuccessResult();
 	}
 
 	@Override
-	public DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId,int cityId) {
-		
-		if(carDao.findAvailableCarBySegment(segmentId,cityId).size()<1) {
+	public DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId, int cityId) {
+
+		if (carDao.findAvailableCarBySegment(segmentId, cityId).size() < 1) {
 			return new ErrorDataResult<List<Integer>>();
-		}else return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId,cityId));
+		} else
+			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId, cityId));
 	}
-
-
-
 
 }

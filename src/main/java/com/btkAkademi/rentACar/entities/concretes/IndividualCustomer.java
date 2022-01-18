@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @PrimaryKeyJoinColumn(name = "customer_id")
 public class IndividualCustomer extends Customer {
 	@Column(name = "nationality_no")
-	private String nationalityNo; //mapper no yerine id dersen hata veriyor
+	private String nationalityNo; // mapper no yerine id dersen hata veriyor
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "last_name")

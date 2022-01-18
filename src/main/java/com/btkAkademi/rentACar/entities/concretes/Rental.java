@@ -52,7 +52,7 @@ public class Rental {
 
 	@ManyToOne
 	@JoinColumn(name = "car_id")
-	private Car car;	
+	private Car car;
 
 	@ManyToOne
 	@JoinColumn(name = "promo_code_id")

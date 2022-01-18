@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateIndividualCustomerRequest {
 
-	
 	@Email
 	@NotBlank
 	private String email;

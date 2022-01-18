@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,13 +22,13 @@ import lombok.NoArgsConstructor;
 public class AdditionalServiceItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private int id;
-	@Column(name="name")
+	@Column(name = "name")
 	private String name;
-	@Column(name="price")
+	@Column(name = "price")
 	private double price;
-	
+
 	@OneToMany(mappedBy = "additionalServiceItem")
 	private List<AdditionalService> additionalServices;
 }

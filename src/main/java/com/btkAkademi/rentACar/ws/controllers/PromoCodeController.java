@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.PromoCodeService;
-import com.btkAkademi.rentACar.business.requests.promoCodeRequest.CreatePromoCodeRequest;
-import com.btkAkademi.rentACar.business.requests.promoCodeRequest.UpdatePromoCodeRequest;
+import com.btkAkademi.rentACar.business.requests.promoCodeRequests.CreatePromoCodeRequest;
+import com.btkAkademi.rentACar.business.requests.promoCodeRequests.UpdatePromoCodeRequest;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 @RestController
@@ -27,6 +27,7 @@ public class PromoCodeController {
 		super();
 		this.promoCodeService = promoCodeService;
 	}
+
 	@GetMapping("find-all")
 	public Result findAll() {
 		return this.promoCodeService.findAll();

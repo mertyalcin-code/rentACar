@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.btkAkademi.rentACar.entities.concretes.Segment;
 
-public interface SegmentDao extends JpaRepository<Segment, Integer>{
+public interface SegmentDao extends JpaRepository<Segment, Integer> {
 
 	Segment findBySegmentName(String segmentName);
 }

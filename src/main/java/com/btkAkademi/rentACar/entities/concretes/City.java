@@ -33,7 +33,7 @@ public class City {
 
 	@OneToMany(mappedBy = "returnCity")
 	private List<Rental> returnCityRentals;
-	
+
 	@OneToMany(mappedBy = "city")
 	private List<Car> cars;
 }

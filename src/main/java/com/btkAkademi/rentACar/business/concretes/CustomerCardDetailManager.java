@@ -22,7 +22,7 @@ import com.btkAkademi.rentACar.dataAccess.abstracts.CustomerCardDetailDao;
 import com.btkAkademi.rentACar.entities.concretes.CustomerCardDetail;
 
 @Service
-public class CustomerCardDetailManager implements CustomerCardDetailService {
+public class CustomerCardDetailManager implements CustomerCardDetailService { // kart zaten var uyarısı eklenebilir.
 	// Dependencies
 	private ModelMapperService modelMapperService;
 	private CustomerCardDetailDao customerCardDetailDao;
@@ -59,7 +59,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService {
 					CustomerCardDetailListDto.class);
 			return new SuccessDataResult<CustomerCardDetailListDto>(response);
 		}
-		return new ErrorDataResult<CustomerCardDetailListDto>(Messages.notFound);
+		return new ErrorDataResult<CustomerCardDetailListDto>(Messages.CREDITCARDNOTFOUND);
 	}
 
 	// adds new credit cart info
@@ -68,7 +68,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService {
 		CustomerCardDetail customerPaymentDetail = this.modelMapperService.forRequest()
 				.map(createCustomerPaymentDetailRequest, CustomerCardDetail.class);
 		this.customerCardDetailDao.save(customerPaymentDetail);
-		return new SuccessResult(Messages.customerPaymentDetailAdded);
+		return new SuccessResult(Messages.CREDITCARDADD);
 	}
 
 	// updates a credit cart info
@@ -77,7 +77,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService {
 		CustomerCardDetail customerPaymentDetail = this.modelMapperService.forRequest().map(updateCustomerPamentDetails,
 				CustomerCardDetail.class);
 		this.customerCardDetailDao.save(customerPaymentDetail);
-		return new SuccessResult(Messages.customerPaymentDetailUpdated);
+		return new SuccessResult(Messages.CREDITCARDUPDATE);
 	}
 
 	// deletes a credit cart info
@@ -85,9 +85,9 @@ public class CustomerCardDetailManager implements CustomerCardDetailService {
 	public Result delete(int id) {
 		if (customerCardDetailDao.existsById(id)) {
 			customerCardDetailDao.deleteById(id);
-			return new SuccessResult(Messages.customerPaymentDetailDeleted);
+			return new SuccessResult(Messages.CREDITCARDELETE);
 		}
-		return new ErrorResult(Messages.notFound);
+		return new ErrorResult(Messages.CREDITCARDNOTFOUND);
 	}
 
 }

@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.PromoCodeService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.PromoCodeDto;
-import com.btkAkademi.rentACar.business.requests.promoCodeRequest.CreatePromoCodeRequest;
-import com.btkAkademi.rentACar.business.requests.promoCodeRequest.UpdatePromoCodeRequest;
+import com.btkAkademi.rentACar.business.requests.promoCodeRequests.CreatePromoCodeRequest;
+import com.btkAkademi.rentACar.business.requests.promoCodeRequests.UpdatePromoCodeRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -50,12 +50,14 @@ public class PromoCodeManager implements PromoCodeService {
 	// finds all active codes
 	@Override
 	public DataResult<List<PromoCodeDto>> findAllNotExpired() {
-	/*	List<PromoCode> promoCodeList = promoCodeDao.findAllActiveCodes(LocalDate.now());
-		List<PromoCodeDto> response = promoCodeList.stream()
-				.map(promoCode -> modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
-				.collect(Collectors.toList());
-		return new SuccessDataResult<List<PromoCodeDto>>(response);
-		*/
+		/*
+		 * List<PromoCode> promoCodeList =
+		 * promoCodeDao.findAllActiveCodes(LocalDate.now()); List<PromoCodeDto> response
+		 * = promoCodeList.stream() .map(promoCode ->
+		 * modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
+		 * .collect(Collectors.toList()); return new
+		 * SuccessDataResult<List<PromoCodeDto>>(response);
+		 */
 		return null;
 	}
 
@@ -73,7 +75,7 @@ public class PromoCodeManager implements PromoCodeService {
 
 		PromoCode promoCode = promoCodeDao.findByCode(code);
 		if (promoCode == null) {
-			return new ErrorDataResult<PromoCodeDto>(Messages.promoCodeNotFound);
+			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
 		}
 		PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
 		return new SuccessDataResult<PromoCodeDto>(response);
@@ -83,15 +85,14 @@ public class PromoCodeManager implements PromoCodeService {
 	@Override
 	public Result add(CreatePromoCodeRequest createPromoCodeRequest) {
 		Result result = BusinessRules.run(checkIfPromoCodeExistsByCode(createPromoCodeRequest.getCode()),
-				checkIfDatesAreCorrect(createPromoCodeRequest.getStartDate(),createPromoCodeRequest.getEndDate())
-				);
+				checkIfDatesAreCorrect(createPromoCodeRequest.getStartDate(), createPromoCodeRequest.getEndDate()));
 		if (result != null) {
 			return result;
 		}
 		PromoCode promoCode = this.modelMapperService.forRequest().map(createPromoCodeRequest, PromoCode.class);
 
 		this.promoCodeDao.save(promoCode);
-		return new SuccessResult(Messages.promoCodeAdded);
+		return new SuccessResult(Messages.PROMOCODEADD);
 
 	}
 
@@ -99,14 +100,13 @@ public class PromoCodeManager implements PromoCodeService {
 	@Override
 	public Result update(UpdatePromoCodeRequest updatePromoCodeRequest) {
 		Result result = BusinessRules.run(
-				checkIfDatesAreCorrect(updatePromoCodeRequest.getStartDate(),updatePromoCodeRequest.getEndDate())
-				);
+				checkIfDatesAreCorrect(updatePromoCodeRequest.getStartDate(), updatePromoCodeRequest.getEndDate()));
 		if (result != null) {
 			return result;
 		}
 		PromoCode promoCode = this.modelMapperService.forRequest().map(updatePromoCodeRequest, PromoCode.class);
 		this.promoCodeDao.save(promoCode);
-		return new SuccessResult(Messages.promoCodeUpdated);
+		return new SuccessResult(Messages.PROMOCODEUPDATE);
 	}
 
 	// Delete
@@ -114,7 +114,7 @@ public class PromoCodeManager implements PromoCodeService {
 	public Result delete(int id) {
 		if (promoCodeDao.existsById(id)) {
 			promoCodeDao.deleteById(id);
-			return new SuccessResult(Messages.promoCodeDeleted);
+			return new SuccessResult(Messages.PROMOCODEDELETE);
 		} else
 			return new ErrorResult();
 
@@ -123,14 +123,15 @@ public class PromoCodeManager implements PromoCodeService {
 	// codes should be unique
 	private Result checkIfPromoCodeExistsByCode(String code) {
 		if (promoCodeDao.findByCode(code) != null) {
-			return new ErrorResult(Messages.promoCodeAlreadyExists);
+			return new ErrorResult(Messages.PROMOCODEALREADYEXISTS);
 		} else
 			return new SuccessResult();
 	}
+
 	// codes should be unique
 	private Result checkIfDatesAreCorrect(LocalDate startDate, LocalDate endDate) {
 		if (endDate.isBefore(startDate)) {
-			return new ErrorResult(Messages.datesAreIncorrect);
+			return new ErrorResult(Messages.DATESARENOTCORRECT);
 		} else
 			return new SuccessResult();
 	}

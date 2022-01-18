@@ -65,7 +65,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 					IndividualCustomerListDto.class);
 			return new SuccessDataResult<IndividualCustomerListDto>(response);
 		} else
-			return new ErrorDataResult<IndividualCustomerListDto>(Messages.notFound);
+			return new ErrorDataResult<IndividualCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}
 
 	// Adds a new individual customer
@@ -80,7 +80,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		IndividualCustomer individualCustomer = this.modelMapperService.forRequest()
 				.map(createIndividualCustomerRequest, IndividualCustomer.class);
 		this.individualCustomerDao.save(individualCustomer);
-		return new SuccessResult(Messages.individualCustomerAdded);
+		return new SuccessResult(Messages.CUSTOMERADD);
 	}
 
 	// Update a customer
@@ -96,7 +96,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		// avoid null password
 		individualCustomer.setPassword(individualCustomerDao.findById(individualCustomer.getId()).get().getPassword());
 		this.individualCustomerDao.save(individualCustomer);
-		return new SuccessResult(Messages.individualCustomerUpdated);
+		return new SuccessResult(Messages.CUSTOMERUPDATE);
 	}
 
 	// Delete a customer
@@ -106,7 +106,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 			individualCustomerDao.deleteById(id);
 			return new SuccessResult();
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.CUSTOMERNOTFOUND);
 	}
 
 	// Helpers
@@ -114,7 +114,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	// Checks anyone registered with that email before
 	private Result checkIfEmailExists(String email) {
 		if (individualCustomerDao.findByEmail(email) != null) {
-			return new ErrorResult(Messages.emailExist);
+			return new ErrorResult(Messages.EMAILERROR);
 		}
 		return new SuccessResult();
 	}
@@ -123,7 +123,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	private Result checkIfUserInAgeLimit(LocalDate birthDate) {
 		int Age = Period.between(birthDate, LocalDate.now()).getYears();
 		if (Age < ageLimit) {
-			return new ErrorResult(Messages.ageNotInLimit);
+			return new ErrorResult(Messages.AGENOTENOUGH);
 		}
 		return new SuccessResult();
 	}

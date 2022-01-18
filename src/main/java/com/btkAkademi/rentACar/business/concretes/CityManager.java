@@ -67,7 +67,7 @@ public class CityManager implements CityService {
 		}
 		City city = this.modelMapperService.forRequest().map(createCityRequest, City.class);
 		this.cityDao.save(city);
-		return new SuccessResult(Messages.cityAdded);
+		return new SuccessResult(Messages.CITYADD);
 	}
 
 	// update
@@ -79,7 +79,7 @@ public class CityManager implements CityService {
 		}
 		City city = this.modelMapperService.forRequest().map(updateCityRequest, City.class);
 		this.cityDao.save(city);
-		return new SuccessResult(Messages.cityUpdated);
+		return new SuccessResult(Messages.CITYUPDATE);
 	}
 
 	// delete
@@ -87,9 +87,9 @@ public class CityManager implements CityService {
 	public Result delete(int id) {
 		if (cityDao.existsById(id)) {
 			cityDao.deleteById(id);
-			return new SuccessResult(Messages.cityDeleted);
+			return new SuccessResult(Messages.CITYDELETE);
 		}
-		return new ErrorResult(Messages.notFound);
+		return new ErrorResult(Messages.CITYNOTFOUND);
 	}
 
 	// Helpers
@@ -97,7 +97,7 @@ public class CityManager implements CityService {
 	// Checks city is added before or not
 	private Result checkIfCityNameExists(String cityName) {
 		if (cityDao.findByCityName(cityName) != null) {
-			return new ErrorResult(Messages.cityNameExists);
+			return new ErrorResult(Messages.CITYNAMEEXISTS);
 		}
 		return new SuccessResult();
 	}

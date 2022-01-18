@@ -58,7 +58,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 					CorporateCustomerListDto.class);
 			return new SuccessDataResult<>(response);
 		} else
-			return new ErrorDataResult<CorporateCustomerListDto>(Messages.notFound);
+			return new ErrorDataResult<CorporateCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}
 
 	// Adds a new corporate customer
@@ -74,7 +74,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(createCorporateCustomerRequest,
 				CorporateCustomer.class);
 		this.corporateCustomerDao.save(corporateCustomer);
-		return new SuccessResult(Messages.corporateCustomerAdded);
+		return new SuccessResult(Messages.CUSTOMERADD);
 	}
 
 	// Updates a customer but does not control email or name exists or not
@@ -83,7 +83,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(updateCorporateCustomerRequest,
 				CorporateCustomer.class);
 		this.corporateCustomerDao.save(corporateCustomer);
-		return new SuccessResult(Messages.corporateCustomerUpdated);
+		return new SuccessResult(Messages.CUSTOMERUPDATE);
 	}
 
 	// delete
@@ -91,9 +91,9 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	public Result delete(int id) {
 		if (corporateCustomerDao.existsById(id)) {
 			corporateCustomerDao.deleteById(id);
-			return new SuccessResult(Messages.corporateCustomerDeleted);
+			return new SuccessResult(Messages.CUSTOMERDELETE);
 		}
-		return new ErrorResult(Messages.notFound);
+		return new ErrorResult(Messages.CUSTOMERNOTFOUND);
 	}
 
 	// Helpers
@@ -101,7 +101,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// Checks company name exists in the database
 	private Result checkIfCompanyNameExists(String companyName) {
 		if (corporateCustomerDao.findByCompanyName(companyName) != null) {
-			return new ErrorResult(Messages.companyNameExists);
+			return new ErrorResult(Messages.CAMPANYNAMEEXISTS);
 		}
 		return new SuccessResult();
 
@@ -110,7 +110,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// checks there is a registered user with that email
 	private Result checkIfEmailExists(String email) {
 		if (corporateCustomerDao.findByEmail(email) != null) {
-			return new ErrorResult(Messages.emailExist);
+			return new ErrorResult(Messages.EMAILERROR);
 		}
 		return new SuccessResult();
 	}

@@ -17,18 +17,18 @@ public interface CarService {
 	DataResult<List<CarListDto>> findAllByColorId(int colorId, int pageNo, int pageSize);
 
 	DataResult<CarListDto> findCarById(int id);
-	
+
 	DataResult<List<CarListDto>> findAllBySegmentId(int segmentId);
-	
-	DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId,int cityId);
+
+	DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId, int cityId);
 
 	Result add(CreateCarRequest createCarRequest);
 
 	Result update(UpdateCarRequest updateCarRequest);
-	
-	Result updateCarKilometer(int carId,int kilometer);
-	
-	Result updateCarCity(int carId,int cityId);
+
+	Result updateCarKilometer(int carId, int kilometer);
+
+	Result updateCarCity(int carId, int cityId);
 
 	Result delete(int id);
 

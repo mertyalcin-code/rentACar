@@ -38,10 +38,10 @@ public class Car {
 	@Column(name = "kilometer")
 	private int kilometer;
 	@Column(name = "min_age")
-	private int minAge;	
-	@Column(name = "image_url",length = 3000)
-	private String imageUrl;	
-	
+	private int minAge;
+	@Column(name = "image_url", length = 3000)
+	private String imageUrl;
+
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
 	private Brand brand;
@@ -49,15 +49,15 @@ public class Car {
 	@ManyToOne
 	@JoinColumn(name = "color_id")
 	private Color color;
-	
+
 	@ManyToOne
-	@JoinColumn(name="segment_id")
+	@JoinColumn(name = "segment_id")
 	private Segment segment;
-	
+
 	@ManyToOne
-	@JoinColumn(name="city_id")
+	@JoinColumn(name = "city_id")
 	private City city;
-	
+
 	@OneToMany(mappedBy = "car")
 	private List<CarMaintenance> maintanances;
 

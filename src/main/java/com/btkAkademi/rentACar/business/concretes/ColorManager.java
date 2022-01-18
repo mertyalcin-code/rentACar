@@ -53,7 +53,7 @@ public class ColorManager implements ColorService {
 			ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
 			return new SuccessDataResult<>(response);
 		} else
-			return new ErrorDataResult<>(Messages.notFound);
+			return new ErrorDataResult<>(Messages.COLORNOTFOUND);
 
 	}
 
@@ -70,7 +70,7 @@ public class ColorManager implements ColorService {
 		Color color = this.modelMapperService.forRequest().map(createColorRequest, Color.class);
 		this.colorDao.save(color);
 
-		return new SuccessResult(Messages.colorAdded);
+		return new SuccessResult(Messages.COLORADD);
 	}
 
 	// Updates current color
@@ -87,7 +87,7 @@ public class ColorManager implements ColorService {
 		Color color = this.modelMapperService.forRequest().map(updateColorRequest, Color.class);
 		this.colorDao.save(color);
 
-		return new SuccessResult(Messages.colorUpdate);
+		return new SuccessResult(Messages.COLORUPDATE);
 	}
 
 	// Delete
@@ -95,9 +95,9 @@ public class ColorManager implements ColorService {
 	public Result delete(int id) {
 		if (colorDao.existsById(id)) {
 			colorDao.deleteById(id);
-			return new SuccessResult(Messages.colorDeleted);
+			return new SuccessResult(Messages.COLORDELETE);
 		} else
-			return new ErrorResult(Messages.notFound);
+			return new ErrorResult(Messages.COLORNOTFOUND);
 
 	}
 
@@ -107,7 +107,7 @@ public class ColorManager implements ColorService {
 	private Result checkIfColorIdExists(int id) {
 		if (!this.colorDao.existsById(id)) {
 
-			return new ErrorResult(Messages.colorIdNotExists);
+			return new ErrorResult(Messages.COLORNOTFOUND);
 		}
 		return new SuccessResult();
 	}
@@ -118,7 +118,7 @@ public class ColorManager implements ColorService {
 		Color color = this.colorDao.findByName(colorname);
 
 		if (color != null) {
-			return new ErrorResult(Messages.colorNameExists);
+			return new ErrorResult(Messages.COLORNAMEEXISTS);
 		}
 		return new SuccessResult();
 

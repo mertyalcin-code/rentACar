@@ -22,7 +22,7 @@ import com.btkAkademi.rentACar.business.dtos.PromoCodeDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
-import com.btkAkademi.rentACar.core.utilities.adapters.banks.abstracts.BankAdapterService;
+import com.btkAkademi.rentACar.core.adapters.banks.abstracts.BankAdapterService;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -65,7 +65,6 @@ public class PaymentManager implements PaymentService {
 		this.additionalServiceItemService = additionalServiceItemService;
 	}
 
-
 	// Gets All Payments
 	@Override
 	public DataResult<List<PaymentListDto>> findAll(int pageNo, int pageSize) {
@@ -77,7 +76,6 @@ public class PaymentManager implements PaymentService {
 		return new SuccessDataResult<>(response);
 
 	}
-
 
 	// Gets All Payments for one rental
 	@Override
@@ -130,7 +128,7 @@ public class PaymentManager implements PaymentService {
 
 		this.paymentDao.save(payment);
 
-		return new SuccessResult(Messages.paymentAdded);
+		return new SuccessResult(Messages.PAYMENTADD);
 	}
 
 	// updates a payment
@@ -141,7 +139,7 @@ public class PaymentManager implements PaymentService {
 
 		this.paymentDao.save(payment);
 
-		return new SuccessResult(Messages.paymentUpdated);
+		return new SuccessResult(Messages.PAYMENTUPDATE);
 	}
 
 	// deletes a payment
@@ -149,7 +147,7 @@ public class PaymentManager implements PaymentService {
 	public Result delete(int id) {
 		if (paymentDao.existsById(id)) {
 			paymentDao.deleteById(id);
-			return new SuccessResult(Messages.paymentDeleted);
+			return new SuccessResult(Messages.PAYMENTDELETE);
 		}
 		return new ErrorResult();
 	}
@@ -180,7 +178,8 @@ public class PaymentManager implements PaymentService {
 		// calculates total additional service price
 		List<AdditionalServiceListDto> services = additionalServiceService.findAllByRentalId(rental.getId()).getData();
 		for (AdditionalServiceListDto additionalService : services) {
-			double additionalServiceItemPrice = additionalServiceItemService.findById(additionalService.getAdditionalServiceItemId()).getData().getPrice();
+			double additionalServiceItemPrice = additionalServiceItemService
+					.findById(additionalService.getAdditionalServiceItemId()).getData().getPrice();
 			totalPrice += additionalServiceItemPrice;
 		}
 

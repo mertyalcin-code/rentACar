@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.InvoiceService;
 import com.btkAkademi.rentACar.business.dtos.InvoiceCorporateCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceIndividualCustomerDto;
-import com.btkAkademi.rentACar.business.requests.invoiceRequest.CreateInvoiceRequest;
-import com.btkAkademi.rentACar.business.requests.invoiceRequest.UpdateInvoiceRequest;
+import com.btkAkademi.rentACar.business.requests.invoiceRequests.CreateInvoiceRequest;
+import com.btkAkademi.rentACar.business.requests.invoiceRequests.UpdateInvoiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
@@ -44,11 +44,13 @@ public class InvoiceControllers {
 
 		return this.invoiceService.add(createInvoiceRequest);
 	}
+
 	@PostMapping("update")
 	public Result update(@RequestBody @Valid UpdateInvoiceRequest updateInvoiceRequest) {
 
 		return this.invoiceService.update(updateInvoiceRequest);
 	}
+
 	@PostMapping("delete/{id}")
 	public Result delete(@PathVariable int id) {
 

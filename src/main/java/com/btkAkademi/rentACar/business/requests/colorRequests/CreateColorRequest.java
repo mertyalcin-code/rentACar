@@ -14,6 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateColorRequest {
 	@NotBlank
-	@Size(message = Messages.invalidColorName)
+	@Size(message = Messages.COLORNAMEERROR)
 	private String name;
 }
