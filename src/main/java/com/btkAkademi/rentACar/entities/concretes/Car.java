@@ -47,7 +47,15 @@ public class Car {
 	@ManyToOne
 	@JoinColumn(name = "color_id")
 	private Color color;
-
+	
+	@ManyToOne
+	@JoinColumn(name="segment_id")
+	private Segment segment;
+	
+	@ManyToOne
+	@JoinColumn(name="city_id")
+	private City city;
+	
 	@OneToMany(mappedBy = "car")
 	private List<CarMaintenance> maintanances;
 
@@ -56,8 +64,4 @@ public class Car {
 
 	@OneToMany(mappedBy = "car")
 	private List<CarDamage> carDamages;
-	
-	@ManyToOne
-	@JoinColumn(name="segment_id")
-	private Segment segment;
 }

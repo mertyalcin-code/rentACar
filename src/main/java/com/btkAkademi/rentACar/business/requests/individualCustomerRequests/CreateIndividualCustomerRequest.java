@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateIndividualCustomerRequest {
 
-	private String nationalityId;
+	
 	@Email
 	@NotBlank
 	private String email;
@@ -28,4 +28,5 @@ public class CreateIndividualCustomerRequest {
 	private String lastName;
 	@NotNull
 	private LocalDate birthDate;
+	private String nationalityNo;
 }

@@ -13,7 +13,7 @@ public interface PaymentService {
 
 	DataResult<List<PaymentListDto>> findAllByRentalId(int id);
 
-	DataResult<PaymentListDto> getById(int id);
+	DataResult<PaymentListDto> findById(int id);
 
 	Result add(CreatePaymentRequest createPaymentRequest);
 

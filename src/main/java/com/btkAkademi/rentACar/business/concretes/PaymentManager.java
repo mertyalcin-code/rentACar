@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceItemService;
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
@@ -45,12 +46,14 @@ public class PaymentManager implements PaymentService {
 	private AdditionalServiceService additionalServiceService;
 	private BankAdapterService bankAdapterService;
 	private PromoCodeService promoCodeService;
+	private AdditionalServiceItemService additionalServiceItemService;
 
 	// Dependency injection
 	@Autowired
 	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
 			CarService carService, AdditionalServiceService additionalServiceService,
-			BankAdapterService bankAdapterService, PromoCodeService promoCodeService) {
+			BankAdapterService bankAdapterService, PromoCodeService promoCodeService,
+			AdditionalServiceItemService additionalServiceItemService) {
 		super();
 		this.paymentDao = paymentDao;
 		this.modelMapperService = modelMapperService;
@@ -59,7 +62,9 @@ public class PaymentManager implements PaymentService {
 		this.additionalServiceService = additionalServiceService;
 		this.bankAdapterService = bankAdapterService;
 		this.promoCodeService = promoCodeService;
+		this.additionalServiceItemService = additionalServiceItemService;
 	}
+
 
 	// Gets All Payments
 	@Override
@@ -72,6 +77,7 @@ public class PaymentManager implements PaymentService {
 		return new SuccessDataResult<>(response);
 
 	}
+
 
 	// Gets All Payments for one rental
 	@Override
@@ -86,7 +92,7 @@ public class PaymentManager implements PaymentService {
 
 	// finds specific payment
 	@Override
-	public DataResult<PaymentListDto> getById(int id) {
+	public DataResult<PaymentListDto> findById(int id) {
 		if (paymentDao.existsById(id)) {
 			Payment payment = paymentDao.findById(id).get();
 			PaymentListDto response = modelMapperService.forDto().map(payment, PaymentListDto.class);
@@ -174,7 +180,8 @@ public class PaymentManager implements PaymentService {
 		// calculates total additional service price
 		List<AdditionalServiceListDto> services = additionalServiceService.findAllByRentalId(rental.getId()).getData();
 		for (AdditionalServiceListDto additionalService : services) {
-			totalPrice += additionalService.getPrice();
+			double additionalServiceItemPrice = additionalServiceItemService.findById(additionalService.getAdditionalServiceItemId()).getData().getPrice();
+			totalPrice += additionalServiceItemPrice;
 		}
 
 		return totalPrice;

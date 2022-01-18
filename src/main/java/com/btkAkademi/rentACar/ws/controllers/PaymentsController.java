@@ -47,7 +47,7 @@ public class PaymentsController {
 
 	@GetMapping("find-by-id/{id}")
 	public DataResult<PaymentListDto> findById(@PathVariable int id) {
-		return this.paymentService.getById(id);
+		return this.paymentService.findById(id);
 	}
 
 	// adds a new payment

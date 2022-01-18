@@ -3,7 +3,9 @@ package com.btkAkademi.rentACar.ws.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +30,11 @@ public class SegmentController {
 	public Result add(@RequestBody @Valid CreateSegmentRequest createSegmentRequest) {
 		return this.segmentService.add(createSegmentRequest);
 	}
-	@PostMapping("update")
+	@PutMapping("update")
 	public Result update(@RequestBody @Valid UpdateSegmentRequest createSegmentRequest) {
 		return this.segmentService.update(createSegmentRequest);
 	}
-	@PostMapping("delete/{id}")
+	@DeleteMapping("delete/{id}")
 	public Result delete(int id) {
 		return this.segmentService.delete(id);
 	}

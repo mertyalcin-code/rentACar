@@ -1,5 +1,7 @@
 package com.btkAkademi.rentACar.business.requests.additionalServiceRequests;
 
+import java.util.List;
+
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
@@ -9,9 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateAdditionalServiceRequest {
-	@NotBlank
-	private String name;
+public class CreateAdditionalServiceRequest {	
 	private int rentalId;
-	private double price;
+	private int additionalServiceItemId;
 }

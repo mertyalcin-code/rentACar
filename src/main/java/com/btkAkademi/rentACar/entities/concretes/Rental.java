@@ -52,10 +52,14 @@ public class Rental {
 
 	@ManyToOne
 	@JoinColumn(name = "car_id")
-	private Car car;
+	private Car car;	
+
+	@ManyToOne
+	@JoinColumn(name = "promo_code_id")
+	private PromoCode promoCode;
 
 	@OneToMany(mappedBy = "rental")
-	private List<AdditionalService> addtionalServices;
+	private List<AdditionalService> additionalService;
 
 	@OneToMany(mappedBy = "rental")
 	private List<Payment> payments;
@@ -63,7 +67,4 @@ public class Rental {
 	@OneToOne(mappedBy = "rental")
 	private Invoice invoice;
 
-	@ManyToOne
-	@JoinColumn(name = "promo_code")
-	private PromoCode promoCode;
 }

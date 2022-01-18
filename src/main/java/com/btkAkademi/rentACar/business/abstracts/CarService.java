@@ -25,6 +25,10 @@ public interface CarService {
 	Result add(CreateCarRequest createCarRequest);
 
 	Result update(UpdateCarRequest updateCarRequest);
+	
+	Result updateCarKilometer(int carId,int kilometer);
+	
+	Result updateCarCity(int carId,int cityId);
 
 	Result delete(int id);
 

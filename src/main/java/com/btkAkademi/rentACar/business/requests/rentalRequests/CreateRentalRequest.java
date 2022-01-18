@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 public class CreateRentalRequest {
 
 	private LocalDate rentDate;
-	private Integer rentedKilometer;
-	private int pickUpCityId;
-	private int returnCityId;
 	private int customerId;
 	private int carId;
 	private int promoCodeId;

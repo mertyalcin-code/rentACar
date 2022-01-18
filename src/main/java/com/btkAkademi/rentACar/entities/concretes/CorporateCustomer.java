@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "corporate_customer")
+@Table(name = "corporate_customers")
 @PrimaryKeyJoinColumn(name = "customer_id")
 public class CorporateCustomer extends Customer {
 	@Column(name = "campany_name")

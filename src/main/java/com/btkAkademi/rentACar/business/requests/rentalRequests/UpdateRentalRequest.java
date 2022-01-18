@@ -11,13 +11,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateRentalRequest {
 	private int id;
-	private LocalDate rentDate;
 	private LocalDate returnDate;
-	private Integer rentedKilometer;
 	private Integer returnedKilometer;
-	private int pickUpCityId;
 	private int returnCityId;
-	private int customerId;
-	private int carId;
-	private int promoCodeId;
+
 }

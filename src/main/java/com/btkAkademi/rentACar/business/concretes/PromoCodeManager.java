@@ -129,7 +129,7 @@ public class PromoCodeManager implements PromoCodeService {
 	}
 	// codes should be unique
 	private Result checkIfDatesAreCorrect(LocalDate startDate, LocalDate endDate) {
-		if (startDate.isBefore(endDate)) {
+		if (endDate.isBefore(startDate)) {
 			return new ErrorResult(Messages.datesAreIncorrect);
 		} else
 			return new SuccessResult();

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.BrandService;
 import com.btkAkademi.rentACar.business.abstracts.CarService;
+import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.abstracts.ColorService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
@@ -25,6 +26,7 @@ import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
 import com.btkAkademi.rentACar.dataAccess.abstracts.CarDao;
 import com.btkAkademi.rentACar.entities.concretes.Car;
+import com.btkAkademi.rentACar.entities.concretes.City;
 
 @Service
 public class CarManager implements CarService {
@@ -33,16 +35,18 @@ public class CarManager implements CarService {
 	private ModelMapperService modelMapperService;
 	private BrandService brandService;
 	private ColorService colorService;
-
+	private CityService cityService;
 	// Dependency Injection
 	@Autowired
+
 	public CarManager(CarDao carDao, ModelMapperService modelMapperService, BrandService brandService,
-			ColorService colorService) {
+			ColorService colorService, CityService cityService) {
 		super();
 		this.carDao = carDao;
 		this.modelMapperService = modelMapperService;
 		this.brandService = brandService;
 		this.colorService = colorService;
+		this.cityService = cityService;
 	}
 
 	// Lists all cars with pageNo and Page Size
@@ -129,6 +133,25 @@ public class CarManager implements CarService {
 		this.carDao.save(car);
 		return new SuccessResult(Messages.carUpdated);
 	}
+	
+	@Override
+	public Result updateCarKilometer(int carId, int kilometer) {
+		Car car = carDao.findById(carId).get();
+		car.setKilometer(kilometer);
+		carDao.save(car);
+		return new SuccessResult();
+				
+	}
+
+	@Override
+	public Result updateCarCity(int carId, int cityId) {
+		Car car = carDao.findById(carId).get();
+		City city = modelMapperService.forRequest().map(cityService.findById(cityId).getData(), City.class);
+		car.setCity(city);
+		carDao.save(car);
+		return new SuccessResult();
+	}
+
 
 	// Deletes a car
 	@Override
@@ -176,6 +199,7 @@ public class CarManager implements CarService {
 			return new ErrorDataResult<List<Integer>>();
 		}else return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId));
 	}
+
 
 
 

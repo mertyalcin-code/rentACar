@@ -15,11 +15,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "individual_customer")
+@Table(name = "individual_customers")
 @PrimaryKeyJoinColumn(name = "customer_id")
 public class IndividualCustomer extends Customer {
-	@Column(name = "nationality_id")
-	private String nationalityId;
+	@Column(name = "nationality_no")
+	private String nationalityNo; //mapper no yerine id dersen hata veriyor
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "last_name")

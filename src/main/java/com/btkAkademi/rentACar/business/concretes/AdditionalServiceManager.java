@@ -59,8 +59,9 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 			return result;
 		}
 
-		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalService,
-				AdditionalService.class);
+		AdditionalService additionalService = this.modelMapperService.forRequest().map(createAdditionalService, AdditionalService.class);
+		//avoid error
+		additionalService.setId(0);
 		this.additionalServiceDao.save(additionalService);
 		return new SuccessResult(Messages.additionalServiceAdded);
 	}

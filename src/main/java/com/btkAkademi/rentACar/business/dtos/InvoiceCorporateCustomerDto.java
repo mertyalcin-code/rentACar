@@ -21,6 +21,6 @@ public class InvoiceCorporateCustomerDto {
 	private LocalDate returnedDate;
 	private double totalPrice;
 	private LocalDate creationDate;
-	private List<AdditionalServiceListDto> additonalServices;
+	private List<AdditionalServiceItemListDto> additonalServiceItems;
 
 }

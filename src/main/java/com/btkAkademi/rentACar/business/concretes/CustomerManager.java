@@ -27,11 +27,11 @@ public class CustomerManager implements CustomerService {
 	// Finds Customer with that id
 	@Override
 	public DataResult<Customer> findCustomerById(int id) {
-		if (!customerDao.existsById(id)) {
-			return new ErrorDataResult<Customer>(customerDao.findById(id).get(), Messages.customerNotFound);
+		if (customerDao.existsById(id)) {			
+			return new SuccessDataResult<Customer>();
+		
 		}
-		return new SuccessDataResult<Customer>();
-
+		else return new ErrorDataResult<Customer>(Messages.customerNotFound);
 	}
 
 }

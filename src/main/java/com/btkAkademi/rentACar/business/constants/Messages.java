@@ -98,5 +98,6 @@ public class Messages {
 	public static final String segmentAdded = "segment.added";
 	public static final String segmentUpdated = "segment.updated";
 	public static final String segmentDeleted = "segment.deleted";
+	public static final String invoiceNotCreated = "invoice.not.created";
 
 }
