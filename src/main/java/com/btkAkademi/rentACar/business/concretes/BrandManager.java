@@ -45,7 +45,7 @@ public class BrandManager implements BrandService {
 		List<BrandListDto> response = brandList.stream()
 				.map(brand -> modelMapperService.forDto().map(brand, BrandListDto.class)).collect(Collectors.toList());
 
-		return new SuccessDataResult<List<BrandListDto>>(response);
+		return new SuccessDataResult<List<BrandListDto>>(response,Messages.BRANDLIST);
 	}
 
 	// Finds brand by id
