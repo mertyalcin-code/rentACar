@@ -14,6 +14,7 @@ public class TranslationSearchListDto {
 
 	private int id;
 	private String translation;
-	private Word word;
-	private Language language;
+	private int wordId;
+	private String wordKey;
+	private int languageId;
 }

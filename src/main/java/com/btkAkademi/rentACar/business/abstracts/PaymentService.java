@@ -1,8 +1,10 @@
 package com.btkAkademi.rentACar.business.abstracts;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.CalculateTotalPriceRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -12,6 +14,8 @@ public interface PaymentService {
 	DataResult<List<PaymentListDto>> findAll(int pageNo, int pageSize);
 
 	DataResult<List<PaymentListDto>> findAllByRentalId(int id);
+	
+	DataResult<Double> calculateTotalPriceForDisplay(CalculateTotalPriceRequest calculateTotalPriceRequest);
 
 	DataResult<PaymentListDto> findById(int id);
 

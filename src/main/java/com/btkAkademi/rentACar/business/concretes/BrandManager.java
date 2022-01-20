@@ -25,7 +25,7 @@ import com.btkAkademi.rentACar.entities.concretes.Brand;
 @Service
 public class BrandManager implements BrandService {
 	// Constants
-	private static final int limit = 50;
+	private static final int limit = 250;
 	// Dependencies
 	private BrandDao brandDao;
 	private ModelMapperService modelMapperService;
@@ -54,7 +54,7 @@ public class BrandManager implements BrandService {
 		if (brandDao.existsById(id)) {
 			Brand brand = this.brandDao.findById(id).get();
 			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
-			return new SuccessDataResult<BrandListDto>(response);
+			return new SuccessDataResult<BrandListDto>(response,Messages.LIST);
 		} else
 			return new ErrorDataResult<>(Messages.BRANDNOTFOUND);
 	}
@@ -120,7 +120,7 @@ public class BrandManager implements BrandService {
 	private Result checkIfBrandLimitExceeded(int limit) {
 		if (this.brandDao.count() >= limit) {
 
-			return new ErrorResult();
+			return new ErrorResult(Messages.NOTFOUND);
 		}
 		return new SuccessResult();
 	}

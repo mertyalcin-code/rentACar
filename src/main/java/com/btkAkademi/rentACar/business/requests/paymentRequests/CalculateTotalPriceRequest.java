@@ -7,21 +7,11 @@ import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePaymentRequest {
-	private LocalDate paymentTime;
-	private int rentalId;
-	
-	private LocalDate returnDate;
-	@NotEmpty
-	private String cardNo;
-	@NotEmpty
-	private String day;
-	@NotEmpty
-	private String month;
-	@NotEmpty
-	private String cvv;
+public class CalculateTotalPriceRequest {
+		private int rentalId;
+		private LocalDate returnDate;
+
 }

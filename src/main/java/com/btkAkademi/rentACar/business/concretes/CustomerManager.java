@@ -28,7 +28,7 @@ public class CustomerManager implements CustomerService {
 	@Override
 	public DataResult<Customer> findCustomerById(int id) {
 		if (customerDao.existsById(id)) {
-			return new SuccessDataResult<Customer>();
+			return new SuccessDataResult<Customer>(customerDao.findById(id).get(),Messages.LIST);
 
 		} else
 			return new ErrorDataResult<Customer>(Messages.CUSTOMERNOTFOUND);

@@ -1,8 +1,11 @@
 package com.btkAkademi.rentACar.ws.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.PromoCodeService;
+import com.btkAkademi.rentACar.business.dtos.PromoCodeDto;
 import com.btkAkademi.rentACar.business.requests.promoCodeRequests.CreatePromoCodeRequest;
 import com.btkAkademi.rentACar.business.requests.promoCodeRequests.UpdatePromoCodeRequest;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/promo-codes")
 public class PromoCodeController {
@@ -29,9 +34,14 @@ public class PromoCodeController {
 	}
 
 	@GetMapping("find-all")
-	public Result findAll() {
+	public DataResult<List<PromoCodeDto>> findAll() {
 		return this.promoCodeService.findAll();
-	}
+	} 
+	@GetMapping("find-by-code/{code}")
+	public DataResult<PromoCodeDto> findByCode(@PathVariable String code) {
+		System.out.println(this.promoCodeService.findByCode(code).getData().getId());
+		return this.promoCodeService.findByCode(code);
+	} 
 
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreatePromoCodeRequest createPromoCodeRequest) {

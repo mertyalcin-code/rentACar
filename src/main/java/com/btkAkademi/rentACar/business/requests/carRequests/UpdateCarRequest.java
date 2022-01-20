@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateCarRequest {
+	private String carName;
 	private int id;
 	private int brandId;
 	private int colorId;

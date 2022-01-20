@@ -42,7 +42,7 @@ public class ColorManager implements ColorService {
 		List<Color> colorList = this.colorDao.findAll();
 		List<ColorListDto> response = colorList.stream()
 				.map(color -> modelMapperService.forDto().map(color, ColorListDto.class)).collect(Collectors.toList());
-		return new SuccessDataResult<List<ColorListDto>>(response);
+		return new SuccessDataResult<List<ColorListDto>>(response,Messages.COLORLIST);
 	}
 
 	// Finds Color with id

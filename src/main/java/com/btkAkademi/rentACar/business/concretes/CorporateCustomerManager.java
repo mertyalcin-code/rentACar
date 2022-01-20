@@ -46,7 +46,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		List<CorporateCustomerListDto> response = corporateCustomers.stream().map(
 				corporateCustomer -> modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CorporateCustomerListDto>>(response);
+		return new SuccessDataResult<List<CorporateCustomerListDto>>(response,Messages.LIST);
 	}
 
 	// finds by id
@@ -56,7 +56,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 			CorporateCustomer corporateCustomer = corporateCustomerDao.findById(id).get();
 			CorporateCustomerListDto response = modelMapperService.forDto().map(corporateCustomer,
 					CorporateCustomerListDto.class);
-			return new SuccessDataResult<>(response);
+			return new SuccessDataResult<>(response,Messages.LIST);
 		} else
 			return new ErrorDataResult<CorporateCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}

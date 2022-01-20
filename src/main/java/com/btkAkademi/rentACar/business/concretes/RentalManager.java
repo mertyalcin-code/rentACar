@@ -16,6 +16,7 @@ import com.btkAkademi.rentACar.business.abstracts.CityService;
 import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
+import com.btkAkademi.rentACar.business.abstracts.PromoCodeService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
@@ -31,6 +32,7 @@ import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
+import com.btkAkademi.rentACar.dataAccess.abstracts.CarDao;
 import com.btkAkademi.rentACar.dataAccess.abstracts.RentalDao;
 import com.btkAkademi.rentACar.entities.concretes.City;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
@@ -68,13 +70,13 @@ public class RentalManager implements RentalService {
 
 	// Lists all rentals
 	@Override
-	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
+	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {	
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Rental> rentalList = this.rentalDao.findAll(pageable).getContent();
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<RentalListDto>>(response);
+		return new SuccessDataResult<List<RentalListDto>>(response,Messages.LIST);
 	}
 
 	// Lists all rentals for one customer
@@ -85,22 +87,20 @@ public class RentalManager implements RentalService {
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<RentalListDto>>(response);
+		return new SuccessDataResult<List<RentalListDto>>(response,Messages.LIST);
 	}
 
 	// finds specific rental
 	@Override
 	public DataResult<RentalListDto> findById(int id) {
+
 		if (rentalDao.existsById(id)) {
 			RentalListDto response = modelMapperService.forDto().map(rentalDao.findById(id).get(), RentalListDto.class);
 
-			return new SuccessDataResult<>(response);
+			return new SuccessDataResult<>(response,Messages.LIST);
 		}
-
-		else {
-
-			return new ErrorDataResult<>();
-		}
+		else return new ErrorDataResult<>(Messages.RENTALNOTFOUND);
+		
 
 	}
 
@@ -319,5 +319,15 @@ public class RentalManager implements RentalService {
 			return new SuccessDataResult<CarListDto>(car);
 		} else
 			return new ErrorDataResult<CarListDto>();
+	}
+
+	@Override
+	public DataResult<RentalListDto> findActiveRentalByCarId(int id) {
+		if(rentalDao.findByCarIdAndReturnDateIsNull(id)!=null) {
+			
+			RentalListDto response = modelMapperService.forDto().map(rentalDao.findByCarIdAndReturnDateIsNull(id), RentalListDto.class);
+			return new SuccessDataResult<RentalListDto>(response,Messages.RENTALLIST);
+		}else return new ErrorDataResult<RentalListDto>(Messages.RENTALNOTFOUND);
+	
 	}
 }

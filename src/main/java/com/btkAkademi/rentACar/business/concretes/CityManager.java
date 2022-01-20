@@ -44,7 +44,7 @@ public class CityManager implements CityService {
 		List<CityListDto> response = cityList.stream()
 				.map(city -> modelMapperService.forDto().map(city, CityListDto.class)).collect(Collectors.toList());
 
-		return new SuccessDataResult<List<CityListDto>>(response);
+		return new SuccessDataResult<List<CityListDto>>(response,Messages.LIST);
 	}
 
 	// Finds city with that id
@@ -53,7 +53,7 @@ public class CityManager implements CityService {
 		if (cityDao.existsById(id)) {
 			City city = cityDao.findById(id).get();
 			CityListDto response = modelMapperService.forDto().map(city, CityListDto.class);
-			return new SuccessDataResult<CityListDto>(response);
+			return new SuccessDataResult<CityListDto>(response,Messages.LIST);
 		} else
 			return new ErrorDataResult<CityListDto>();
 	}

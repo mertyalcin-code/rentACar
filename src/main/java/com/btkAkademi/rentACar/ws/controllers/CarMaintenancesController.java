@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.btkAkademi.rentACar.business.requests.carMaintananceRequests.CreateCa
 import com.btkAkademi.rentACar.business.requests.carMaintananceRequests.UpdateCarMaintananceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/car-maintenances")
 public class CarMaintenancesController {
@@ -42,7 +43,7 @@ public class CarMaintenancesController {
 		return this.carMaintenanceService.findAllByCarId(id);
 	}
 
-	@GetMapping("findbyid/{id}")
+	@GetMapping("find-by-id/{id}")
 	public DataResult<CarMaintenanceListDto> findById(@PathVariable int id) {
 		return this.carMaintenanceService.findById(id);
 	}

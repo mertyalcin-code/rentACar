@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.CalculateTotalPriceRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/payments")
 public class PaymentsController {
@@ -34,9 +36,13 @@ public class PaymentsController {
 	}
 
 	@GetMapping("find-all")
-	public DataResult<List<PaymentListDto>> findAll(@RequestParam int pageNo,
+	public DataResult<List<PaymentListDto>> findAll(@RequestParam(defaultValue = "1") int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.paymentService.findAll(pageNo, pageSize);
+	}
+	@GetMapping("find-total-price")
+	public DataResult<Double> calculateTotalPrice(@RequestBody CalculateTotalPriceRequest calculateTotalPriceRequest) {
+		return this.paymentService.calculateTotalPriceForDisplay(calculateTotalPriceRequest);
 	}
 
 	@GetMapping("find-all-by-rental-id/{rentalId}")

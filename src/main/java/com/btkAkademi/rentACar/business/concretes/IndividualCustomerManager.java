@@ -53,7 +53,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 				.map(individualCustomer -> modelMapperService.forDto().map(individualCustomer,
 						IndividualCustomerListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<IndividualCustomerListDto>>(response);
+		return new SuccessDataResult<List<IndividualCustomerListDto>>(response,Messages.LIST);
 	}
 
 	// find by id

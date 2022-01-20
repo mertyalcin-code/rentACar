@@ -3,6 +3,7 @@ package com.btkAkademi.rentACar.ws.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ import com.btkAkademi.rentACar.business.requests.invoiceRequests.CreateInvoiceRe
 import com.btkAkademi.rentACar.business.requests.invoiceRequests.UpdateInvoiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/invoices")
 public class InvoiceControllers {
@@ -29,12 +30,12 @@ public class InvoiceControllers {
 		this.invoiceService = invoiceService;
 	}
 
-	@GetMapping("get-invoice-for-corporate-customer/{rentalId}")
+	@GetMapping("find-invoice-for-corporate-customer/{rentalId}")
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(@PathVariable int rentalId) {
 		return this.invoiceService.getInvoiceForCorporateCustomer(rentalId);
 	}
 
-	@GetMapping("get-invoice-for-individual-customer/{rentalId}")
+	@GetMapping("find-invoice-for-individual-customer/{rentalId}")
 	public DataResult<InvoiceIndividualCustomerDto> getInvoiceForIndividualCustomer(@PathVariable int rentalId) {
 		return this.invoiceService.getInvoiceForIndividualCustomer(rentalId);
 	}

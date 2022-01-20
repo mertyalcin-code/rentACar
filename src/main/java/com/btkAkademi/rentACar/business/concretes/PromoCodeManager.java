@@ -44,7 +44,7 @@ public class PromoCodeManager implements PromoCodeService {
 		List<PromoCodeDto> response = promoCodeList.stream()
 				.map(promoCode -> modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<PromoCodeDto>>(response);
+		return new SuccessDataResult<List<PromoCodeDto>>(response,Messages.LIST);
 	}
 
 	// finds all active codes
@@ -56,7 +56,7 @@ public class PromoCodeManager implements PromoCodeService {
 		 * = promoCodeList.stream() .map(promoCode ->
 		 * modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
 		 * .collect(Collectors.toList()); return new
-		 * SuccessDataResult<List<PromoCodeDto>>(response);
+		 * SuccessDataResult<List<PromoCodeDto>>(response,Messages.LIST);
 		 */
 		return null;
 	}
@@ -66,7 +66,7 @@ public class PromoCodeManager implements PromoCodeService {
 	public DataResult<PromoCodeDto> findById(int promoCodeId) {
 		PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
 		PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-		return new SuccessDataResult<PromoCodeDto>(response);
+		return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
 	}
 
 	// Finds by Code
@@ -78,7 +78,7 @@ public class PromoCodeManager implements PromoCodeService {
 			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
 		}
 		PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-		return new SuccessDataResult<PromoCodeDto>(response);
+		return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
 	}
 
 	// Creates a new code

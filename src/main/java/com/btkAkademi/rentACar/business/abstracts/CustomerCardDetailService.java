@@ -9,7 +9,7 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 public interface CustomerCardDetailService {
-	DataResult<List<CustomerCardDetailListDto>> findCustomerPaymentDetailsByCustomerId(int customerId);
+	DataResult<List<CustomerCardDetailListDto>> findCustomerCardDetailsByCustomerId(int customerId);
 
 	DataResult<CustomerCardDetailListDto> findById(int id);
 

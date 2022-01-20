@@ -55,7 +55,7 @@ public class WordManager implements WordService {
 	@Override
 	public Result add(CreateWordRequest createWordRequest) {
 		var result = BusinessRules.run(isWordExists(createWordRequest.getKey()));
-		if (result == null) {
+		if (result != null) {
 			return result;
 		}
 		Word word = modelMapperService.forRequest().map(createWordRequest, Word.class);
@@ -66,7 +66,7 @@ public class WordManager implements WordService {
 	@Override
 	public Result delete(DeleteWordRequest deleteWordRequest) {
 		var result = BusinessRules.run(existsById(deleteWordRequest.getId()));
-		if (result == null) {
+		if (result != null) {
 			return result;
 		}
 		Word word = modelMapperService.forRequest().map(deleteWordRequest, Word.class);
@@ -77,7 +77,7 @@ public class WordManager implements WordService {
 	@Override
 	public Result update(UpdateWordRequest updateWordRequest) {
 		var result = BusinessRules.run(existsById(updateWordRequest.getId()), isWordExists(updateWordRequest.getKey()));
-		if (result == null) {
+		if (result != null) {
 			return result;
 		}
 		Word word = modelMapperService.forRequest().map(updateWordRequest, Word.class);

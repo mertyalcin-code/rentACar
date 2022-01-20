@@ -1,5 +1,6 @@
 package com.btkAkademi.rentACar.business.concretes;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.dtos.PromoCodeDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
+import com.btkAkademi.rentACar.business.requests.paymentRequests.CalculateTotalPriceRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRequest;
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.adapters.banks.abstracts.BankAdapterService;
@@ -73,7 +75,7 @@ public class PaymentManager implements PaymentService {
 		List<PaymentListDto> response = paymentList.stream()
 				.map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<>(response);
+		return new SuccessDataResult<>(response,Messages.LIST);
 
 	}
 
@@ -85,7 +87,7 @@ public class PaymentManager implements PaymentService {
 		List<PaymentListDto> response = paymentList.stream()
 				.map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<>(response);
+		return new SuccessDataResult<>(response,Messages.LIST);
 	}
 
 	// finds specific payment
@@ -94,11 +96,19 @@ public class PaymentManager implements PaymentService {
 		if (paymentDao.existsById(id)) {
 			Payment payment = paymentDao.findById(id).get();
 			PaymentListDto response = modelMapperService.forDto().map(payment, PaymentListDto.class);
-			return new SuccessDataResult<PaymentListDto>(response);
+			return new SuccessDataResult<PaymentListDto>(response,Messages.LIST);
 		} else
 			return new ErrorDataResult<>();
 	}
 
+	@Override
+	public DataResult<Double> calculateTotalPriceForDisplay(CalculateTotalPriceRequest calculateTotalPriceRequest) {
+		
+		Double price = this.totalPriceCalculator((rentalService.findById(calculateTotalPriceRequest.getRentalId())).getData(), calculateTotalPriceRequest.getReturnDate());
+		return new SuccessDataResult<Double>(price,Messages.LIST);
+	}
+
+	
 	// adds a payment
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {
@@ -111,7 +121,7 @@ public class PaymentManager implements PaymentService {
 		RentalListDto rental = rentalService.findById(rentalId).getData();
 
 		// calculates total amount
-		double totalPrice = totalPriceCalculator(rental);
+		double totalPrice = totalPriceCalculator(rental,createPaymentRequest.getReturnDate());
 
 		payment.setTotalPaymentAmount(totalPrice);
 
@@ -153,12 +163,12 @@ public class PaymentManager implements PaymentService {
 	}
 
 	// To calculate total price
-	private double totalPriceCalculator(RentalListDto rental) {
+	private double totalPriceCalculator(RentalListDto rental,LocalDate returnDate) {
 
 		double totalPrice = 0.0;
 
 		// finds usage day
-		long days = ChronoUnit.DAYS.between(rental.getRentDate(), rental.getReturnDate());
+		long days = ChronoUnit.DAYS.between(rental.getRentDate(), returnDate);
 
 		// if return date and rent date are equal than we charge one day
 		if (days == 0)
@@ -185,5 +195,7 @@ public class PaymentManager implements PaymentService {
 
 		return totalPrice;
 	}
+
+
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequ
 import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/rentals")
 public class RentalsController {
@@ -36,7 +37,7 @@ public class RentalsController {
 	}
 
 	// lists all rentals in the system
-	@GetMapping("get-all")
+	@GetMapping("find-all")
 	public DataResult<List<RentalListDto>> findAll(@RequestParam int pageNo,
 			@RequestParam(defaultValue = "10") int pageSize) {
 		return rentalService.findAll(pageNo, pageSize);
@@ -45,6 +46,10 @@ public class RentalsController {
 	@GetMapping("find-all-by-customer-id/{id}")
 	public DataResult<List<RentalListDto>> findAllByCustomerId(@PathVariable int id) {
 		return rentalService.findAllByCustomerId(id);
+	}
+	@GetMapping("find-active-rental-by-car-id/{id}")
+	public DataResult<RentalListDto> findActiveRentalByCarId(@PathVariable int id) {
+		return rentalService.findActiveRentalByCarId(id);
 	}
 
 	@GetMapping("find-by-id/{id}")

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceItemService;
@@ -50,11 +51,11 @@ public class InvoiceManager implements InvoiceService {
 
 	// Dependency Injection
 	@Autowired
-	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService,
-			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
-			RentalService rentalService, PaymentService paymentService,
-			AdditionalServiceService additionalServiceService,
-			AdditionalServiceItemService additionalServiceItemService) {
+	public InvoiceManager(InvoiceDao invoiceDao,@Lazy ModelMapperService modelMapperService,
+			@Lazy IndividualCustomerService individualCustomerService,@Lazy CorporateCustomerService corporateCustomerService,
+			@Lazy RentalService rentalService, @Lazy PaymentService paymentService,
+			@Lazy AdditionalServiceService additionalServiceService,
+			@Lazy	AdditionalServiceItemService additionalServiceItemService) {
 		super();
 		this.invoiceDao = invoiceDao;
 		this.modelMapperService = modelMapperService;
@@ -93,10 +94,10 @@ public class InvoiceManager implements InvoiceService {
 
 		InvoiceIndividualCustomerDto responseCustomerDto = InvoiceIndividualCustomerDto.builder().id(invoice.getId())
 				.firstName(customer.getFirstName()).lastName(customer.getLastName())
-				.nationalityId(customer.getNationalityNo()).email(customer.getEmail()).totalPrice(totalPrice)
+				.nationalityNo(customer.getNationalityNo()).email(customer.getEmail()).totalPrice(totalPrice)
 				.rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
 				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems).build();
-		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto);
+		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto,Messages.LIST);
 	}
 
 	// prepares a dto with the information required for the invoice
@@ -129,7 +130,7 @@ public class InvoiceManager implements InvoiceService {
 				.companyName(customer.getCompanyName()).taxNumber(customer.getTaxNumber()).email(customer.getEmail())
 				.totalPrice(totalPrice).rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
 				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems).build();
-		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto);
+		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto,Messages.LIST);
 	}
 
 	// Creates an invoice request

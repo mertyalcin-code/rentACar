@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import com.btkAkademi.rentACar.business.requests.wordRequests.DeleteWordRequest;
 import com.btkAkademi.rentACar.business.requests.wordRequests.UpdateWordRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/words")
 public class WordsController {
@@ -31,8 +32,11 @@ public class WordsController {
 	public WordsController(WordService wordService) {
 		this.wordService = wordService;
 	}
-
-	@GetMapping("get-by-key/{key}")
+	@GetMapping("find-all")
+	public DataResult<List<WordSearchListDto>> getAll() {
+		return this.wordService.getAll();
+	}
+	@GetMapping("find-by-key/{key}")
 	public DataResult<WordSearchListDto> getByKey(@PathVariable String key) {
 		return this.wordService.getByKey(key);
 	}
@@ -52,8 +56,5 @@ public class WordsController {
 		return this.wordService.update(updateWordRequest);
 	}
 
-	@GetMapping("find-all")
-	public DataResult<List<WordSearchListDto>> getAll() {
-		return this.wordService.getAll();
-	}
+
 }

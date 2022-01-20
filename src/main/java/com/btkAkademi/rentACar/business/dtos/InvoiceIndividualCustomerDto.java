@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InvoiceIndividualCustomerDto {
 	private int id;
-	private String nationalityId;
+	private String nationalityNo;
 	private String firstName;
 	private String lastName;
 	private String email;

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCarRequest {
+	private String carName;
 	private int brandId;
 	private int colorId;
 	@NotNull

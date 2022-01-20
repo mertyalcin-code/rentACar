@@ -48,7 +48,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 				additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<AdditionalServiceListDto>>(response);
+		return new SuccessDataResult<List<AdditionalServiceListDto>>(response,Messages.LIST);
 	}
 
 	// Adds a rental to additional service
@@ -64,6 +64,23 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 		// avoid error
 		additionalService.setId(0);
 		this.additionalServiceDao.save(additionalService);
+		return new SuccessResult(Messages.ADDITIONALSERVICEADD);
+	}
+	@Override
+	public Result addAll(List<CreateAdditionalServiceRequest> createAdditionalServiceRequests) {
+		Result result = BusinessRules.run(checkIfRentalExists(createAdditionalServiceRequests.get(0).getRentalId()));
+		if (result != null) {
+			return result;
+		}
+	
+		List<AdditionalService> response = createAdditionalServiceRequests.stream().map(
+				service -> modelMapperService.forRequest().map(service, AdditionalService.class)				
+				)
+				.collect(Collectors.toList());
+		for(AdditionalService service: response) {
+			service.setId(0);
+		}
+		this.additionalServiceDao.saveAll(response);
 		return new SuccessResult(Messages.ADDITIONALSERVICEADD);
 	}
 
@@ -98,5 +115,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 		} else
 			return new SuccessResult();
 	}
+
+
 
 }

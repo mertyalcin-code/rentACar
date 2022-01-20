@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +22,7 @@ import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.Crea
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.UpdateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/individual-customers")
 public class IndividualCustomersController {
@@ -37,7 +38,7 @@ public class IndividualCustomersController {
 
 	// lists individual customers according to page
 	@GetMapping("find-all")
-	public DataResult<List<IndividualCustomerListDto>> findAll(@RequestParam int pageNo,
+	public DataResult<List<IndividualCustomerListDto>> findAll(@RequestParam(defaultValue = "1") int pageNo,
 			@RequestParam(defaultValue = "10") int pageSize) {
 
 		return this.individualCustomerService.findAll(pageNo, pageSize);

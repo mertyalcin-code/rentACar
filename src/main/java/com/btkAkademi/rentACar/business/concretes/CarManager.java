@@ -58,7 +58,7 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
 	}
 
 	// lists cars according to brand
@@ -69,7 +69,7 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAllByBrandId(brandId, pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.LIST);
 	}
 
 	// lists cars according to color
@@ -79,7 +79,7 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAllByColorId(colorId, pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.LIST);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class CarManager implements CarService {
 		List<Car> cars = carDao.findAllBySegmentId(segmentId);
 		List<CarListDto> response = cars.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.LIST);
 	}
 
 	// Finds Car by id
@@ -97,7 +97,7 @@ public class CarManager implements CarService {
 
 			CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
 
-			return new SuccessDataResult<CarListDto>(response);
+			return new SuccessDataResult<CarListDto>(response,Messages.CARLIST);
 		} else
 			return new ErrorDataResult<>(Messages.CARNOTFOUND);
 	}
@@ -138,7 +138,7 @@ public class CarManager implements CarService {
 		Car car = carDao.findById(carId).get();
 		car.setKilometer(kilometer);
 		carDao.save(car);
-		return new SuccessResult();
+		return new SuccessResult("success");
 
 	}
 
@@ -148,7 +148,7 @@ public class CarManager implements CarService {
 		City city = modelMapperService.forRequest().map(cityService.findById(cityId).getData(), City.class);
 		car.setCity(city);
 		carDao.save(car);
-		return new SuccessResult();
+		return new SuccessResult("success");
 	}
 
 	// Deletes a car
@@ -196,7 +196,7 @@ public class CarManager implements CarService {
 		if (carDao.findAvailableCarBySegment(segmentId, cityId).size() < 1) {
 			return new ErrorDataResult<List<Integer>>();
 		} else
-			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId, cityId));
+			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId, cityId),Messages.LIST);
 	}
 
 }

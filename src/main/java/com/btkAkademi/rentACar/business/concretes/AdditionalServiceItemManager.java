@@ -48,9 +48,9 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 			AdditionalServiceItem item = additionalServiceItemDao.findById(id).get();
 			AdditionalServiceItemListDto response = modelMapperService.forDto().map(item,
 					AdditionalServiceItemListDto.class);
-			return new SuccessDataResult<AdditionalServiceItemListDto>(response);
+			return new SuccessDataResult<AdditionalServiceItemListDto>(response,Messages.LIST);
 		} else
-			return new ErrorDataResult<AdditionalServiceItemListDto>();
+			return new ErrorDataResult<AdditionalServiceItemListDto>(Messages.ADDITIONALSERVICEITEMNOTFOUND);
 
 	}
 

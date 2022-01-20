@@ -38,7 +38,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 
 	// lists payment for one paymentDetail
 	@Override
-	public DataResult<List<CustomerCardDetailListDto>> findCustomerPaymentDetailsByCustomerId(int customerId) {
+	public DataResult<List<CustomerCardDetailListDto>> findCustomerCardDetailsByCustomerId(int customerId) {
 
 		List<CustomerCardDetail> customerPaymentDetails = customerCardDetailDao.findAllByCustomerId(customerId);
 		List<CustomerCardDetailListDto> response = customerPaymentDetails.stream()
@@ -46,7 +46,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 						CustomerCardDetailListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<>(response);
+		return new SuccessDataResult<>(response,Messages.LIST);
 
 	}
 
@@ -57,7 +57,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 			CustomerCardDetail customerPaymentDetail = customerCardDetailDao.findById(id).get();
 			CustomerCardDetailListDto response = modelMapperService.forDto().map(customerPaymentDetail,
 					CustomerCardDetailListDto.class);
-			return new SuccessDataResult<CustomerCardDetailListDto>(response);
+			return new SuccessDataResult<CustomerCardDetailListDto>(response,Messages.LIST);
 		}
 		return new ErrorDataResult<CustomerCardDetailListDto>(Messages.CREDITCARDNOTFOUND);
 	}

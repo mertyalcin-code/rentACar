@@ -1,8 +1,11 @@
 package com.btkAkademi.rentACar.ws.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.CustomerCardDetailService;
+import com.btkAkademi.rentACar.business.dtos.CustomerCardDetailListDto;
 import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.CreateCustomerCardDetailRequest;
 import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.UpdateCustomerCardDetailsRequest;
+import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/customer-card-details")
 public class CustomerCardDetailsController {
@@ -29,13 +34,13 @@ public class CustomerCardDetailsController {
 	}
 
 	@GetMapping("find-by-customer-id/{id}")
-	public Result findByCustomerId(@PathVariable int id) {
+	public DataResult<List<CustomerCardDetailListDto>> findByCustomerId(@PathVariable int id) {
 
-		return this.customerCardDetailService.findCustomerPaymentDetailsByCustomerId(id);
+		return this.customerCardDetailService.findCustomerCardDetailsByCustomerId(id);
 	}
 
 	@GetMapping("find-by-id/{id}")
-	public Result findById(@PathVariable int id) {
+	public DataResult<CustomerCardDetailListDto> findById(@PathVariable int id) {
 
 		return this.customerCardDetailService.findById(id);
 	}

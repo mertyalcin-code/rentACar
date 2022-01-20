@@ -25,4 +25,6 @@ public interface RentalService {
 
 	boolean isCarRented(int carId);
 
+	DataResult<RentalListDto> findActiveRentalByCarId(int id);
+
 }

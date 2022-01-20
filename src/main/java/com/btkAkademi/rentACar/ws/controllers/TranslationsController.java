@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import com.btkAkademi.rentACar.business.requests.translationRequests.DeleteTrans
 import com.btkAkademi.rentACar.business.requests.translationRequests.UpdateTranslationRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("api/translations")
 public class TranslationsController {
@@ -31,7 +32,12 @@ public class TranslationsController {
 	public TranslationsController(TranslationService translationService) {
 		this.translationService = translationService;
 	}
-
+	
+	@GetMapping("find-all")
+	public DataResult<List<TranslationSearchListDto>> getAll() {
+		return this.translationService.getAll();
+	}
+	//find by id ekle
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateTranslationRequest createTranslationRequest) {
 		return this.translationService.add(createTranslationRequest);
@@ -47,9 +53,6 @@ public class TranslationsController {
 		return this.translationService.update(updateTranslationRequest);
 	}
 
-	@GetMapping("get-all")
-	public DataResult<List<TranslationSearchListDto>> getAll() {
-		return this.translationService.getAll();
-	}
+
 
 }

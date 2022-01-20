@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.Creat
 import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.UpdateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/additional-services")
 public class AdditionalServicesController {
@@ -41,6 +42,10 @@ public class AdditionalServicesController {
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateAdditionalServiceRequest createAdditionalService) {
 		return this.additionalServiceService.add(createAdditionalService);
+	}
+	@PostMapping("add-all")
+	public Result addAll(@RequestBody @Valid List<CreateAdditionalServiceRequest> createAdditionalService) {
+		return this.additionalServiceService.addAll(createAdditionalService);
 	}
 
 	@PutMapping("update")

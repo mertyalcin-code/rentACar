@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import com.btkAkademi.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.btkAkademi.rentACar.business.requests.carRequests.UpdateCarRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/cars")
 public class CarsController {
@@ -35,7 +36,7 @@ public class CarsController {
 
 	// lists all cars with pageSize
 	@GetMapping("find-all")
-	public DataResult<List<CarListDto>> findAll(@RequestParam int pageNo,
+	public DataResult<List<CarListDto>> findAll(@RequestParam(defaultValue = " 1") int pageNo,
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.carService.findAll(pageNo, pageSize);
 	}
