@@ -103,8 +103,10 @@ public class PaymentManager implements PaymentService {
 
 	@Override
 	public DataResult<Double> calculateTotalPriceForDisplay(CalculateTotalPriceRequest calculateTotalPriceRequest) {
-		
-		Double price = this.totalPriceCalculator((rentalService.findById(calculateTotalPriceRequest.getRentalId())).getData(), calculateTotalPriceRequest.getReturnDate());
+		RentalListDto rental = rentalService.findById(calculateTotalPriceRequest.getRentalId()).getData();
+		System.out.println(rental.getRentDate());
+		Double price = this.totalPriceCalculator(rental, calculateTotalPriceRequest.getReturnDate());
+		System.out.println(price);
 		return new SuccessDataResult<Double>(price,Messages.LIST);
 	}
 
@@ -127,7 +129,7 @@ public class PaymentManager implements PaymentService {
 
 		// Bussiness logic
 		Result result = BusinessRules.run(
-				bankAdapterService.checkIfLimitIsEnough(createPaymentRequest.getCardNo(), createPaymentRequest.getDay(),
+				bankAdapterService.checkIfLimitIsEnough(createPaymentRequest.getCardNo(), createPaymentRequest.getYear(),
 						createPaymentRequest.getMonth(), createPaymentRequest.getCvv(), totalPrice));
 		if (result != null) {
 			return result;
@@ -166,7 +168,7 @@ public class PaymentManager implements PaymentService {
 	private double totalPriceCalculator(RentalListDto rental,LocalDate returnDate) {
 
 		double totalPrice = 0.0;
-
+		System.out.println(rental.getRentDate()+" " +returnDate);
 		// finds usage day
 		long days = ChronoUnit.DAYS.between(rental.getRentDate(), returnDate);
 
@@ -179,7 +181,7 @@ public class PaymentManager implements PaymentService {
 		// discount
 		if (rental.getPromoCodeId() != 0) {
 			PromoCodeDto promoCode = promoCodeService.findById(rental.getPromoCodeId()).getData();
-			if (!promoCode.getEndDate().isAfter(rental.getReturnDate())) {
+			if (!promoCode.getEndDate().isAfter(returnDate)) {
 				double discountRate = 0;
 				discountRate = promoCode.getDiscountRate();
 				totalPrice = totalPrice - (totalPrice * discountRate);

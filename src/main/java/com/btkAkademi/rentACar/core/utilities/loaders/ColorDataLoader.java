@@ -1,4 +1,4 @@
-package com.btkAkademi.rentACar.core.utilities.Loaders;
+package com.btkAkademi.rentACar.core.utilities.loaders;
 
 import java.util.ArrayList;
 import java.util.HashSet;

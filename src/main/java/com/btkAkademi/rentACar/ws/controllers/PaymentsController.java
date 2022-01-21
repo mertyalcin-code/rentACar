@@ -40,8 +40,9 @@ public class PaymentsController {
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.paymentService.findAll(pageNo, pageSize);
 	}
-	@GetMapping("find-total-price")
+	@PostMapping("find-total-price")
 	public DataResult<Double> calculateTotalPrice(@RequestBody CalculateTotalPriceRequest calculateTotalPriceRequest) {
+		 System.out.println(calculateTotalPriceRequest.getReturnDate());
 		return this.paymentService.calculateTotalPriceForDisplay(calculateTotalPriceRequest);
 	}
 

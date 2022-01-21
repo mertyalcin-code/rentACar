@@ -64,9 +64,12 @@ public class PromoCodeManager implements PromoCodeService {
 	// finds by id
 	@Override
 	public DataResult<PromoCodeDto> findById(int promoCodeId) {
-		PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
-		PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-		return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
+		if(promoCodeDao.existsById(promoCodeId)) {
+			PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
+			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
+			return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
+		}else return new ErrorDataResult<PromoCodeDto>(Messages.NOTFOUND);
+		
 	}
 
 	// Finds by Code
@@ -76,9 +79,11 @@ public class PromoCodeManager implements PromoCodeService {
 		PromoCode promoCode = promoCodeDao.findByCode(code);
 		if (promoCode == null) {
 			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
+		}else {
+			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
+			return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
 		}
-		PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-		return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
+	
 	}
 
 	// Creates a new code

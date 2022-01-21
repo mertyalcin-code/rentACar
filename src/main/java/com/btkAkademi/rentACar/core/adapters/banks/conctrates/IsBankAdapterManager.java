@@ -2,6 +2,7 @@ package com.btkAkademi.rentACar.core.adapters.banks.conctrates;
 
 import org.springframework.stereotype.Service;
 
+import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.core.adapters.banks.abstracts.BankAdapterService;
 import com.btkAkademi.rentACar.core.externalServices.banks.IsBank;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
@@ -17,7 +18,7 @@ public class IsBankAdapterManager implements BankAdapterService {
 		if (isBank.isLimitExists(cardNo, day, mounth, cVV, amount)) {
 			return new SuccessResult();
 		} else {
-			return new ErrorResult();
+			return new ErrorResult(Messages.NOTFOUND);
 		}
 
 	}

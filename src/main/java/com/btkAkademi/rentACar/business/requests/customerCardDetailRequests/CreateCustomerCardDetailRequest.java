@@ -17,7 +17,7 @@ public class CreateCustomerCardDetailRequest {
 	private String cardNo;
 	@NotBlank
 	@Size(min=2,max=2)
-	private String day;
+	private String year;
 	@NotBlank
 	@Size(min=2,max=2)
 	private String month;

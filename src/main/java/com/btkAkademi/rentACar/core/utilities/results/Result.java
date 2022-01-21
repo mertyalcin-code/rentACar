@@ -24,6 +24,9 @@ public class Result {
 	
 	// for language
 	private String get(String message){
-		return LanguageSelector.languageSelector(message);
+		if(LanguageSelector.languageSelector(message)!=null) {
+			return LanguageSelector.languageSelector(message);
+		}else return "mesaj hatası";
+		
 	}
 }

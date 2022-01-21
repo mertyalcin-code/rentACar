@@ -26,8 +26,8 @@ public class CustomerCardDetail {
 	private int id;
 	@Column(name = "card_no")
 	private String cardNo;
-	@Column(name = "day")
-	private String day;
+	@Column(name = "year")
+	private String year;
 	@Column(name = "month")
 	private String month;
 	@Column(name = "cvv")

@@ -19,7 +19,7 @@ public class CreatePaymentRequest {
 	@NotEmpty
 	private String cardNo;
 	@NotEmpty
-	private String day;
+	private String year;
 	@NotEmpty
 	private String month;
 	@NotEmpty

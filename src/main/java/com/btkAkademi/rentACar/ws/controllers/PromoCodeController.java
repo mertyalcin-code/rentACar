@@ -39,7 +39,6 @@ public class PromoCodeController {
 	} 
 	@GetMapping("find-by-code/{code}")
 	public DataResult<PromoCodeDto> findByCode(@PathVariable String code) {
-		System.out.println(this.promoCodeService.findByCode(code).getData().getId());
 		return this.promoCodeService.findByCode(code);
 	} 
 
