@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class CustomerCardDetailListDto {
 	private int id;
 	private String cardNo;
-	private String day;
+	private String year;
 	private String month;
 	private String cvv;
 	private int customerId;

@@ -11,6 +11,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CustomerCardDetailListDto;
 import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.CreateCustomerCardDetailRequest;
 import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.UpdateCustomerCardDetailsRequest;
+import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
@@ -65,6 +66,10 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 	// adds new credit cart info
 	@Override
 	public Result add(CreateCustomerCardDetailRequest createCustomerPaymentDetailRequest) {
+		Result result = BusinessRules.run(checkIfCardNoExist(createCustomerPaymentDetailRequest.getCardNo()));
+		if (result != null) {
+			return result;
+		}
 		CustomerCardDetail customerPaymentDetail = this.modelMapperService.forRequest()
 				.map(createCustomerPaymentDetailRequest, CustomerCardDetail.class);
 		this.customerCardDetailDao.save(customerPaymentDetail);
@@ -88,6 +93,11 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 			return new SuccessResult(Messages.CREDITCARDELETE);
 		}
 		return new ErrorResult(Messages.CREDITCARDNOTFOUND);
+	}
+	private Result checkIfCardNoExist(String cardNo) {
+		if(customerCardDetailDao.findByCardNo(cardNo)!=null) {
+			return new ErrorResult(Messages.NOTFOUND);
+		}else return new SuccessResult();
 	}
 
 }
