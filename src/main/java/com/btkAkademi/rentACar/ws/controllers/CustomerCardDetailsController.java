@@ -46,9 +46,9 @@ public class CustomerCardDetailsController {
 	}
 
 	@PostMapping("add")
-	public Result add(@RequestBody @Valid CreateCustomerCardDetailRequest createCustomerPaymentDetailRequest) {
-
-		return this.customerCardDetailService.add(createCustomerPaymentDetailRequest);
+	public Result add(@RequestBody @Valid CreateCustomerCardDetailRequest createCustomerCardDetailRequest) {
+		System.out.println(createCustomerCardDetailRequest.getCardNo());
+		return this.customerCardDetailService.add(createCustomerCardDetailRequest);
 	}
 
 	@PutMapping("update")

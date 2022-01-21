@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
+import com.btkAkademi.rentACar.business.dtos.MyRentalListDto;
+import com.btkAkademi.rentACar.business.dtos.RentalAddResponse;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
@@ -44,7 +46,7 @@ public class RentalsController {
 	}
 
 	@GetMapping("find-all-by-customer-id/{id}")
-	public DataResult<List<RentalListDto>> findAllByCustomerId(@PathVariable int id) {
+	public DataResult<List<MyRentalListDto>> findAllByCustomerId(@PathVariable int id) {
 		return rentalService.findAllByCustomerId(id);
 	}
 	@GetMapping("find-active-rental-by-car-id/{id}")
@@ -59,12 +61,12 @@ public class RentalsController {
 
 	// Adds a new rental
 	@PostMapping("add-for-individual-customer")
-	public Result addForIndividualCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
+	public DataResult<RentalAddResponse>	 addForIndividualCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
 		return this.rentalService.addForIndividualCustomer(createRentalRequest);
 	}
 
 	@PostMapping("add-for-corporate-customer")
-	public Result addForCorporateCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
+	public DataResult<RentalAddResponse>	 addForCorporateCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
 		return this.rentalService.addForCorporateCustomer(createRentalRequest);
 	}
 

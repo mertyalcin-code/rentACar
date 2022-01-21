@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class PaymentManager implements PaymentService {
 
 	// Dependency injection
 	@Autowired
-	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService, RentalService rentalService,
+	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService,@Lazy RentalService rentalService,
 			CarService carService, AdditionalServiceService additionalServiceService,
 			BankAdapterService bankAdapterService, PromoCodeService promoCodeService,
 			AdditionalServiceItemService additionalServiceItemService) {
@@ -114,6 +115,7 @@ public class PaymentManager implements PaymentService {
 	// adds a payment
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {
+		createPaymentRequest.setPaymentTime(LocalDate.now());
 		// converts request to payment
 		Payment payment = this.modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
 
