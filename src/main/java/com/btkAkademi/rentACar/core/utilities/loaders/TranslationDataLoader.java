@@ -85,6 +85,8 @@ public class TranslationDataLoader implements CommandLineRunner {
 			words.add(new Word(0, "segment.delete", null));
 			words.add(new Word(0, "segment.name.already.exists", null));
 			words.add(new Word(0, "segment.not.found", null));
+			words.add(new Word(0, "list", null));
+			words.add(new Word(0, "not.found", null));
 			this.wordDao.saveAll(words);
 
 			// kendi eklediklerim biter
@@ -1553,6 +1555,10 @@ public class TranslationDataLoader implements CommandLineRunner {
 			}
 			// kendi eklediklerim
 			List<Translation> traslations2 = new ArrayList<>();
+			traslations2.add(new Translation(0, "Bulunamadı",
+					this.wordDao.getWordsByKey("not found"), turkish));
+			traslations2.add(new Translation(0, "Veri Listelendi",
+					this.wordDao.getWordsByKey("list"), turkish));
 			traslations2.add(new Translation(0, "Ek Servis Sisteme Eklendi",
 					this.wordDao.getWordsByKey("additional.service.item.added"), turkish));
 			traslations2.add(new Translation(0, "Ek Servis Sistemden Güncellendi",

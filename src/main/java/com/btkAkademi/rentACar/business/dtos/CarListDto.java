@@ -23,4 +23,6 @@ public class CarListDto {
 	private int cityId;
 	private String CityName;
 	private String SegmentName;
+	private String brandId;
+	private int colorId;
 }

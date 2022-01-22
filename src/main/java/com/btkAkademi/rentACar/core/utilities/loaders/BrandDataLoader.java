@@ -22,6 +22,24 @@ public class BrandDataLoader implements CommandLineRunner {
 	}
 	private void loadBrands() {
 		if(brandDao.count()==0) {
+			List<Brand> brands = new ArrayList<>();			
+			brands.add(new Brand(0,"Audi",null));			
+			brands.add(new Brand(0,"Bmw",null));
+			brands.add(new Brand(0,"Citroen",null));
+			brands.add(new Brand(0,"Dacia",null));	
+			brands.add(new Brand(0,"Ford",null));	
+			brands.add(new Brand(0,"Honda",null));
+			brands.add(new Brand(0,"Hyundai",null));		
+			brands.add(new Brand(0,"Land Rover",null));		
+			brands.add(new Brand(0,"Renault",null));		
+			brands.add(new Brand(0,"Toyota",null));
+			brands.add(new Brand(0,"Volkswagen",null));			
+			brandDao.saveAll(brands);
+		}
+		
+	}
+	private void loadBrands2() {
+		if(brandDao.count()==0) {
 			List<Brand> brands = new ArrayList<>();
 			brands.add(new Brand(0,"Alfa Romeo",null));
 			brands.add(new Brand(0,"Aston Martin",null));
@@ -84,7 +102,6 @@ public class BrandDataLoader implements CommandLineRunner {
 			brands.add(new Brand(0,"Toyota",null));
 			brands.add(new Brand(0,"Volkswagen",null));
 			brands.add(new Brand(0,"Volvo",null));	
-			
 			brandDao.saveAll(brands);
 		}
 	}

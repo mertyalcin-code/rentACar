@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateAdditionalServiceItemRequest {
+	private int id;
 	 @NotBlank
 	 @Size(min = 2,max = 250)
 	private String name;

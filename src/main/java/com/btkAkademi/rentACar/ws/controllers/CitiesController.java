@@ -50,6 +50,7 @@ public class CitiesController {
 	// Adds a new city
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateCityRequest createCityRequest) {
+		System.out.println(createCityRequest.getCityName());
 		return this.cityService.add(createCityRequest);
 	}
 

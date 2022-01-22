@@ -51,7 +51,7 @@ public class ColorManager implements ColorService {
 		if (colorDao.existsById(id)) {
 			Color color = colorDao.findById(id).get();
 			ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
-			return new SuccessDataResult<>(response);
+			return new SuccessDataResult<>(response,Messages.COLORLIST);
 		} else
 			return new ErrorDataResult<>(Messages.COLORNOTFOUND);
 

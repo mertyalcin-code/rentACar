@@ -37,7 +37,7 @@ public class CarsController {
 	// lists all cars with pageSize
 	@GetMapping("find-all")
 	public DataResult<List<CarListDto>> findAll(@RequestParam(defaultValue = " 1") int pageNo,
-			@RequestParam(defaultValue = " 10") int pageSize) {
+			@RequestParam(defaultValue = " 100") int pageSize) {
 		return this.carService.findAll(pageNo, pageSize);
 	}
 
