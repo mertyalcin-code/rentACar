@@ -38,7 +38,7 @@ public class LanguageSelector {
 		var word = wordService.getByKey(message);
 		var translation = translationService.getTranslationByLanguage_IdAndWord_Id(language.getData().getId(),
 				word.getData().getId());
-		return translation.getTranslation();
+		return translation.getTranslation()==null ? "" :translation.getTranslation();
 	}
 
 }
