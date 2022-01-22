@@ -15,6 +15,6 @@ public class CreateCarMaintenanceRequest {
 
 	private int carId;
 	
-	private LocalDate maintananceStart;
+	private LocalDate maintenanceStart;
 
 }

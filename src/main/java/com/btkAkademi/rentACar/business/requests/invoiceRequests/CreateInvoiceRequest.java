@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateInvoiceRequest {
 	private int rentalId;
-	private LocalDate creationDate;
 }

@@ -41,6 +41,10 @@ public class PromoCodeController {
 	public DataResult<PromoCodeDto> findByCode(@PathVariable String code) {
 		return this.promoCodeService.findByCode(code);
 	} 
+	@GetMapping("find-by-id/{id}")
+	public DataResult<PromoCodeDto> findByCode(@PathVariable int id) {
+		return this.promoCodeService.findById(id);
+	} 
 
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreatePromoCodeRequest createPromoCodeRequest) {
@@ -50,7 +54,6 @@ public class PromoCodeController {
 
 	@PutMapping("update")
 	public Result update(@RequestBody @Valid UpdatePromoCodeRequest updatePromoCodeRequest) {
-
 		return this.promoCodeService.update(updatePromoCodeRequest);
 	}
 

@@ -40,8 +40,8 @@ public class RentalsController {
 
 	// lists all rentals in the system
 	@GetMapping("find-all")
-	public DataResult<List<RentalListDto>> findAll(@RequestParam int pageNo,
-			@RequestParam(defaultValue = "10") int pageSize) {
+	public DataResult<List<RentalListDto>> findAll(@RequestParam(defaultValue = "1") int pageNo,
+			@RequestParam(defaultValue = "100") int pageSize) {
 		return rentalService.findAll(pageNo, pageSize);
 	}
 

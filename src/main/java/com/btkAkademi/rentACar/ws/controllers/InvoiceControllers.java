@@ -1,5 +1,7 @@
 package com.btkAkademi.rentACar.ws.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.btkAkademi.rentACar.business.abstracts.InvoiceService;
 import com.btkAkademi.rentACar.business.dtos.InvoiceCorporateCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceIndividualCustomerDto;
+import com.btkAkademi.rentACar.business.dtos.InvoiceListDto;
 import com.btkAkademi.rentACar.business.requests.invoiceRequests.CreateInvoiceRequest;
 import com.btkAkademi.rentACar.business.requests.invoiceRequests.UpdateInvoiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
@@ -29,6 +32,11 @@ public class InvoiceControllers {
 		super();
 		this.invoiceService = invoiceService;
 	}
+	@GetMapping("find-all")
+	public DataResult<List<InvoiceListDto>> findAll() {
+		return this.invoiceService.findAll();
+	}
+
 
 	@GetMapping("find-invoice-for-corporate-customer/{rentalId}")
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(@PathVariable int rentalId) {

@@ -75,13 +75,17 @@ public class PromoCodeManager implements PromoCodeService {
 	// Finds by Code
 	@Override
 	public DataResult<PromoCodeDto> findByCode(String code) {
-
 		PromoCode promoCode = promoCodeDao.findByCode(code);
-		if (promoCode == null) {
+		if (promoCode == null) {			
 			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
 		}else {
 			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-			return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
+			
+			Result result = BusinessRules.run(
+					checkIfCodeStillValid(response));
+			if (result != null) {
+				return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODEEXPIRED);
+			}else return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
 		}
 	
 	}
@@ -133,10 +137,17 @@ public class PromoCodeManager implements PromoCodeService {
 			return new SuccessResult();
 	}
 
-	// codes should be unique
+	// dates should be correct
 	private Result checkIfDatesAreCorrect(LocalDate startDate, LocalDate endDate) {
 		if (endDate.isBefore(startDate)) {
 			return new ErrorResult(Messages.DATESARENOTCORRECT);
+		} else
+			return new SuccessResult();
+	}
+	
+	private Result checkIfCodeStillValid(PromoCodeDto code) {
+		if (code.getEndDate().isBefore(LocalDate.now())) {
+			return new ErrorResult(Messages.PROMOCODEEXPIRED);
 		} else
 			return new SuccessResult();
 	}

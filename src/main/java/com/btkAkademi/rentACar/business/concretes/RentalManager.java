@@ -112,6 +112,7 @@ public class RentalManager implements RentalService {
 					totalPrice+=payment.getTotalPaymentAmount();
 				}
 				responseItem.setTotalPayment(totalPrice);
+				responseItem.setReturnDate(rental.getReturnDate());
 			}
 			if(isRentalFinished(rental.getCar().getId())) {
 				responseItem.setRentalFinished(true);
@@ -120,7 +121,7 @@ public class RentalManager implements RentalService {
 				if(invoiceService.getInvoiceForIndividualCustomer(rental.getId()).isSuccess()
 						|| invoiceService.getInvoiceForCorporateCustomer(rental.getId()).isSuccess()
 						) {
-					responseItem.setReturnDate(rental.getReturnDate());
+	
 					responseItem.setInvoiceCreated(true);
 				}
 			}
@@ -377,7 +378,7 @@ public class RentalManager implements RentalService {
 	}
 	private boolean isRentalFinished(int rentalId) {
 		if (this.findById(rentalId).getData() != null) {
-			if (this.findById(rentalId).getData().getReturnDate() == null) {
+			if (this.findById(rentalId).getData().getReturnDate() != null) {
 				return true;
 			} else
 				return false;

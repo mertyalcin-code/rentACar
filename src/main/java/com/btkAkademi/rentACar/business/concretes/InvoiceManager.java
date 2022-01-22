@@ -1,7 +1,11 @@
 package com.btkAkademi.rentACar.business.concretes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -21,6 +25,7 @@ import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceCorporateCustomerDto;
 import com.btkAkademi.rentACar.business.dtos.InvoiceIndividualCustomerDto;
+import com.btkAkademi.rentACar.business.dtos.InvoiceListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
 import com.btkAkademi.rentACar.business.requests.invoiceRequests.CreateInvoiceRequest;
@@ -51,11 +56,11 @@ public class InvoiceManager implements InvoiceService {
 
 	// Dependency Injection
 	@Autowired
-	public InvoiceManager(InvoiceDao invoiceDao,@Lazy ModelMapperService modelMapperService,
-			@Lazy IndividualCustomerService individualCustomerService,@Lazy CorporateCustomerService corporateCustomerService,
-			@Lazy RentalService rentalService, @Lazy PaymentService paymentService,
-			@Lazy AdditionalServiceService additionalServiceService,
-			@Lazy	AdditionalServiceItemService additionalServiceItemService) {
+	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService,
+			 IndividualCustomerService individualCustomerService,CorporateCustomerService corporateCustomerService,
+			@Lazy RentalService rentalService, PaymentService paymentService,
+			 AdditionalServiceService additionalServiceService,
+				AdditionalServiceItemService additionalServiceItemService) {
 		super();
 		this.invoiceDao = invoiceDao;
 		this.modelMapperService = modelMapperService;
@@ -66,7 +71,7 @@ public class InvoiceManager implements InvoiceService {
 		this.additionalServiceService = additionalServiceService;
 		this.additionalServiceItemService = additionalServiceItemService;
 	}
-
+	
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceIndividualCustomerDto> getInvoiceForIndividualCustomer(int rentalId) {
@@ -132,6 +137,16 @@ public class InvoiceManager implements InvoiceService {
 				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems).build();
 		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto,Messages.LIST);
 	}
+	
+	@Override
+	public DataResult<List<InvoiceListDto>> findAll() {
+		List<Invoice> invoiceList = invoiceDao.findAll();
+		List<InvoiceListDto> response = invoiceList.stream().map(
+				invoice -> modelMapperService.forDto().map(invoice, InvoiceListDto.class)
+				
+				).collect(Collectors.toList());
+				return new SuccessDataResult<List<InvoiceListDto>>(response,Messages.INVOICELIST);
+	}
 
 	// Creates an invoice request
 	@Override
@@ -141,6 +156,7 @@ public class InvoiceManager implements InvoiceService {
 			return result;
 		}
 		Invoice invoice = this.modelMapperService.forRequest().map(createInvoiceRequest, Invoice.class);
+		invoice.setCreationDate(LocalDate.now());
 		this.invoiceDao.save(invoice);
 		return new SuccessResult(Messages.INVOICEADD);
 	}
@@ -198,5 +214,9 @@ public class InvoiceManager implements InvoiceService {
 		} else
 			return new ErrorResult(Messages.PAYMENTNOTFOUND);
 	}
+
+
+
+
 
 }

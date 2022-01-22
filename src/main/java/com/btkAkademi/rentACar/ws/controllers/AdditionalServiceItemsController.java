@@ -39,7 +39,13 @@ public class AdditionalServiceItemsController {
 	public DataResult<List<AdditionalServiceItemListDto>> findAllByRentalId() {
 		return additionalServiceItemService.findAll();
 
-	} //find by id ekleee
+	}
+
+	@GetMapping("find-by-id/{id}")
+	public DataResult<AdditionalServiceItemListDto> findById(@PathVariable int id) {
+		return additionalServiceItemService.findById(id);
+
+	}
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateAdditionalServiceItemRequest createAdditionalServiceItemRequest) {
 		return this.additionalServiceItemService.add(createAdditionalServiceItemRequest);

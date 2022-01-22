@@ -234,4 +234,6 @@ public class Messages {
 	public static final String LIST = "list";
 	public static final String NOTFOUND = "not.found";
 
+	public static final String PROMOCODEEXPIRED = "promo.code.expired";
+
 }

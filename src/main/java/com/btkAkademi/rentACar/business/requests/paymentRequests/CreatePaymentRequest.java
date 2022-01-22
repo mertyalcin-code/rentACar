@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class CreatePaymentRequest {
 	private LocalDate paymentTime;
 	private int rentalId;
-	
 	private LocalDate returnDate;
 	@NotEmpty
 	private String cardNo;
