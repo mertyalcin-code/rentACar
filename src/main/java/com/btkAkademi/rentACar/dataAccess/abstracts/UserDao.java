@@ -8,4 +8,5 @@ import com.btkAkademi.rentACar.entities.concretes.User;
 public interface UserDao extends JpaRepository<User, Integer>{
 
 		User findByEmail(String email);
+		User findByRole(String role);
 }
