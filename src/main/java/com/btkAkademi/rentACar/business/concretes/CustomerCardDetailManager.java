@@ -96,7 +96,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 	}
 	private Result checkIfCardNoExist(String cardNo) {
 		if(customerCardDetailDao.findByCardNo(cardNo)!=null) {
-			return new ErrorResult(Messages.CREDITCARDNOTFOUND);
+			return new ErrorResult(Messages.CREDITCARDALREADYEXISTS);
 		}else return new SuccessResult();
 	}
 

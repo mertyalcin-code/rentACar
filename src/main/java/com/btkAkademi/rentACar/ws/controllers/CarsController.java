@@ -40,16 +40,21 @@ public class CarsController {
 			@RequestParam(defaultValue = " 100") int pageSize) {
 		return this.carService.findAll(pageNo, pageSize);
 	}
+	@GetMapping("find-all-available")
+	public DataResult<List<CarListDto>> findAllAvailable(@RequestParam(defaultValue = " 1") int pageNo,
+			@RequestParam(defaultValue = " 1000") int pageSize) {
+		return this.carService.findAllAvailable(pageNo, pageSize);
+	}
 
 	@GetMapping("find-all-by-brand-id")
 	public DataResult<List<CarListDto>> findAllByBrandId(@RequestParam int brandId, @RequestParam int pageNo,
-			@RequestParam(defaultValue = " 10") int pageSize) {
+			@RequestParam(defaultValue = " 100") int pageSize) {
 		return this.carService.findAllByBrandId(brandId, pageNo, pageSize);
 	}
 
 	@GetMapping("find-all-by-color-id")
 	public DataResult<List<CarListDto>> findAllByColorId(@RequestParam int colorId, @RequestParam int pageNo,
-			@RequestParam(defaultValue = " 10") int pageSize) {
+			@RequestParam(defaultValue = " 100") int pageSize) {
 		return this.carService.findAllByColorId(colorId, pageNo, pageSize);
 	}
 

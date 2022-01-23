@@ -1,0 +1,61 @@
+2022-01-23 15:30:51.625  INFO 19180 --- [restartedMain] c.b.rentACar.RentACarApplication         : Starting RentACarApplication using Java 17 on AMBELOKIPI with PID 19180 (C:\Users\yalci\git\rentACar\target\classes started by yalci in C:\Users\yalci\git\rentACar)
+2022-01-23 15:30:51.625  INFO 19180 --- [restartedMain] c.b.rentACar.RentACarApplication         : No active profile set, falling back to default profiles: default
+2022-01-23 15:30:51.788  INFO 19180 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-01-23 15:30:51.841  INFO 19180 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 52 ms. Found 21 JPA repository interfaces.
+2022-01-23 15:30:51.884  INFO 19180 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-01-23 15:30:51.884  INFO 19180 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-01-23 15:30:51.884  INFO 19180 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-01-23 15:30:51.898  INFO 19180 --- [restartedMain] o.a.c.c.C.[Tomcat-6].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2022-01-23 15:30:51.898  INFO 19180 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 272 ms
+2022-01-23 15:30:51.902  INFO 19180 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-39 - Starting...
+2022-01-23 15:30:51.955  INFO 19180 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-39 - Start completed.
+2022-01-23 15:30:51.955  INFO 19180 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/rentACar'
+2022-01-23 15:30:51.976  INFO 19180 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-01-23 15:30:51.979  INFO 19180 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-01-23 15:30:52.276  INFO 19180 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-01-23 15:30:52.276  INFO 19180 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-01-23 15:30:52.563  WARN 19180 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-01-23 15:30:52.688  INFO 19180 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-01-23 15:30:52.692  INFO 19180 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-01-23 15:30:52.694  INFO 19180 --- [restartedMain] c.b.rentACar.RentACarApplication         : Started RentACarApplication in 1.102 seconds (JVM running for 12232.403)
+2022-01-23 15:30:52.702  INFO 19180 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-01-23 15:31:13.347  INFO 19944 --- [restartedMain] c.b.rentACar.RentACarApplication         : Starting RentACarApplication using Java 17 on AMBELOKIPI with PID 19944 (C:\Users\yalci\git\rentACar\target\classes started by yalci in C:\Users\yalci\git\rentACar)
+2022-01-23 15:31:13.349  INFO 19944 --- [restartedMain] c.b.rentACar.RentACarApplication         : No active profile set, falling back to default profiles: default
+2022-01-23 15:31:13.415  INFO 19944 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-01-23 15:31:13.415  INFO 19944 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-01-23 15:31:14.384  INFO 19944 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-01-23 15:31:14.536  INFO 19944 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 136 ms. Found 21 JPA repository interfaces.
+2022-01-23 15:31:15.346  INFO 19944 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-01-23 15:31:15.363  INFO 19944 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-01-23 15:31:15.364  INFO 19944 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.56]
+2022-01-23 15:31:15.451  INFO 19944 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-01-23 15:31:15.452  INFO 19944 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2037 ms
+2022-01-23 15:31:15.486  INFO 19944 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-01-23 15:31:15.709  INFO 19944 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-01-23 15:31:15.722  INFO 19944 --- [restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:postgresql://localhost:5432/rentACar'
+2022-01-23 15:31:15.872  INFO 19944 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-01-23 15:31:15.938  INFO 19944 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 5.6.3.Final
+2022-01-23 15:31:16.156  INFO 19944 --- [restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2022-01-23 15:31:16.367  INFO 19944 --- [restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2022-01-23 15:31:17.600  INFO 19944 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-01-23 15:31:17.609  INFO 19944 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-01-23 15:31:18.706  WARN 19944 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-01-23 15:31:19.497  INFO 19944 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-01-23 15:31:19.551  INFO 19944 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-01-23 15:31:19.560  INFO 19944 --- [restartedMain] c.b.rentACar.RentACarApplication         : Started RentACarApplication in 6.661 seconds (JVM running for 7.199)
+2022-01-23 16:04:51.912 ERROR 26528 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'logging.level' to java.util.Map<java.lang.String, org.springframework.boot.logging.LogLevel>:
+
+    Reason: org.springframework.core.convert.ConverterNotFoundException: No converter found capable of converting from type [java.lang.String] to type [java.util.Map<java.lang.String, org.springframework.boot.logging.LogLevel>]
+
+Action:
+
+Update your application's configuration
+

@@ -4,6 +4,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class CreateCarRequest {
 	@Min(0)
 	@Max(2500000)
 	private int kilometer;
-	
+	@Pattern(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
 	private String imageUrl;
 	@NotBlank
 	private String description;

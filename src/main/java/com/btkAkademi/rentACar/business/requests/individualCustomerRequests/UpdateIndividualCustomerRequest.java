@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -27,5 +28,7 @@ public class UpdateIndividualCustomerRequest {
 	@Size(min = 2, max = 100)
 	private String lastName;
 	@NotNull
+	@Pattern(regexp = "[0-9]+")
+	@Size(min=11,max=11)
 	private LocalDate birthDate;
 }

@@ -12,6 +12,8 @@ public interface CarService {
 
 	DataResult<List<CarListDto>> findAll(int pageNo, int pageSize);
 
+	DataResult<List<CarListDto>> findAllAvailable(int pageNo, int pageSize);
+	
 	DataResult<List<CarListDto>> findAllByBrandId(int brandId, int pageNo, int pageSize);
 
 	DataResult<List<CarListDto>> findAllByColorId(int colorId, int pageNo, int pageSize);

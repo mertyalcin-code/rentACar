@@ -16,6 +16,6 @@ public class UpdateColorRequest {
 
 	private int id;
 	@NotBlank
-	@Size(message = Messages.COLORNAMEERROR)
+	@Size(min=2,message = Messages.COLORNAMEERROR)
 	private String name;
 }

@@ -2,6 +2,7 @@ package com.btkAkademi.rentACar.business.requests.corporateCustomerRequests;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -19,5 +20,6 @@ public class UpdateCorporateCustomerRequest {
 	@Size(min = 3, max = 255)
 	private String companyName;
 	@Size(min = 4, max = 255)
+	@Pattern(regexp = "[0-9]+")
 	private String taxNumber;
 }
