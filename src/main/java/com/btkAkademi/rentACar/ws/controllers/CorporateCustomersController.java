@@ -37,8 +37,8 @@ public class CorporateCustomersController {
 	}
 
 	@GetMapping("find-all")
-	public DataResult<List<CorporateCustomerListDto>> findAll(@RequestParam int pageNo,
-			@RequestParam(defaultValue = "10") int pageSize) {
+	public DataResult<List<CorporateCustomerListDto>> findAll(@RequestParam(defaultValue = "1") int pageNo ,
+			@RequestParam(defaultValue = "1000") int pageSize) {
 
 		return this.corporateCustomerService.findAll(pageNo, pageSize);
 	}

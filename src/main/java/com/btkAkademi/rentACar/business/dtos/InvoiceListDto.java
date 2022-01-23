@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class InvoiceListDto {
 	private int id;
-	private LocalDate creatationDate;
-	private int rentald;
+	private LocalDate creationDate;
+	private int rentalId;
+	private String customerRole;
 }
