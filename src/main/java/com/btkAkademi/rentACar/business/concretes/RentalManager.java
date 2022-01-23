@@ -89,7 +89,7 @@ public class RentalManager implements RentalService {
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<RentalListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<RentalListDto>>(response,Messages.RENTALLIST);
 	}
 
 	// Lists all rentals for one customer
@@ -132,7 +132,7 @@ public class RentalManager implements RentalService {
 			response.add(responseItem);
 		}
 		
-		return new SuccessDataResult<List<MyRentalListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<MyRentalListDto>>(response,Messages.RENTALLIST);
 	}
 
 	// finds specific rental
@@ -142,7 +142,7 @@ public class RentalManager implements RentalService {
 		if (rentalDao.existsById(id)) {
 			RentalListDto response = modelMapperService.forDto().map(rentalDao.findById(id).get(), RentalListDto.class);
 
-			return new SuccessDataResult<>(response,Messages.LIST);
+			return new SuccessDataResult<>(response,Messages.RENTALLIST);
 		}
 		else return new ErrorDataResult<>(Messages.RENTALNOTFOUND);
 		
@@ -357,11 +357,11 @@ public class RentalManager implements RentalService {
 		return new SuccessResult();
 	}
 
-	//
+	//Find Available cars for same segment and same city
 	private DataResult<CarListDto> findAvailableCar(int SegmentId, int cityId) {
-		if (carService.findAvailableCarsBySegmentId(SegmentId, cityId).isSuccess()) {
+		if (carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).isSuccess()) {
 			CarListDto car = carService
-					.findCarById(carService.findAvailableCarsBySegmentId(SegmentId, cityId).getData().get(0)).getData();
+					.findCarById(carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).getData().get(0)).getData();
 			return new SuccessDataResult<CarListDto>(car);
 		} else
 			return new ErrorDataResult<CarListDto>();
@@ -376,6 +376,7 @@ public class RentalManager implements RentalService {
 		}else return new ErrorDataResult<RentalListDto>(Messages.RENTALNOTFOUND);
 	
 	}
+	//Controls rentals return date is null
 	private boolean isRentalFinished(int rentalId) {
 		if (this.findById(rentalId).getData() != null) {
 			if (this.findById(rentalId).getData().getReturnDate() != null) {

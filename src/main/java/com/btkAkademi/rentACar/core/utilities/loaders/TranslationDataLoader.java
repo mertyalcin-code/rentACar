@@ -87,6 +87,15 @@ public class TranslationDataLoader implements CommandLineRunner {
 			words.add(new Word(0, "segment.not.found", null));
 			words.add(new Word(0, "list", null));
 			words.add(new Word(0, "not.found", null));
+
+			words.add(new Word(0, "promo.code.expired", null));
+			words.add(new Word(0, "brand.limit.exceed", null));
+			words.add(new Word(0, "car.damage.list", null));
+			words.add(new Word(0, "customer.registration.successful", null));
+			words.add(new Word(0, "customer.card.detail.list", null));
+			words.add(new Word(0, "total.price.calculate", null));
+			words.add(new Word(0, "promo.code.list", null));
+			words.add(new Word(0, "segment.list", null));
 			this.wordDao.saveAll(words);
 
 			// kendi eklediklerim biter
@@ -655,7 +664,17 @@ public class TranslationDataLoader implements CommandLineRunner {
 					this.wordDao.getWordsByKey("segment.name.already.exists"), english));
 			translations.add(
 					new Translation(0, "Segment Not Found", this.wordDao.getWordsByKey("segment.not.found"), english));
-
+			translations.add(new Translation(0, "Not Found", this.wordDao.getWordsByKey("not found"), english));
+			translations.add(new Translation(0, "Data Found", this.wordDao.getWordsByKey("list"), english));
+			translations.add(new Translation(0, "Promo Code Expired", this.wordDao.getWordsByKey("promo.code.expired"), english));
+			
+			translations.add(new Translation(0, "Brand Limit Exceed", this.wordDao.getWordsByKey("brand.limit.exceed"), english));
+			translations.add(new Translation(0, "Car Damage Listed", this.wordDao.getWordsByKey("car.damage.list"), english));
+			translations.add(new Translation(0, "Registration Succesfull", this.wordDao.getWordsByKey("customer.registration.successful"), english));
+			translations.add(new Translation(0, "Credit Cards Listed", this.wordDao.getWordsByKey("customer.card.detail.list"), english));
+			translations.add(new Translation(0, "Total Price Calculated", this.wordDao.getWordsByKey("total.price.calculate"), english));
+			translations.add(new Translation(0, "Promo Code Listed", this.wordDao.getWordsByKey("promo.code.list"), english));
+			translations.add(new Translation(0, "Segments Listed", this.wordDao.getWordsByKey("segment.list"), english));
 			translationDao.saveAll(translations);
 
 			// Car Maintenance English
@@ -1555,10 +1574,7 @@ public class TranslationDataLoader implements CommandLineRunner {
 			}
 			// kendi eklediklerim
 			List<Translation> traslations2 = new ArrayList<>();
-			traslations2.add(new Translation(0, "Bulunamadı",
-					this.wordDao.getWordsByKey("not found"), turkish));
-			traslations2.add(new Translation(0, "Veri Listelendi",
-					this.wordDao.getWordsByKey("list"), turkish));
+	
 			traslations2.add(new Translation(0, "Ek Servis Sisteme Eklendi",
 					this.wordDao.getWordsByKey("additional.service.item.added"), turkish));
 			traslations2.add(new Translation(0, "Ek Servis Sistemden Güncellendi",
@@ -1619,7 +1635,22 @@ public class TranslationDataLoader implements CommandLineRunner {
 					this.wordDao.getWordsByKey("segment.name.already.exists"), turkish));
 			traslations2.add(
 					new Translation(0, "Sınıf Bulunamadı", this.wordDao.getWordsByKey("segment.not.found"), turkish));
-
+			traslations2.add(new Translation(0, "Bulunamadı", this.wordDao.getWordsByKey("not found"), turkish));
+			traslations2.add(new Translation(0, "Veri Getirildi", this.wordDao.getWordsByKey("list"), turkish));
+			traslations2.add(new Translation(0, "Promosyon Kodu Artık Geçerli Değil", this.wordDao.getWordsByKey("promo.code.expired"), turkish));
+			
+			traslations2.add(new Translation(0, "Marka Limitine Ulaşıldı", this.wordDao.getWordsByKey("brand.limit.exceed"), turkish));
+			traslations2.add(new Translation(0, "Araba Hasarları Listelendi", this.wordDao.getWordsByKey("car.damage.list"), turkish));
+			traslations2.add(new Translation(0, "Kayıt Başarılı", this.wordDao.getWordsByKey("customer.registration.successful"), turkish));
+			traslations2.add(new Translation(0, "Kredi Kartları Listelendi", this.wordDao.getWordsByKey("customer.card.detail.list"), turkish));
+			traslations2.add(new Translation(0, "Toplam Ücret Hesaplandı", this.wordDao.getWordsByKey("total.price.calculate"), turkish));
+			traslations2.add(new Translation(0, "Promosyon Kodu Listelendi", this.wordDao.getWordsByKey("promo.code.list"), turkish));
+			traslations2.add(new Translation(0, "Araç Sınıfları Listelendi", this.wordDao.getWordsByKey("segment.list"), turkish));
+		
+			
+			
+			
+			
 			translationDao.saveAll(traslations2);
 
 			// kendi eklediklerim biter

@@ -76,7 +76,7 @@ public class PaymentManager implements PaymentService {
 		List<PaymentListDto> response = paymentList.stream()
 				.map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<>(response,Messages.LIST);
+		return new SuccessDataResult<>(response,Messages.PAYMENTLIST);
 
 	}
 
@@ -88,7 +88,7 @@ public class PaymentManager implements PaymentService {
 		List<PaymentListDto> response = paymentList.stream()
 				.map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<>(response,Messages.LIST);
+		return new SuccessDataResult<>(response,Messages.PAYMENTLIST);
 	}
 
 	// finds specific payment
@@ -97,7 +97,7 @@ public class PaymentManager implements PaymentService {
 		if (paymentDao.existsById(id)) {
 			Payment payment = paymentDao.findById(id).get();
 			PaymentListDto response = modelMapperService.forDto().map(payment, PaymentListDto.class);
-			return new SuccessDataResult<PaymentListDto>(response,Messages.LIST);
+			return new SuccessDataResult<PaymentListDto>(response,Messages.PAYMENTLIST);
 		} else
 			return new ErrorDataResult<>();
 	}
@@ -108,7 +108,7 @@ public class PaymentManager implements PaymentService {
 		System.out.println(rental.getRentDate());
 		Double price = this.totalPriceCalculator(rental, calculateTotalPriceRequest.getReturnDate());
 		System.out.println(price);
-		return new SuccessDataResult<Double>(price,Messages.LIST);
+		return new SuccessDataResult<Double>(price,Messages.TOTALPRICECALCULATE);
 	}
 
 	

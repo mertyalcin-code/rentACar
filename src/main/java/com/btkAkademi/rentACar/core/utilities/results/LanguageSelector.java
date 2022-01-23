@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.LanguageService;
 import com.btkAkademi.rentACar.business.abstracts.TranslationService;
 import com.btkAkademi.rentACar.business.abstracts.WordService;
+import com.btkAkademi.rentACar.business.dtos.LanguageSearchListDto;
+import com.btkAkademi.rentACar.business.dtos.TranslationSearchListDto;
+import com.btkAkademi.rentACar.business.dtos.WordSearchListDto;
 import com.btkAkademi.rentACar.core.constants.Languages;
+import com.btkAkademi.rentACar.entities.concretes.Translation;
+import com.btkAkademi.rentACar.entities.concretes.Word;
 
 import lombok.var;
 
@@ -31,14 +36,20 @@ public class LanguageSelector {
 	public static String languageSelector(String message) {
 		String result = environment.getProperty("current_language", Languages.ENGLISH);
 
-		var language = languageService.getByLanguageName(result);
+		LanguageSearchListDto language = languageService.getByLanguageName(result).getData();
 		if (language == null) {
-			language.getData().setName(Languages.ENGLISH);
+			language.setName(Languages.ENGLISH);
 		}
-		var word = wordService.getByKey(message);
-		var translation = translationService.getTranslationByLanguage_IdAndWord_Id(language.getData().getId(),
-				word.getData().getId());
-		return translation==null ? "No Message Available" : translation.getTranslation();
+		if(!wordService.getByKey(message).isSuccess()) {
+			return "No Message Available";
+		}
+		WordSearchListDto word = wordService.getByKey(message).getData();		
+	
+		Translation translation = translationService.getTranslationByLanguage_IdAndWord_Id(language.getId(),
+					word.getId());
+			return translation==null ? "No Message Available" : translation.getTranslation();
+		
+	
 	}
 
 }

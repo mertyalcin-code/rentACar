@@ -52,7 +52,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 				.map(carMaintanance -> modelMapperService.forDto().map(carMaintanance, CarMaintenanceListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<CarMaintenanceListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<CarMaintenanceListDto>>(response,Messages.CARMAINTENANCELIST);
 	}
 
 	// Lists maintenance records for one car
@@ -63,7 +63,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 				.map(carMaintanance -> modelMapperService.forDto().map(carMaintanance, CarMaintenanceListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<CarMaintenanceListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<CarMaintenanceListDto>>(response,Messages.CARMAINTENANCELIST);
 	}
 
 	// finds one specific maintenance
@@ -73,7 +73,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 			CarMaintenance carMaintenance = carMaintananceDao.findById(id).get();
 			CarMaintenanceListDto response = modelMapperService.forDto().map(carMaintenance,
 					CarMaintenanceListDto.class);
-			return new SuccessDataResult<CarMaintenanceListDto>(response,Messages.LIST);
+			return new SuccessDataResult<CarMaintenanceListDto>(response,Messages.CARMAINTENANCELIST);
 		}
 		return new ErrorDataResult<CarMaintenanceListDto>(Messages.CARMAINTENANCENOTFOUND);
 	}

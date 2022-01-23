@@ -44,7 +44,7 @@ public class PromoCodeManager implements PromoCodeService {
 		List<PromoCodeDto> response = promoCodeList.stream()
 				.map(promoCode -> modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<PromoCodeDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<PromoCodeDto>>(response,Messages.PROMOCODELIST);
 	}
 
 	// finds all active codes
@@ -67,8 +67,8 @@ public class PromoCodeManager implements PromoCodeService {
 		if(promoCodeDao.existsById(promoCodeId)) {
 			PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
 			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-			return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
-		}else return new ErrorDataResult<PromoCodeDto>(Messages.NOTFOUND);
+			return new SuccessDataResult<PromoCodeDto>(response,Messages.PROMOCODELIST);
+		}else return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
 		
 	}
 
@@ -85,7 +85,7 @@ public class PromoCodeManager implements PromoCodeService {
 					checkIfCodeStillValid(response));
 			if (result != null) {
 				return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODEEXPIRED);
-			}else return new SuccessDataResult<PromoCodeDto>(response,Messages.LIST);
+			}else return new SuccessDataResult<PromoCodeDto>(response,Messages.PROMOCODELIST);
 		}
 	
 	}

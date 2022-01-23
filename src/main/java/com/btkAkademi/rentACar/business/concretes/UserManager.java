@@ -22,7 +22,7 @@ public class UserManager implements UserService{
 	@Override
 	public DataResult<User> findByEmail(String Email) {
 		
-		return new SuccessDataResult<User>(userDao.findByEmail(Email),Messages.LIST);
+		return new SuccessDataResult<User>(userDao.findByEmail(Email),Messages.USERFOUND);
 	}
 
 }

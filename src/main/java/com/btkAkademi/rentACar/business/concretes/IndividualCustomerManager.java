@@ -54,7 +54,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 				.map(individualCustomer -> modelMapperService.forDto().map(individualCustomer,
 						IndividualCustomerListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<IndividualCustomerListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<IndividualCustomerListDto>>(response,Messages.CUSTOMERLIST);
 	}
 
 	// find by id
@@ -64,7 +64,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 			IndividualCustomer individualCustomer = individualCustomerDao.findById(id).get();
 			IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer,
 					IndividualCustomerListDto.class);
-			return new SuccessDataResult<IndividualCustomerListDto>(response,Messages.LIST);
+			return new SuccessDataResult<IndividualCustomerListDto>(response,Messages.CUSTOMERLIST);
 		} else
 			return new ErrorDataResult<IndividualCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}
@@ -83,7 +83,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		individualCustomer.setRole(Role.INDIVIDUAL_CUSTOMER.getRole());
 		this.individualCustomerDao.save(individualCustomer);
 
-		return new SuccessResult(Messages.CUSTOMERADD);
+		return new SuccessResult(Messages.CUSTOMERREGISTRATIONSUCCESSFUL);
 	}
 
 	// Update a customer

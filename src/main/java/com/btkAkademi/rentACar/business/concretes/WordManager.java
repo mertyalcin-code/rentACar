@@ -15,6 +15,7 @@ import com.btkAkademi.rentACar.business.requests.wordRequests.UpdateWordRequest;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
@@ -39,6 +40,9 @@ public class WordManager implements WordService {
 	@Override
 	public DataResult<WordSearchListDto> getByKey(String key) {
 		Word word = this.wordDao.getWordsByKey(key);
+		if(word==null) {
+			return new ErrorDataResult<WordSearchListDto>();
+		}
 		WordSearchListDto wordSearchListDto = modelMapperService.forDto().map(word, WordSearchListDto.class);
 		return new SuccessDataResult<WordSearchListDto>(wordSearchListDto, Messages.WORDFOUND);
 	}

@@ -48,7 +48,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 				additionalService -> modelMapperService.forDto().map(additionalService, AdditionalServiceListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<AdditionalServiceListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<AdditionalServiceListDto>>(response,Messages.ADDITIONALSERVICELIST);
 	}
 
 	// Adds a rental to additional service

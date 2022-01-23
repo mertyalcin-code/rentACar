@@ -38,7 +38,7 @@ public class LanguageManager implements LanguageService {
 		List<LanguageSearchListDto> languageSearchListDtos = languages.stream()
 				.map(language -> modelMapperService.forDto().map(language, LanguageSearchListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<LanguageSearchListDto>>(languageSearchListDtos,Messages.LIST);
+		return new SuccessDataResult<List<LanguageSearchListDto>>(languageSearchListDtos,Messages.LANGUAGELIST);
 	}
 
 	@Override
@@ -68,6 +68,6 @@ public class LanguageManager implements LanguageService {
 		// var result=this.languageDao.getById(id);
 		LanguageSearchListDto languageSearchListDto = modelMapperService.forDto().map(language,
 				LanguageSearchListDto.class);
-		return new SuccessDataResult<LanguageSearchListDto>(languageSearchListDto,Messages.LIST);
+		return new SuccessDataResult<LanguageSearchListDto>(languageSearchListDto,Messages.LANGUAGELIST);
 	}
 }

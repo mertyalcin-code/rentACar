@@ -69,7 +69,7 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAllByBrandId(brandId, pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
 	}
 
 	// lists cars according to color
@@ -79,7 +79,7 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAllByColorId(colorId, pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class CarManager implements CarService {
 		List<Car> cars = carDao.findAllBySegmentId(segmentId);
 		List<CarListDto> response = cars.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
 	}
 
 	// Finds Car by id
@@ -191,12 +191,12 @@ public class CarManager implements CarService {
 	}
 
 	@Override
-	public DataResult<List<Integer>> findAvailableCarsBySegmentId(int segmentId, int cityId) {
+	public DataResult<List<Integer>> findAvailableCarsBySegmentIdAndCityId(int segmentId, int cityId) {
 
 		if (carDao.findAvailableCarBySegment(segmentId, cityId).size() < 1) {
 			return new ErrorDataResult<List<Integer>>();
 		} else
-			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId, cityId),Messages.LIST);
+			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegment(segmentId, cityId),Messages.CARLIST);
 	}
 
 }

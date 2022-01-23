@@ -106,7 +106,7 @@ public class InvoiceManager implements InvoiceService {
 				.nationalityNo(customer.getNationalityNo()).email(customer.getEmail()).totalPrice(totalPrice)
 				.rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
 				.creationDate(invoice.getCreationDate()).additionalServiceItems(additionalServiceItems).rentPrice(rentPrice).build();
-		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto,Messages.LIST);
+		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto,Messages.INVOICELIST);
 	}
 
 	// prepares a dto with the information required for the invoice
@@ -144,7 +144,7 @@ public class InvoiceManager implements InvoiceService {
 				.companyName(customer.getCompanyName()).taxNumber(customer.getTaxNumber()).email(customer.getEmail())
 				.totalPrice(totalPrice).rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
 				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems).rentPrice(rentPrice).build();
-		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto,Messages.LIST);
+		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto,Messages.INVOICELIST);
 	}
 	
 	@Override

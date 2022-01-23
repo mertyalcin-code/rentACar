@@ -48,7 +48,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 				corporateCustomer -> modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class))
 				.collect(Collectors.toList());
 		
-		return new SuccessDataResult<List<CorporateCustomerListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<CorporateCustomerListDto>>(response,Messages.CUSTOMERLIST);
 	}
 
 	// finds by id
@@ -58,7 +58,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 			CorporateCustomer corporateCustomer = corporateCustomerDao.findById(id).get();
 			CorporateCustomerListDto response = modelMapperService.forDto().map(corporateCustomer,
 					CorporateCustomerListDto.class);
-			return new SuccessDataResult<>(response,Messages.LIST);
+			return new SuccessDataResult<>(response,Messages.CUSTOMERLIST);
 		} else
 			return new ErrorDataResult<CorporateCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}
@@ -77,7 +77,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 				CorporateCustomer.class);
 		corporateCustomer.setRole(Role.CORPORATE_CUSTOMER.getRole());
 		this.corporateCustomerDao.save(corporateCustomer);
-		return new SuccessResult(Messages.CUSTOMERADD);
+		return new SuccessResult(Messages.CUSTOMERREGISTRATIONSUCCESSFUL);
 	}
 
 	// Updates a customer but does not control email or name exists or not

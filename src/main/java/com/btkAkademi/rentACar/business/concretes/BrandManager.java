@@ -54,7 +54,7 @@ public class BrandManager implements BrandService {
 		if (brandDao.existsById(id)) {
 			Brand brand = this.brandDao.findById(id).get();
 			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
-			return new SuccessDataResult<BrandListDto>(response,Messages.LIST);
+			return new SuccessDataResult<BrandListDto>(response,Messages.BRANDLIST);
 		} else
 			return new ErrorDataResult<>(Messages.BRANDNOTFOUND);
 	}
@@ -120,7 +120,7 @@ public class BrandManager implements BrandService {
 	private Result checkIfBrandLimitExceeded(int limit) {
 		if (this.brandDao.count() >= limit) {
 
-			return new ErrorResult(Messages.NOTFOUND);
+			return new ErrorResult(Messages.BRANDLIMITEXCEED);
 		}
 		return new SuccessResult();
 	}

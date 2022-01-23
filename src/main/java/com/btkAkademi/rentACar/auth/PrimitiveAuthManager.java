@@ -31,9 +31,9 @@ public class PrimitiveAuthManager implements AuthService{
 				response.setId(user.getId());
 				response.setEmail(user.getEmail());
 				response.setRole(user.getRole());
-				return new SuccessDataResult<LoginResponse>(response,Messages.LIST); //giriş başarılı desin
-			}else return new ErrorDataResult<LoginResponse>(Messages.NOTFOUND); //şifre yanlış desin
+				return new SuccessDataResult<LoginResponse>(response,Messages.LOGINSUCCESS); 
+			}else return new ErrorDataResult<LoginResponse>(Messages.LOGINPASSWORDERROR); 
 		}
-		return new ErrorDataResult<LoginResponse>(Messages.NOTFOUND);
+		return new ErrorDataResult<LoginResponse>(Messages.USERNOTFOUND);
 	}
 }

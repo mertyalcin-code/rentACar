@@ -233,7 +233,23 @@ public class Messages {
 	
 	public static final String LIST = "list";
 	public static final String NOTFOUND = "not.found";
-
+	
 	public static final String PROMOCODEEXPIRED = "promo.code.expired";
+
+	public static final String BRANDLIMITEXCEED = "brand.limit.exceed";
+
+	public static final String CARDAMAGELIST = "car.damage.list";
+
+	public static final String CUSTOMERREGISTRATIONSUCCESSFUL = "customer.registration.successful";
+
+	public static final String CUSTOMERCARDDETAILLIST = "customer.card.detail.list";
+
+	public static final String TOTALPRICECALCULATE = "total.price.calculate";
+
+	public static final String PROMOCODELIST = "promo.code.list";
+
+	public static final String SEGMENTLIST = "segment.list";
+	
+	
 
 }

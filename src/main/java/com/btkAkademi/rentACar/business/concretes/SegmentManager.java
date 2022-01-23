@@ -44,7 +44,7 @@ public class SegmentManager implements SegmentService {
 		List<SegmentListDto> response = segmentList.stream()
 				.map(segment -> modelMapperService.forDto().map(segment, SegmentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<SegmentListDto>>(response,Messages.LIST);
+		return new SuccessDataResult<List<SegmentListDto>>(response,Messages.SEGMENTLIST);
 	}
 
 	// finds a segment
@@ -52,7 +52,7 @@ public class SegmentManager implements SegmentService {
 	public DataResult<SegmentListDto> findById(int id) {
 		if(segmentDao.existsById(id)) {
 			SegmentListDto response = modelMapperService.forDto().map(segmentDao.findById(id).get(), SegmentListDto.class);
-			return new SuccessDataResult<SegmentListDto>(response,Messages.LIST);
+			return new SuccessDataResult<SegmentListDto>(response,Messages.SEGMENTLIST);
 		}else return new ErrorDataResult<SegmentListDto>(Messages.NOTFOUND);
 		
 	}
