@@ -21,7 +21,7 @@ public class AdminDataLoader implements CommandLineRunner{
 	private void loadEmployee(){
 		String role="EMPLOYEE";
 		if(userDao.findByRole(role) == null) {
-			userDao.save(new User(0,"admin","admin","EMPLOYEE"));
+			userDao.save(new User(0,"admin@admin.com","admin","EMPLOYEE"));
 		}
 	}
 
