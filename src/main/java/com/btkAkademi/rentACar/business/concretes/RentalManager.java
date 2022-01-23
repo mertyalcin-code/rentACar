@@ -114,7 +114,7 @@ public class RentalManager implements RentalService {
 				responseItem.setTotalPayment(totalPrice);
 				responseItem.setReturnDate(rental.getReturnDate());
 			}
-			if(isRentalFinished(rental.getCar().getId())) {
+			if(isRentalFinished(rental.getId())) {
 				responseItem.setRentalFinished(true);
 				responseItem.setReturnCityName(rental.getReturnCity().getCityName());
 		

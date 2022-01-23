@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.constants.Role;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.CreateIndividualCustomerRequest;
 import com.btkAkademi.rentACar.business.requests.individualCustomerRequests.UpdateIndividualCustomerRequest;
@@ -63,7 +64,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 			IndividualCustomer individualCustomer = individualCustomerDao.findById(id).get();
 			IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer,
 					IndividualCustomerListDto.class);
-			return new SuccessDataResult<IndividualCustomerListDto>(response);
+			return new SuccessDataResult<IndividualCustomerListDto>(response,Messages.LIST);
 		} else
 			return new ErrorDataResult<IndividualCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}
@@ -79,7 +80,9 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 		IndividualCustomer individualCustomer = this.modelMapperService.forRequest()
 				.map(createIndividualCustomerRequest, IndividualCustomer.class);
+		individualCustomer.setRole(Role.INDIVIDUAL_CUSTOMER.getRole());
 		this.individualCustomerDao.save(individualCustomer);
+
 		return new SuccessResult(Messages.CUSTOMERADD);
 	}
 
@@ -95,7 +98,9 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 				.map(updateIndividualCustomerRequest, IndividualCustomer.class);
 		// avoid null password
 		individualCustomer.setPassword(individualCustomerDao.findById(individualCustomer.getId()).get().getPassword());
+		individualCustomer.setRole(Role.INDIVIDUAL_CUSTOMER.getRole());
 		this.individualCustomerDao.save(individualCustomer);
+
 		return new SuccessResult(Messages.CUSTOMERUPDATE);
 	}
 

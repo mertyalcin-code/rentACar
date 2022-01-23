@@ -20,7 +20,8 @@ public class InvoiceIndividualCustomerDto {
 	private String email;
 	private LocalDate rentDate;
 	private LocalDate returnedDate;
+	private double rentPrice;
 	private double totalPrice;
 	LocalDate creationDate;
-	private List<AdditionalServiceItemListDto> additonalServiceItems;
+	private List<AdditionalServiceItemListDto> additionalServiceItems;
 }

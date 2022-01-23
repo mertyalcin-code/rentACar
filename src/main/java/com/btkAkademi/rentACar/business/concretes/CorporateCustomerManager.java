@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.constants.Role;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.CreateCorporateCustomerRequest;
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.UpdateCorporateCustomerRequest;
@@ -46,6 +47,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		List<CorporateCustomerListDto> response = corporateCustomers.stream().map(
 				corporateCustomer -> modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class))
 				.collect(Collectors.toList());
+		
 		return new SuccessDataResult<List<CorporateCustomerListDto>>(response,Messages.LIST);
 	}
 
@@ -73,6 +75,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(createCorporateCustomerRequest,
 				CorporateCustomer.class);
+		corporateCustomer.setRole(Role.CORPORATE_CUSTOMER.getRole());
 		this.corporateCustomerDao.save(corporateCustomer);
 		return new SuccessResult(Messages.CUSTOMERADD);
 	}
@@ -82,6 +85,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	public Result update(UpdateCorporateCustomerRequest updateCorporateCustomerRequest) {
 		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(updateCorporateCustomerRequest,
 				CorporateCustomer.class);
+		corporateCustomer.setRole(Role.CORPORATE_CUSTOMER.getRole());
+		corporateCustomer.setPassword(corporateCustomerDao.findById(updateCorporateCustomerRequest.getId()).get().getPassword());
 		this.corporateCustomerDao.save(corporateCustomer);
 		return new SuccessResult(Messages.CUSTOMERUPDATE);
 	}

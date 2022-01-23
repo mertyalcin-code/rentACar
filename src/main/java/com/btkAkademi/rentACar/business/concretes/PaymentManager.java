@@ -183,7 +183,7 @@ public class PaymentManager implements PaymentService {
 		// discount
 		if (rental.getPromoCodeId() != 0) {
 			PromoCodeDto promoCode = promoCodeService.findById(rental.getPromoCodeId()).getData();
-			if (!promoCode.getEndDate().isAfter(returnDate)) {
+			if (!promoCode.getEndDate().isBefore(LocalDate.now())) {
 				double discountRate = 0;
 				discountRate = promoCode.getDiscountRate();
 				totalPrice = totalPrice - (totalPrice * discountRate);

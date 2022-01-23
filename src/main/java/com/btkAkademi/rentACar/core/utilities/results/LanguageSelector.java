@@ -38,7 +38,7 @@ public class LanguageSelector {
 		var word = wordService.getByKey(message);
 		var translation = translationService.getTranslationByLanguage_IdAndWord_Id(language.getData().getId(),
 				word.getData().getId());
-		return translation.getTranslation()==null ? "" :translation.getTranslation();
+		return translation==null ? "No Message Available" : translation.getTranslation();
 	}
 
 }

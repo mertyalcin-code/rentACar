@@ -23,6 +23,7 @@ import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 @CrossOrigin
 @RestControllerAdvice
 public class ExceptionHandling implements ErrorController{
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException argumentNotValidException){

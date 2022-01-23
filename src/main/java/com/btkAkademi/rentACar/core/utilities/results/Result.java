@@ -23,10 +23,8 @@ public class Result {
 	}
 	
 	// for language
-	private String get(String message){
-		if(!LanguageSelector.languageSelector(message).equals("")) {
-			return LanguageSelector.languageSelector(message);
-		}else return "mesaj hatası";
+	private String get(String message){		
+			return LanguageSelector.languageSelector(message);	
 		
 	}
 }
