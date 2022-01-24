@@ -96,6 +96,7 @@ public class RentalManager implements RentalService {
 		List<Rental> rentalList = this.rentalDao.findAllByCustomerId(id);
 		List<MyRentalListDto> response = new ArrayList<MyRentalListDto>();
 		for (Rental rental : rentalList) {
+
 			MyRentalListDto responseItem = new MyRentalListDto();
 			responseItem.setRentalId(rental.getId());
 			responseItem.setRentDate(rental.getRentDate());
@@ -143,7 +144,7 @@ public class RentalManager implements RentalService {
 
 	}
 
-	// finds cars avtive rental information
+	// finds cars active rental information
 	@Override
 	public DataResult<RentalListDto> findActiveRentalByCarId(int id) {
 		if (rentalDao.findByCarIdAndReturnDateIsNull(id) != null) {
@@ -163,7 +164,6 @@ public class RentalManager implements RentalService {
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess()
 				|| !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
 			CarListDto car = findAvailableCar(wantedCar.getSegmentId(), wantedCar.getCityId()).getData();
-
 			if (car != null) {
 				createRentalRequest.setCarId(car.getId());
 			} else
@@ -193,8 +193,10 @@ public class RentalManager implements RentalService {
 		rental.setRentedKilometer(car.getKilometer());
 		City pickUpCity = modelMapperService.forRequest().map(cityService.findById(car.getCityId()).getData(),
 				City.class);
-		System.out.println(pickUpCity.getId());
+
 		rental.setPickUpCity(pickUpCity);
+		// we want that return date is null
+		rental.setReturnDate(null);
 		this.rentalDao.save(rental);
 
 		return new SuccessDataResult<RentalAddResponse>(new RentalAddResponse(rental.getId(), rental.getCar().getId()),
@@ -231,6 +233,8 @@ public class RentalManager implements RentalService {
 		City pickUpCity = modelMapperService.forRequest().map(cityService.findById(car.getCityId()).getData(),
 				City.class);
 		rental.setPickUpCity(pickUpCity);
+		rental.setReturnDate(null);
+		// we want that return date is null
 		this.rentalDao.save(rental);
 		return new SuccessDataResult<RentalAddResponse>(new RentalAddResponse(rental.getId(), rental.getCar().getId()),
 				Messages.RENTALADD);
