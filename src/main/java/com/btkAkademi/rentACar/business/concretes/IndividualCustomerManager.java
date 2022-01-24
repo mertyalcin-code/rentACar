@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
+import com.btkAkademi.rentACar.business.abstracts.UserService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.constants.Role;
 import com.btkAkademi.rentACar.business.dtos.IndividualCustomerListDto;
@@ -35,15 +36,17 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	// Dependencies
 	private IndividualCustomerDao individualCustomerDao;
 	private ModelMapperService modelMapperService;
-
+	private UserService userService;
 	// Dependency Injection
 	@Autowired
-	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao,
-			ModelMapperService modelMapperService) {
+	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao, ModelMapperService modelMapperService,
+			UserService userService) {
 		super();
 		this.individualCustomerDao = individualCustomerDao;
 		this.modelMapperService = modelMapperService;
+		this.userService = userService;
 	}
+
 
 	// Lists all individual customers according to page
 	@Override
@@ -118,7 +121,8 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 
 	// Checks anyone registered with that email before
 	private Result checkIfEmailExists(String email) {
-		if (individualCustomerDao.findByEmail(email) != null) {
+		System.out.println(userService.findByEmail(email).getData());
+		if (userService.findByEmail(email).getData()!=null) {
 			return new ErrorResult(Messages.EMAILERROR);
 		}
 		return new SuccessResult();

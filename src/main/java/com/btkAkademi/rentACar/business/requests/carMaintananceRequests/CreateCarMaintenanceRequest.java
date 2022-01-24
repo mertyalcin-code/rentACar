@@ -2,6 +2,8 @@ package com.btkAkademi.rentACar.business.requests.carMaintananceRequests;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

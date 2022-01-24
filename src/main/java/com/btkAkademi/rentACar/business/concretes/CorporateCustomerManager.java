@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
+import com.btkAkademi.rentACar.business.abstracts.UserService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.constants.Role;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
@@ -30,15 +31,17 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// Dependencies
 	private CorporateCustomerDao corporateCustomerDao;
 	private ModelMapperService modelMapperService;
+	private UserService userService;
 
 	// Dependency Injection
 	@Autowired
-	public CorporateCustomerManager(CorporateCustomerDao corporateCustomerDao, ModelMapperService modelMapperService) {
+	public CorporateCustomerManager(CorporateCustomerDao corporateCustomerDao, ModelMapperService modelMapperService,
+			UserService userService) {
 		super();
 		this.corporateCustomerDao = corporateCustomerDao;
 		this.modelMapperService = modelMapperService;
+		this.userService = userService;
 	}
-
 	// Lists all corporate customer
 	@Override
 	public DataResult<List<CorporateCustomerListDto>> findAll(int pageNo, int pageSize) {
@@ -115,7 +118,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	// checks there is a registered user with that email
 	private Result checkIfEmailExists(String email) {
-		if (corporateCustomerDao.findByEmail(email) != null) {
+		System.out.println(userService.findByEmail(email).getData());
+		if (userService.findByEmail(email).getData()!=null) {
 			return new ErrorResult(Messages.EMAILERROR);
 		}
 		return new SuccessResult();

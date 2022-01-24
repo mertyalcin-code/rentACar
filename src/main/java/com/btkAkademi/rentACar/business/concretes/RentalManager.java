@@ -20,6 +20,7 @@ import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.InvoiceService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
+import com.btkAkademi.rentACar.business.abstracts.WordService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
 import com.btkAkademi.rentACar.business.dtos.MyRentalListDto;
@@ -55,15 +56,14 @@ public class RentalManager implements RentalService {
 	private CarService carService;
 	private PaymentService paymentService;
 	private InvoiceService invoiceService;
-
+	private WordService wordService;
 	// Dependency Injection
 	@Autowired
-
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
 			CarMaintenanceService carMaintananceService, CityService cityService,
 			CreditScoreAdapterService creditScoreAdapterService, IndividualCustomerService individualCustomerService,
 			CorporateCustomerService corporateCustomerService, CarService carService, PaymentService paymentService,
-			InvoiceService invoiceService) {
+			InvoiceService invoiceService, WordService wordService) {
 		super();
 		this.rentalDao = rentalDao;
 		this.modelMapperService = modelMapperService;
@@ -76,8 +76,9 @@ public class RentalManager implements RentalService {
 		this.carService = carService;
 		this.paymentService = paymentService;
 		this.invoiceService = invoiceService;
+		this.wordService = wordService;
+	
 	}
-
 	// Lists all rentals
 	@Override
 	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
@@ -88,6 +89,8 @@ public class RentalManager implements RentalService {
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<RentalListDto>>(response, Messages.RENTALLIST);
 	}
+
+
 
 	// Lists all rentals for one customer
 	@Override
@@ -290,7 +293,7 @@ public class RentalManager implements RentalService {
 
 	// Dates validation
 	private Result checkIfDatesAreCorrect(LocalDate rentDate, LocalDate returnDate) {
-		if (!rentDate.isBefore(returnDate) || rentDate.isAfter(LocalDate.now())) {
+		if (!rentDate.isBefore(returnDate) || rentDate.isBefore(LocalDate.now())) {
 			return new ErrorResult(Messages.RENTALDATEERROR);
 		}
 		return new SuccessResult();

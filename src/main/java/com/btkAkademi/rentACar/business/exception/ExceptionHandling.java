@@ -22,7 +22,6 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 @CrossOrigin
-@RestControllerAdvice
 public class ExceptionHandling implements ErrorController{
 	// For Validation Exceptions
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -45,6 +44,12 @@ public class ExceptionHandling implements ErrorController{
     @ExceptionHandler(NoSuchElementException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorResult handleNoSuchElementException(NoSuchElementException exception){
+		ErrorResult error = new ErrorResult(Messages.DATANOTFOUND);
+		return error;
+	}
+    @ExceptionHandler(NullPointerException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ErrorResult handleNullPointerException(NullPointerException exception){
 		ErrorResult error = new ErrorResult(Messages.DATANOTFOUND);
 		return error;
 	}

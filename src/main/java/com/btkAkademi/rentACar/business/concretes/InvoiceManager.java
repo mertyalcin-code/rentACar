@@ -16,7 +16,9 @@ import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.InvoiceService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
+import com.btkAkademi.rentACar.business.abstracts.UserService;
 import com.btkAkademi.rentACar.business.constants.Messages;
+import com.btkAkademi.rentACar.business.constants.Role;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceItemListDto;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.dtos.CorporateCustomerListDto;
@@ -51,14 +53,14 @@ public class InvoiceManager implements InvoiceService {
 	private PaymentService paymentService;
 	private AdditionalServiceService additionalServiceService;
 	private AdditionalServiceItemService additionalServiceItemService;
-
+	private UserService userService;
 	// Dependency Injection
 	@Autowired
 	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService,
 			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
 			@Lazy RentalService rentalService, PaymentService paymentService,
 			AdditionalServiceService additionalServiceService,
-			AdditionalServiceItemService additionalServiceItemService) {
+			AdditionalServiceItemService additionalServiceItemService, UserService userService) {
 		super();
 		this.invoiceDao = invoiceDao;
 		this.modelMapperService = modelMapperService;
@@ -68,13 +70,14 @@ public class InvoiceManager implements InvoiceService {
 		this.paymentService = paymentService;
 		this.additionalServiceService = additionalServiceService;
 		this.additionalServiceItemService = additionalServiceItemService;
+		this.userService = userService;
 	}
-
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceIndividualCustomerDto> getInvoiceForIndividualCustomer(int rentalId) {
 		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),
-				checkIfInvoiceExistsByRentalId(rentalId));
+				checkIfInvoiceExistsByRentalId(rentalId),checkIfCustomerIndividual(rentalId)
+				);
 		if (result != null) {
 			return new ErrorDataResult<>(result.getMessage());
 		}
@@ -108,11 +111,13 @@ public class InvoiceManager implements InvoiceService {
 		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto, Messages.INVOICELIST);
 	}
 
+
+
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(int rentalId) {
 		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),
-				checkIfInvoiceExistsByRentalId(rentalId)
+				checkIfInvoiceExistsByRentalId(rentalId),checkIfCustomerCorporate(rentalId)
 
 		);
 		if (result != null) {
@@ -142,7 +147,7 @@ public class InvoiceManager implements InvoiceService {
 		InvoiceCorporateCustomerDto responseCustomerDto = InvoiceCorporateCustomerDto.builder().id(invoice.getId())
 				.companyName(customer.getCompanyName()).taxNumber(customer.getTaxNumber()).email(customer.getEmail())
 				.totalPrice(totalPrice).rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
-				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems)
+				.creationDate(invoice.getCreationDate()).additionalServiceItems(additionalServiceItems)
 				.rentPrice(rentPrice).build();
 		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto, Messages.INVOICELIST);
 	}
@@ -226,6 +231,19 @@ public class InvoiceManager implements InvoiceService {
 			return new SuccessResult();
 		} else
 			return new ErrorResult(Messages.PAYMENTNOTFOUND);
+	}
+	private Result checkIfCustomerIndividual(int rentalId) {
+		int customerId=rentalService.findById(rentalId).getData().getCustomerId();
+		if(userService.findById(customerId).getData().getRole().equals(Role.INDIVIDUAL_CUSTOMER.getRole())) {
+			return new SuccessResult();
+		}else return new ErrorResult(Messages.NOTFOUND);
+	}
+	private Result checkIfCustomerCorporate(int rentalId) {
+		int customerId=rentalService.findById(rentalId).getData().getCustomerId();
+		
+		if(userService.findById(customerId).getData().getRole().equals(Role.CORPORATE_CUSTOMER.getRole())) {
+			return new SuccessResult();
+		}else return new ErrorResult(Messages.NOTFOUND);
 	}
 
 }

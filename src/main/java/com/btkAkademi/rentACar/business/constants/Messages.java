@@ -53,7 +53,6 @@ public class Messages {
 	public static final String CUSTOMERISALREADYEXISTS = "customer.exists";
 	public static final String CUSTOMERTAXNUMBEREXISTS = "customers.tax.number.already.exists";
 
-	public static final String EMAILERROR = "This email is already in use"; // yapılmadı
 
 	public static final String RENTALADD = "rental.added";
 	public static final String RENTALUPDATE = "rental.updated";
@@ -253,4 +252,5 @@ public class Messages {
 
 	public static final String DATAHAVERELATIONS = "data.have.relations";
 
+	public static final String EMAILERROR = "mail.already.exists"; 
 }

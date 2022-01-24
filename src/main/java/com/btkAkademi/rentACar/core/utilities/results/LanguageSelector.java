@@ -36,8 +36,11 @@ public class LanguageSelector {
 		if (language == null) {
 			language.setName(Languages.ENGLISH);
 		}
-		if (!wordService.getByKey(message).isSuccess()) {
+		if (!wordService.getByKey(message).isSuccess() && message==null) {
 			return "No Message Available";
+		}
+		else if(!wordService.getByKey(message).isSuccess() && message!=null) {
+			return message;
 		}
 		WordSearchListDto word = wordService.getByKey(message).getData();
 

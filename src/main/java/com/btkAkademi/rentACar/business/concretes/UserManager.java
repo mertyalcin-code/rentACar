@@ -11,6 +11,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.UserListDto;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
+import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
@@ -31,7 +32,15 @@ public class UserManager implements UserService {
 		this.userDao = userDao;
 		this.modelMapperService = modelMapperService;
 	}
-
+	//finds user by id
+	@Override
+	public DataResult<UserListDto> findById(int  id) {
+		if(userDao.existsById(id)) {
+			UserListDto response = modelMapperService.forDto().map(this.userDao.findById(id).get(), UserListDto.class);
+			return new SuccessDataResult<UserListDto>(response,Messages.USERLIST);
+		}else return new ErrorDataResult<UserListDto>();
+		
+	}
 	// Finds User By Email
 	@Override
 	public DataResult<User> findByEmail(String Email) {
@@ -58,5 +67,7 @@ public class UserManager implements UserService {
 		} else
 			return new ErrorResult(Messages.NOTFOUND);
 	}
+
+
 
 }
