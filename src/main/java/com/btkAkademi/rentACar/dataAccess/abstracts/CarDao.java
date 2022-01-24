@@ -30,19 +30,6 @@ public interface CarDao extends JpaRepository<Car, Integer> {
 			, nativeQuery = true)
 	List<Car> findAvailableCars(Pageable pageable);
 
-	/*
-	 * @Query("from Car c " +
-	 * "left join c.maintanances m on m.maintenanceEnd is null " +
-	 * "left join c.rentals r on r.returnDate is null or r.returnDate > ?1 " +
-	 * "left join c.city"+ "WHERE m.id is null and r.id is null and c.city.id=?2")
-	 * List<Car> getAvailableCars(LocalDate toDay,int cityId);
-	 */
-	/*
-	 * @Query("from Car c " +
-	 * "left join c.carMaintenances m on m.maintenanceEnd is null " +
-	 * "left join c.rentals r on r.returnDate is null or r.returnDate > ?1 " +
-	 * "WHERE m.id is null and r.id is null and c.city.id=?2") List<Car>
-	 * getAvailableCars(LocalDate toDay, int cityId);
-	 */
+
 
 }

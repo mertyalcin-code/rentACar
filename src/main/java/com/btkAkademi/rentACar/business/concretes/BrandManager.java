@@ -62,9 +62,9 @@ public class BrandManager implements BrandService {
 	// Adds a new brand
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
+		
 		Result result = BusinessRules.run(checkIfBrandNameExists(createBrandRequest.getName()),
 				checkIfBrandLimitExceeded(BrandManager.limit));
-
 		if (result != null) {
 
 			return result;

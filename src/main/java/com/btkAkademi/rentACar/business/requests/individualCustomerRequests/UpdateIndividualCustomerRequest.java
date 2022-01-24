@@ -18,6 +18,8 @@ import lombok.NoArgsConstructor;
 public class UpdateIndividualCustomerRequest {
 
 	private int id;
+
+	@Pattern(regexp = "[0-9]+")
 	@Size(min = 11, max = 11)
 	private String nationalityNo;
 	@Email
@@ -27,8 +29,5 @@ public class UpdateIndividualCustomerRequest {
 	private String firstName;
 	@Size(min = 2, max = 100)
 	private String lastName;
-	@NotNull
-	@Pattern(regexp = "[0-9]+")
-	@Size(min = 11, max = 11)
 	private LocalDate birthDate;
 }

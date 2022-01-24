@@ -22,6 +22,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 @CrossOrigin
+@RestControllerAdvice
 public class ExceptionHandling implements ErrorController{
 	// For Validation Exceptions
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -69,12 +70,11 @@ public class ExceptionHandling implements ErrorController{
 		return errorResult;
 
 	}
-	// For Deletinh data which have relation in databas
+	// For Deleting data which have relation in databas
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ErrorResult handHttpMessageExceptionError(DataIntegrityViolationException dataIntegrityViolationException){
 		ErrorResult errorResult = new ErrorResult(Messages.DATAHAVERELATIONS);
 		return errorResult;
-
 	}
 
 
