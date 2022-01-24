@@ -8,6 +8,7 @@ import javax.persistence.EntityNotFoundException;
 
 import org.apache.commons.lang3.SerializationException;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -62,5 +63,12 @@ public class ExceptionHandling implements ErrorController{
 		return errorResult;
 
 	}
+	@ExceptionHandler(DataIntegrityViolationException.class)
+	public ErrorResult handHttpMessageExceptionError(DataIntegrityViolationException dataIntegrityViolationException){
+		ErrorResult errorResult = new ErrorResult("Veri Başka Veriler ile İlişkili");
+		return errorResult;
+
+	}
+
 
 }

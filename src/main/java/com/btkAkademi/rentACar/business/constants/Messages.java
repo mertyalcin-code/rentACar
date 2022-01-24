@@ -229,8 +229,7 @@ public class Messages {
 	public static final String SEGMENTNAMEALREADYEXISTS = "segment.name.already.exists";
 
 	public static final String SEGMENTNOTFOUND = "segment.not.found";
-	//load a eklenecek
-	
+
 	public static final String LIST = "list";
 	public static final String NOTFOUND = "not.found";
 	
@@ -249,6 +248,10 @@ public class Messages {
 	public static final String PROMOCODELIST = "promo.code.list";
 
 	public static final String SEGMENTLIST = "segment.list";
+
+	//load a eklenecek
+	
+	public static final String DATAHAVERELATIONS = "data.have.relations";
 	
 	
 

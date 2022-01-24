@@ -37,6 +37,11 @@ public class SegmentController {
 	public DataResult<List<SegmentListDto>> findAll() {
 		return this.segmentService.findAll();
 	}
+	@GetMapping("find-by-id/{id}")
+	public DataResult<SegmentListDto> findById(@PathVariable int id) {
+		return this.segmentService.findById(id);
+	}
+
 
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateSegmentRequest createSegmentRequest) {
