@@ -168,7 +168,8 @@ public class RentalManager implements RentalService {
 						individualCustomerService.findById(createRentalRequest.getCustomerId()).getData()
 								.getNationalityNo(),
 						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
-				checkIfCustomerAgeIsEnough(createRentalRequest.getCustomerId(), createRentalRequest.getCarId())
+				checkIfCustomerAgeIsEnough(createRentalRequest.getCustomerId(), createRentalRequest.getCarId()),
+				checkIfDatesAreCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate())
 
 		);
 
@@ -274,7 +275,7 @@ public class RentalManager implements RentalService {
 
 	// Dates validation
 	private Result checkIfDatesAreCorrect(LocalDate rentDate, LocalDate returnDate) {
-		if (!rentDate.isBefore(returnDate)) {
+		if (!rentDate.isBefore(returnDate) || rentDate.isAfter(LocalDate.now())) {
 			return new ErrorResult(Messages.RENTALDATEERROR);
 
 		}

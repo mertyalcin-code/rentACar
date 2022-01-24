@@ -65,7 +65,7 @@ public class ExceptionHandling implements ErrorController{
 	}
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ErrorResult handHttpMessageExceptionError(DataIntegrityViolationException dataIntegrityViolationException){
-		ErrorResult errorResult = new ErrorResult("Veri Başka Veriler ile İlişkili");
+		ErrorResult errorResult = new ErrorResult(Messages.DATAHAVERELATIONS);
 		return errorResult;
 
 	}
