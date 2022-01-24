@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.carRequests.CreateCarRequest;
 import com.btkAkademi.rentACar.business.requests.carRequests.UpdateCarRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/cars")
@@ -40,6 +41,7 @@ public class CarsController {
 			@RequestParam(defaultValue = " 100") int pageSize) {
 		return this.carService.findAll(pageNo, pageSize);
 	}
+
 	@GetMapping("find-all-available")
 	public DataResult<List<CarListDto>> findAllAvailable(@RequestParam(defaultValue = " 1") int pageNo,
 			@RequestParam(defaultValue = " 1000") int pageSize) {

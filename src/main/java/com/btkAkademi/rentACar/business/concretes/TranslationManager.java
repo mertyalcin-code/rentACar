@@ -22,16 +22,18 @@ import com.btkAkademi.rentACar.entities.concretes.Translation;
 
 @Service
 public class TranslationManager implements TranslationService {
-
+	// Dependencies
 	private TranslationDao translationDao;
 	private ModelMapperService modelMapperService;
 
+	// Dependency Injection
 	@Autowired
 	public TranslationManager(TranslationDao translationDao, ModelMapperService modelMapperService) {
 		this.translationDao = translationDao;
 		this.modelMapperService = modelMapperService;
 	}
 
+	// Finds all Translations
 	@Override
 	public DataResult<List<TranslationSearchListDto>> getAll() {
 		List<Translation> translations = this.translationDao.findAll();
@@ -42,6 +44,7 @@ public class TranslationManager implements TranslationService {
 				Messages.TRANSLATIONSLISTED);
 	}
 
+	// Adds a new Translation
 	@Override
 	public Result add(CreateTranslationRequest createTranslationRequest) {
 		Translation translation = modelMapperService.forRequest().map(createTranslationRequest, Translation.class);
@@ -49,6 +52,7 @@ public class TranslationManager implements TranslationService {
 		return new SuccessResult(Messages.TRANSLATIONADD);
 	}
 
+	// Deletes a traslation
 	@Override
 	public Result delete(DeleteTranslationRequest deleteTranslationRequest) {
 		Translation translation = modelMapperService.forRequest().map(deleteTranslationRequest, Translation.class);
@@ -56,6 +60,7 @@ public class TranslationManager implements TranslationService {
 		return new SuccessResult(Messages.TRANSLATIONDELETE);
 	}
 
+	// Updates a Translation
 	@Override
 	public Result update(UpdateTranslationRequest updateTranslationRequest) {
 		Translation translation = modelMapperService.forRequest().map(updateTranslationRequest, Translation.class);
@@ -63,6 +68,7 @@ public class TranslationManager implements TranslationService {
 		return new SuccessResult(Messages.TRANSLATIONUPDATE);
 	}
 
+	// Finds a spesific translation
 	@Override
 	public Translation getTranslationByLanguage_IdAndWord_Id(int languageId, int wordId) {
 		return this.translationDao.getTranslationByLanguage_IdAndWord_Id(languageId, wordId);

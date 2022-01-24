@@ -47,8 +47,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		List<CorporateCustomerListDto> response = corporateCustomers.stream().map(
 				corporateCustomer -> modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class))
 				.collect(Collectors.toList());
-		
-		return new SuccessDataResult<List<CorporateCustomerListDto>>(response,Messages.CUSTOMERLIST);
+
+		return new SuccessDataResult<List<CorporateCustomerListDto>>(response, Messages.CUSTOMERLIST);
 	}
 
 	// finds by id
@@ -58,7 +58,7 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 			CorporateCustomer corporateCustomer = corporateCustomerDao.findById(id).get();
 			CorporateCustomerListDto response = modelMapperService.forDto().map(corporateCustomer,
 					CorporateCustomerListDto.class);
-			return new SuccessDataResult<>(response,Messages.CUSTOMERLIST);
+			return new SuccessDataResult<>(response, Messages.CUSTOMERLIST);
 		} else
 			return new ErrorDataResult<CorporateCustomerListDto>(Messages.CUSTOMERNOTFOUND);
 	}
@@ -86,7 +86,8 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(updateCorporateCustomerRequest,
 				CorporateCustomer.class);
 		corporateCustomer.setRole(Role.CORPORATE_CUSTOMER.getRole());
-		corporateCustomer.setPassword(corporateCustomerDao.findById(updateCorporateCustomerRequest.getId()).get().getPassword());
+		corporateCustomer
+				.setPassword(corporateCustomerDao.findById(updateCorporateCustomerRequest.getId()).get().getPassword());
 		this.corporateCustomerDao.save(corporateCustomer);
 		return new SuccessResult(Messages.CUSTOMERUPDATE);
 	}

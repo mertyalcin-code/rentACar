@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.cityRequests.CreateCityRequest;
 import com.btkAkademi.rentACar.business.requests.cityRequests.UpdateCityRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/cities")

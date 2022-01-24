@@ -11,8 +11,6 @@ import com.btkAkademi.rentACar.core.utilities.results.Result;
 public interface PromoCodeService {
 	DataResult<List<PromoCodeDto>> findAll();
 
-	DataResult<List<PromoCodeDto>> findAllNotExpired();
-
 	DataResult<PromoCodeDto> findById(int promoCodeId);
 
 	DataResult<PromoCodeDto> findByCode(String promoCode);

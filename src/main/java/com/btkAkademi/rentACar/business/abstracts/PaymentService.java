@@ -1,6 +1,5 @@
 package com.btkAkademi.rentACar.business.abstracts;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
@@ -14,7 +13,7 @@ public interface PaymentService {
 	DataResult<List<PaymentListDto>> findAll(int pageNo, int pageSize);
 
 	DataResult<List<PaymentListDto>> findAllByRentalId(int id);
-	
+
 	DataResult<Double> calculateTotalPriceForDisplay(CalculateTotalPriceRequest calculateTotalPriceRequest);
 
 	DataResult<PaymentListDto> findById(int id);

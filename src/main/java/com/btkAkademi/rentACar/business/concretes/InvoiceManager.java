@@ -2,8 +2,6 @@ package com.btkAkademi.rentACar.business.concretes;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,10 +55,10 @@ public class InvoiceManager implements InvoiceService {
 	// Dependency Injection
 	@Autowired
 	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService,
-			 IndividualCustomerService individualCustomerService,CorporateCustomerService corporateCustomerService,
+			IndividualCustomerService individualCustomerService, CorporateCustomerService corporateCustomerService,
 			@Lazy RentalService rentalService, PaymentService paymentService,
-			 AdditionalServiceService additionalServiceService,
-				AdditionalServiceItemService additionalServiceItemService) {
+			AdditionalServiceService additionalServiceService,
+			AdditionalServiceItemService additionalServiceItemService) {
 		super();
 		this.invoiceDao = invoiceDao;
 		this.modelMapperService = modelMapperService;
@@ -71,7 +69,7 @@ public class InvoiceManager implements InvoiceService {
 		this.additionalServiceService = additionalServiceService;
 		this.additionalServiceItemService = additionalServiceItemService;
 	}
-	
+
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceIndividualCustomerDto> getInvoiceForIndividualCustomer(int rentalId) {
@@ -86,10 +84,10 @@ public class InvoiceManager implements InvoiceService {
 		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId)
 				.getData();
 		List<AdditionalServiceItemListDto> additionalServiceItems = new ArrayList<AdditionalServiceItemListDto>();
-		double itemPrices=0;
+		double itemPrices = 0;
 		for (AdditionalServiceListDto additionalServiceListDto : additionalServices) {
-			itemPrices+=additionalServiceItemService
-					.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData().getPrice();
+			itemPrices += additionalServiceItemService.findById(additionalServiceListDto.getAdditionalServiceItemId())
+					.getData().getPrice();
 			additionalServiceItems.add(additionalServiceItemService
 					.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData());
 		}
@@ -99,14 +97,15 @@ public class InvoiceManager implements InvoiceService {
 		for (PaymentListDto payment : payments) {
 			totalPrice += payment.getTotalPaymentAmount();
 		}
-		double rentPrice = totalPrice-itemPrices;
+		double rentPrice = totalPrice - itemPrices;
 
 		InvoiceIndividualCustomerDto responseCustomerDto = InvoiceIndividualCustomerDto.builder().id(invoice.getId())
 				.firstName(customer.getFirstName()).lastName(customer.getLastName())
 				.nationalityNo(customer.getNationalityNo()).email(customer.getEmail()).totalPrice(totalPrice)
 				.rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
-				.creationDate(invoice.getCreationDate()).additionalServiceItems(additionalServiceItems).rentPrice(rentPrice).build();
-		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto,Messages.INVOICELIST);
+				.creationDate(invoice.getCreationDate()).additionalServiceItems(additionalServiceItems)
+				.rentPrice(rentPrice).build();
+		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto, Messages.INVOICELIST);
 	}
 
 	// prepares a dto with the information required for the invoice
@@ -125,10 +124,10 @@ public class InvoiceManager implements InvoiceService {
 		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId)
 				.getData();
 		List<AdditionalServiceItemListDto> additionalServiceItems = new ArrayList<AdditionalServiceItemListDto>();
-		double itemPrices=0;
+		double itemPrices = 0;
 		for (AdditionalServiceListDto additionalServiceListDto : additionalServices) {
-			itemPrices+=additionalServiceItemService
-					.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData().getPrice();
+			itemPrices += additionalServiceItemService.findById(additionalServiceListDto.getAdditionalServiceItemId())
+					.getData().getPrice();
 			additionalServiceItems.add(additionalServiceItemService
 					.findById(additionalServiceListDto.getAdditionalServiceItemId()).getData());
 		}
@@ -138,26 +137,28 @@ public class InvoiceManager implements InvoiceService {
 		for (PaymentListDto payment : payments) {
 			totalPrice += payment.getTotalPaymentAmount();
 		}
-		double rentPrice = totalPrice-itemPrices;
+		double rentPrice = totalPrice - itemPrices;
 
 		InvoiceCorporateCustomerDto responseCustomerDto = InvoiceCorporateCustomerDto.builder().id(invoice.getId())
 				.companyName(customer.getCompanyName()).taxNumber(customer.getTaxNumber()).email(customer.getEmail())
 				.totalPrice(totalPrice).rentDate(rental.getRentDate()).returnedDate(rental.getReturnDate())
-				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems).rentPrice(rentPrice).build();
-		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto,Messages.INVOICELIST);
+				.creationDate(invoice.getCreationDate()).additonalServiceItems(additionalServiceItems)
+				.rentPrice(rentPrice).build();
+		return new SuccessDataResult<InvoiceCorporateCustomerDto>(responseCustomerDto, Messages.INVOICELIST);
 	}
-	
+
+	// Finds all invoices
 	@Override
 	public DataResult<List<InvoiceListDto>> findAll() {
 		List<Invoice> invoiceList = invoiceDao.findAll();
 		List<InvoiceListDto> response = invoiceList.stream().map(
-				
+
 				invoice ->
-				
+
 				modelMapperService.forDto().map(invoice, InvoiceListDto.class)
-				
-				).collect(Collectors.toList());
-				return new SuccessDataResult<List<InvoiceListDto>>(response,Messages.INVOICELIST);
+
+		).collect(Collectors.toList());
+		return new SuccessDataResult<List<InvoiceListDto>>(response, Messages.INVOICELIST);
 	}
 
 	// Creates an invoice request
@@ -226,9 +227,5 @@ public class InvoiceManager implements InvoiceService {
 		} else
 			return new ErrorResult(Messages.PAYMENTNOTFOUND);
 	}
-
-
-
-
 
 }

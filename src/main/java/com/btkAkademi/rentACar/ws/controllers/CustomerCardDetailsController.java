@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.Crea
 import com.btkAkademi.rentACar.business.requests.customerCardDetailRequests.UpdateCustomerCardDetailsRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/customer-card-details")

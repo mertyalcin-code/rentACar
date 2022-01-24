@@ -29,6 +29,6 @@ public class UpdateIndividualCustomerRequest {
 	private String lastName;
 	@NotNull
 	@Pattern(regexp = "[0-9]+")
-	@Size(min=11,max=11)
+	@Size(min = 11, max = 11)
 	private LocalDate birthDate;
 }

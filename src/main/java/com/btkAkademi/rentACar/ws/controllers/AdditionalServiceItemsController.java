@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.AdditionalServiceItemService;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceItemListDto;
-import com.btkAkademi.rentACar.business.dtos.AdditionalServiceListDto;
 import com.btkAkademi.rentACar.business.requests.additionalServiceItemRequests.CreateAdditionalServiceItemRequest;
 import com.btkAkademi.rentACar.business.requests.additionalServiceItemRequests.UpdateAdditionalServiceItemRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/additional-service-items")
@@ -34,7 +34,6 @@ public class AdditionalServiceItemsController {
 		this.additionalServiceItemService = additionalServiceItemService;
 	}
 
-
 	@GetMapping("find-all")
 	public DataResult<List<AdditionalServiceItemListDto>> findAllByRentalId() {
 		return additionalServiceItemService.findAll();
@@ -46,14 +45,17 @@ public class AdditionalServiceItemsController {
 		return additionalServiceItemService.findById(id);
 
 	}
+
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateAdditionalServiceItemRequest createAdditionalServiceItemRequest) {
 		return this.additionalServiceItemService.add(createAdditionalServiceItemRequest);
 	}
+
 	@PutMapping("update")
 	public Result add(@RequestBody @Valid UpdateAdditionalServiceItemRequest updateAdditionalServiceItemRequest) {
 		return this.additionalServiceItemService.update(updateAdditionalServiceItemRequest);
 	}
+
 	@DeleteMapping("delete/{id}")
 	public Result delete(@PathVariable int id) {
 		return this.additionalServiceItemService.delete(id);

@@ -22,6 +22,7 @@ import com.btkAkademi.rentACar.business.requests.wordRequests.DeleteWordRequest;
 import com.btkAkademi.rentACar.business.requests.wordRequests.UpdateWordRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/words")
@@ -32,10 +33,12 @@ public class WordsController {
 	public WordsController(WordService wordService) {
 		this.wordService = wordService;
 	}
+
 	@GetMapping("find-all")
 	public DataResult<List<WordSearchListDto>> getAll() {
 		return this.wordService.getAll();
 	}
+
 	@GetMapping("find-by-key/{key}")
 	public DataResult<WordSearchListDto> getByKey(@PathVariable String key) {
 		return this.wordService.getByKey(key);
@@ -55,6 +58,5 @@ public class WordsController {
 	public Result update(@RequestBody @Valid UpdateWordRequest updateWordRequest) {
 		return this.wordService.update(updateWordRequest);
 	}
-
 
 }

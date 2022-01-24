@@ -52,7 +52,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 				.map(carMaintanance -> modelMapperService.forDto().map(carMaintanance, CarMaintenanceListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<CarMaintenanceListDto>>(response,Messages.CARMAINTENANCELIST);
+		return new SuccessDataResult<List<CarMaintenanceListDto>>(response, Messages.CARMAINTENANCELIST);
 	}
 
 	// Lists maintenance records for one car
@@ -63,7 +63,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 				.map(carMaintanance -> modelMapperService.forDto().map(carMaintanance, CarMaintenanceListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<CarMaintenanceListDto>>(response,Messages.CARMAINTENANCELIST);
+		return new SuccessDataResult<List<CarMaintenanceListDto>>(response, Messages.CARMAINTENANCELIST);
 	}
 
 	// finds one specific maintenance
@@ -73,7 +73,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 			CarMaintenance carMaintenance = carMaintananceDao.findById(id).get();
 			CarMaintenanceListDto response = modelMapperService.forDto().map(carMaintenance,
 					CarMaintenanceListDto.class);
-			return new SuccessDataResult<CarMaintenanceListDto>(response,Messages.CARMAINTENANCELIST);
+			return new SuccessDataResult<CarMaintenanceListDto>(response, Messages.CARMAINTENANCELIST);
 		}
 		return new ErrorDataResult<CarMaintenanceListDto>(Messages.CARMAINTENANCENOTFOUND);
 	}
@@ -83,7 +83,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	public Result add(CreateCarMaintenanceRequest createCarMaintananceRequest) {
 		Result result = BusinessRules.run(checkIfCarIsExists(createCarMaintananceRequest.getCarId()),
 				checkIfCarIsRented(createCarMaintananceRequest.getCarId()),
-				checkIfCarIsAlreadyInMaintanance(createCarMaintananceRequest.getCarId()));
+				checkIfCarIsAlreadyInMaintenance(createCarMaintananceRequest.getCarId()));
 		if (result != null) {
 			return result;
 		}
@@ -147,8 +147,8 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 			return new SuccessResult();
 	}
 
-	//
-	private Result checkIfCarIsAlreadyInMaintanance(int carId) {
+	// Prevents multiple record of maintenance
+	private Result checkIfCarIsAlreadyInMaintenance(int carId) {
 		if (isCarInMaintenance(carId)) {
 			return new ErrorResult(Messages.CARINMANTANANCE);
 		} else

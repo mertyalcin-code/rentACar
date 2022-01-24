@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateAdditionalServiceItemRequest {
 	private int id;
-	 @NotBlank
-	 @Size(min = 2,max = 250)
+	@NotBlank
+	@Size(min = 2, max = 250)
 	private String name;
-	 @Min(0)
+	@Min(0)
 	private double price;
 }

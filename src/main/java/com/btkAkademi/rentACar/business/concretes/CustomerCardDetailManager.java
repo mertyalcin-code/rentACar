@@ -47,7 +47,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 						CustomerCardDetailListDto.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<>(response,Messages.CREDITCARDLIST);
+		return new SuccessDataResult<>(response, Messages.CREDITCARDLIST);
 
 	}
 
@@ -58,7 +58,7 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 			CustomerCardDetail customerPaymentDetail = customerCardDetailDao.findById(id).get();
 			CustomerCardDetailListDto response = modelMapperService.forDto().map(customerPaymentDetail,
 					CustomerCardDetailListDto.class);
-			return new SuccessDataResult<CustomerCardDetailListDto>(response,Messages.CREDITCARDLIST);
+			return new SuccessDataResult<CustomerCardDetailListDto>(response, Messages.CREDITCARDLIST);
 		}
 		return new ErrorDataResult<CustomerCardDetailListDto>(Messages.CREDITCARDNOTFOUND);
 	}
@@ -94,10 +94,12 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 		}
 		return new ErrorResult(Messages.CREDITCARDNOTFOUND);
 	}
+
 	private Result checkIfCardNoExist(String cardNo) {
-		if(customerCardDetailDao.findByCardNo(cardNo)!=null) {
+		if (customerCardDetailDao.findByCardNo(cardNo) != null) {
 			return new ErrorResult(Messages.CREDITCARDALREADYEXISTS);
-		}else return new SuccessResult();
+		} else
+			return new SuccessResult();
 	}
 
 }

@@ -23,6 +23,7 @@ import com.btkAkademi.rentACar.business.requests.paymentRequests.CreatePaymentRe
 import com.btkAkademi.rentACar.business.requests.paymentRequests.UpdatePaymentRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/payments")
@@ -40,9 +41,10 @@ public class PaymentsController {
 			@RequestParam(defaultValue = " 10") int pageSize) {
 		return this.paymentService.findAll(pageNo, pageSize);
 	}
+
 	@PostMapping("find-total-price")
 	public DataResult<Double> calculateTotalPrice(@RequestBody CalculateTotalPriceRequest calculateTotalPriceRequest) {
-		 System.out.println(calculateTotalPriceRequest.getReturnDate());
+		System.out.println(calculateTotalPriceRequest.getReturnDate());
 		return this.paymentService.calculateTotalPriceForDisplay(calculateTotalPriceRequest);
 	}
 

@@ -14,7 +14,7 @@ public interface AdditionalServiceService {
 	Result add(CreateAdditionalServiceRequest createAdditionalServiceRequest);
 
 	Result addAll(List<CreateAdditionalServiceRequest> createAdditionalServiceRequests);
-	
+
 	Result update(UpdateAdditionalServiceRequest updateAdditionalServiceRequest);
 
 	Result delete(int id);

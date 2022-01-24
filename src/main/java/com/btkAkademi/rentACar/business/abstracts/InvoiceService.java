@@ -24,5 +24,4 @@ public interface InvoiceService {
 
 	DataResult<List<InvoiceListDto>> findAll();
 
-
 }

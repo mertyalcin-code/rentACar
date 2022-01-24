@@ -29,6 +29,6 @@ public class CreateIndividualCustomerRequest {
 	@NotNull
 	private LocalDate birthDate;
 	@Pattern(regexp = "[0-9]+")
-	@Size(min=11,max=11)
+	@Size(min = 11, max = 11)
 	private String nationalityNo;
 }

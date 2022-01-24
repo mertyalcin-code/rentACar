@@ -20,6 +20,7 @@ import com.btkAkademi.rentACar.business.requests.colorRequests.CreateColorReques
 import com.btkAkademi.rentACar.business.requests.colorRequests.UpdateColorRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/colors")

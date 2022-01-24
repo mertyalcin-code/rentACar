@@ -22,6 +22,7 @@ import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.Creat
 import com.btkAkademi.rentACar.business.requests.corporateCustomerRequests.UpdateCorporateCustomerRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/corporate-customers")
@@ -37,7 +38,7 @@ public class CorporateCustomersController {
 	}
 
 	@GetMapping("find-all")
-	public DataResult<List<CorporateCustomerListDto>> findAll(@RequestParam(defaultValue = "1") int pageNo ,
+	public DataResult<List<CorporateCustomerListDto>> findAll(@RequestParam(defaultValue = "1") int pageNo,
 			@RequestParam(defaultValue = "1000") int pageSize) {
 
 		return this.corporateCustomerService.findAll(pageNo, pageSize);

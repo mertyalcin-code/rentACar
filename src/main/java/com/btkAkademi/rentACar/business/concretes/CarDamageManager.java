@@ -46,7 +46,7 @@ public class CarDamageManager implements CarDamageService {
 		List<CarDamageListDto> response = carDamages.stream()
 				.map(carDamage -> modelMapperService.forDto().map(carDamage, CarDamageListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarDamageListDto>>(response,Messages.CARDAMAGELIST);
+		return new SuccessDataResult<List<CarDamageListDto>>(response, Messages.CARDAMAGELIST);
 	}
 
 	// find specific damage of the car
@@ -55,7 +55,7 @@ public class CarDamageManager implements CarDamageService {
 		if (carDamageDao.existsById(id)) {
 			CarDamage carDamage = carDamageDao.findById(id).get();
 			CarDamageListDto response = modelMapperService.forDto().map(carDamage, CarDamageListDto.class);
-			return new SuccessDataResult<CarDamageListDto>(response,Messages.CARDAMAGELIST);
+			return new SuccessDataResult<CarDamageListDto>(response, Messages.CARDAMAGELIST);
 		}
 
 		return new ErrorDataResult<CarDamageListDto>();

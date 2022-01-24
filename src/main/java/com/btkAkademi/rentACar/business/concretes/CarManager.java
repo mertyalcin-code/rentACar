@@ -58,17 +58,19 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAll(pageable).getContent();
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
+		return new SuccessDataResult<List<CarListDto>>(response, Messages.CARLIST);
 	}
+
+	// Lists Cars not in maintenance or not in rental
 	@Override
 	public DataResult<List<CarListDto>> findAllAvailable(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Car> carList = this.carDao.findAvailableCars(pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
+		return new SuccessDataResult<List<CarListDto>>(response, Messages.CARLIST);
 	}
-	
+
 	// lists cars according to brand
 	@Override
 	public DataResult<List<CarListDto>> findAllByBrandId(int brandId, int pageNo, int pageSize) {
@@ -77,7 +79,7 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAllByBrandId(brandId, pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
+		return new SuccessDataResult<List<CarListDto>>(response, Messages.CARLIST);
 	}
 
 	// lists cars according to color
@@ -87,15 +89,27 @@ public class CarManager implements CarService {
 		List<Car> carList = this.carDao.findAllByColorId(colorId, pageable);
 		List<CarListDto> response = carList.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
+		return new SuccessDataResult<List<CarListDto>>(response, Messages.CARLIST);
 	}
 
+	// Finds cars with spesific segment
 	@Override
 	public DataResult<List<CarListDto>> findAllBySegmentId(int segmentId) {
 		List<Car> cars = carDao.findAllBySegmentId(segmentId);
 		List<CarListDto> response = cars.stream().map(car -> modelMapperService.forDto().map(car, CarListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<CarListDto>>(response,Messages.CARLIST);
+		return new SuccessDataResult<List<CarListDto>>(response, Messages.CARLIST);
+	}
+
+	// find Available cars from city with segment
+	@Override
+	public DataResult<List<Integer>> findAvailableCarsBySegmentIdAndCityId(int segmentId, int cityId) {
+
+		if (carDao.findAvailableCarBySegmentAndCity(segmentId, cityId).size() < 1) {
+			return new ErrorDataResult<List<Integer>>();
+		} else
+			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegmentAndCity(segmentId, cityId),
+					Messages.CARLIST);
 	}
 
 	// Finds Car by id
@@ -105,7 +119,7 @@ public class CarManager implements CarService {
 
 			CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
 
-			return new SuccessDataResult<CarListDto>(response,Messages.CARLIST);
+			return new SuccessDataResult<CarListDto>(response, Messages.CARLIST);
 		} else
 			return new ErrorDataResult<>(Messages.CARNOTFOUND);
 	}
@@ -141,6 +155,7 @@ public class CarManager implements CarService {
 		return new SuccessResult(Messages.CARUPDATE);
 	}
 
+	// Updates cars kilometer
 	@Override
 	public Result updateCarKilometer(int carId, int kilometer) {
 		Car car = carDao.findById(carId).get();
@@ -150,6 +165,7 @@ public class CarManager implements CarService {
 
 	}
 
+	// Updates cars location
 	@Override
 	public Result updateCarCity(int carId, int cityId) {
 		Car car = carDao.findById(carId).get();
@@ -197,16 +213,5 @@ public class CarManager implements CarService {
 		} else
 			return new SuccessResult();
 	}
-
-	@Override
-	public DataResult<List<Integer>> findAvailableCarsBySegmentIdAndCityId(int segmentId, int cityId) {
-
-		if (carDao.findAvailableCarBySegmentAndCity(segmentId, cityId).size() < 1) {
-			return new ErrorDataResult<List<Integer>>();
-		} else
-			return new SuccessDataResult<List<Integer>>(carDao.findAvailableCarBySegmentAndCity(segmentId, cityId),Messages.CARLIST);
-	}
-
-
 
 }

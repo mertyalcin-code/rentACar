@@ -45,7 +45,7 @@ public class BrandManager implements BrandService {
 		List<BrandListDto> response = brandList.stream()
 				.map(brand -> modelMapperService.forDto().map(brand, BrandListDto.class)).collect(Collectors.toList());
 
-		return new SuccessDataResult<List<BrandListDto>>(response,Messages.BRANDLIST);
+		return new SuccessDataResult<List<BrandListDto>>(response, Messages.BRANDLIST);
 	}
 
 	// Finds brand by id
@@ -54,7 +54,7 @@ public class BrandManager implements BrandService {
 		if (brandDao.existsById(id)) {
 			Brand brand = this.brandDao.findById(id).get();
 			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
-			return new SuccessDataResult<BrandListDto>(response,Messages.BRANDLIST);
+			return new SuccessDataResult<BrandListDto>(response, Messages.BRANDLIST);
 		} else
 			return new ErrorDataResult<>(Messages.BRANDNOTFOUND);
 	}

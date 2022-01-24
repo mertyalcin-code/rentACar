@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.carDamageRequests.CreateCarDama
 import com.btkAkademi.rentACar.business.requests.carDamageRequests.UpdateCarDamageRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/car-damages")

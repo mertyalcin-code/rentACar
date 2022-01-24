@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.btkAkademi.rentACar.business.abstracts.SegmentService;
-import com.btkAkademi.rentACar.business.dtos.ColorListDto;
 import com.btkAkademi.rentACar.business.dtos.SegmentListDto;
 import com.btkAkademi.rentACar.business.requests.segmentRequest.CreateSegmentRequest;
 import com.btkAkademi.rentACar.business.requests.segmentRequest.UpdateSegmentRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/segments")
@@ -33,15 +33,16 @@ public class SegmentController {
 		super();
 		this.segmentService = segmentService;
 	}
+
 	@GetMapping("find-all")
 	public DataResult<List<SegmentListDto>> findAll() {
 		return this.segmentService.findAll();
 	}
+
 	@GetMapping("find-by-id/{id}")
 	public DataResult<SegmentListDto> findById(@PathVariable int id) {
 		return this.segmentService.findById(id);
 	}
-
 
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateSegmentRequest createSegmentRequest) {

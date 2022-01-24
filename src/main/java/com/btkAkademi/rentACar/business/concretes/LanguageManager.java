@@ -22,25 +22,28 @@ import com.btkAkademi.rentACar.entities.concretes.Language;
 
 @Service
 public class LanguageManager implements LanguageService {
-
+	// Dependencies
 	private LanguageDao languageDao;
 	private ModelMapperService modelMapperService;
 
+	// Dependency Injection
 	@Autowired
 	public LanguageManager(LanguageDao languageDao, ModelMapperService modelMapperService) {
 		this.languageDao = languageDao;
 		this.modelMapperService = modelMapperService;
 	}
 
+	// Finds All Languages
 	@Override
 	public DataResult<List<LanguageSearchListDto>> getAll() {
 		List<Language> languages = this.languageDao.findAll();
 		List<LanguageSearchListDto> languageSearchListDtos = languages.stream()
 				.map(language -> modelMapperService.forDto().map(language, LanguageSearchListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<LanguageSearchListDto>>(languageSearchListDtos,Messages.LANGUAGELIST);
+		return new SuccessDataResult<List<LanguageSearchListDto>>(languageSearchListDtos, Messages.LANGUAGELIST);
 	}
 
+	// Adds a new Language
 	@Override
 	public Result add(CreateLanguageRequest createLanguageRequest) {
 		Language language = modelMapperService.forRequest().map(createLanguageRequest, Language.class);
@@ -48,6 +51,7 @@ public class LanguageManager implements LanguageService {
 		return new SuccessResult(Messages.LANGUAGEADD);
 	}
 
+	// Deletes a language if there is no relation in the database
 	@Override
 	public Result delete(DeleteLanguageRequest deleteLanguageRequest) {
 		Language language = modelMapperService.forRequest().map(deleteLanguageRequest, Language.class);
@@ -55,6 +59,7 @@ public class LanguageManager implements LanguageService {
 		return new SuccessResult(Messages.LANGUAGEDELETE);
 	}
 
+	// Deletes a language if there is no relation in the database
 	@Override
 	public Result update(UpdateLanguageRequest updateLanguageRequests) {
 		Language language = modelMapperService.forRequest().map(updateLanguageRequests, Language.class);
@@ -62,12 +67,13 @@ public class LanguageManager implements LanguageService {
 		return new SuccessResult(Messages.LANGUAGEUPDATE);
 	}
 
+	// finds language by name
 	@Override
 	public DataResult<LanguageSearchListDto> getByLanguageName(String languageName) {
 		Language language = this.languageDao.getLanguagesByName(languageName);
 		// var result=this.languageDao.getById(id);
 		LanguageSearchListDto languageSearchListDto = modelMapperService.forDto().map(language,
 				LanguageSearchListDto.class);
-		return new SuccessDataResult<LanguageSearchListDto>(languageSearchListDto,Messages.LANGUAGELIST);
+		return new SuccessDataResult<LanguageSearchListDto>(languageSearchListDto, Messages.LANGUAGELIST);
 	}
 }

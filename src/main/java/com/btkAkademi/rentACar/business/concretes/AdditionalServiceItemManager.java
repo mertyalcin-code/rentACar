@@ -23,9 +23,11 @@ import com.btkAkademi.rentACar.entities.concretes.AdditionalServiceItem;
 
 @Service
 public class AdditionalServiceItemManager implements AdditionalServiceItemService {
+	// Dependencies
 	private ModelMapperService modelMapperService;
 	private AdditionalServiceItemDao additionalServiceItemDao;
 
+	// Dependency Injection
 	@Autowired
 	public AdditionalServiceItemManager(ModelMapperService modelMapperService,
 			AdditionalServiceItemDao additionalServiceItemDao) {
@@ -34,6 +36,7 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 		this.additionalServiceItemDao = additionalServiceItemDao;
 	}
 
+	// Defines Additional Service element To System
 	@Override
 	public Result add(CreateAdditionalServiceItemRequest createAdditionalServiceItemRequest) {
 		AdditionalServiceItem additionalServiceItem = this.modelMapperService.forRequest()
@@ -42,18 +45,20 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 		return new SuccessResult(Messages.ADDITIONALSERVICEITEMADDED);
 	}
 
+	// Finds by id
 	@Override
 	public DataResult<AdditionalServiceItemListDto> findById(int id) {
 		if (additionalServiceItemDao.existsById(id)) {
 			AdditionalServiceItem item = additionalServiceItemDao.findById(id).get();
 			AdditionalServiceItemListDto response = modelMapperService.forDto().map(item,
 					AdditionalServiceItemListDto.class);
-			return new SuccessDataResult<AdditionalServiceItemListDto>(response,Messages.ADDITIONALSERVICEITEMLIST);
+			return new SuccessDataResult<AdditionalServiceItemListDto>(response, Messages.ADDITIONALSERVICEITEMLIST);
 		} else
 			return new ErrorDataResult<AdditionalServiceItemListDto>(Messages.ADDITIONALSERVICEITEMNOTFOUND);
 
 	}
 
+	// Updates a service
 	@Override
 	public Result update(UpdateAdditionalServiceItemRequest updateAdditionalServiceItemRequest) {
 		AdditionalServiceItem additionalServiceItem = this.modelMapperService.forRequest()
@@ -62,6 +67,7 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 		return new SuccessResult(Messages.ADDITIONALSERVICEITEMUPDATED);
 	}
 
+	// delete service if there is no relation
 	@Override
 	public Result delete(int id) {
 		if (additionalServiceItemDao.existsById(id)) {
@@ -71,6 +77,7 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 			return new ErrorResult(Messages.ADDITIONALSERVICEITEMNOTFOUND);
 	}
 
+	// finds all Service
 	@Override
 	public DataResult<List<AdditionalServiceItemListDto>> findAll() {
 		List<AdditionalServiceItem> additionalServiceItems = this.additionalServiceItemDao.findAll();

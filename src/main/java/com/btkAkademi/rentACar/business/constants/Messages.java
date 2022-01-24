@@ -232,7 +232,7 @@ public class Messages {
 
 	public static final String LIST = "list";
 	public static final String NOTFOUND = "not.found";
-	
+
 	public static final String PROMOCODEEXPIRED = "promo.code.expired";
 
 	public static final String BRANDLIMITEXCEED = "brand.limit.exceed";
@@ -249,10 +249,8 @@ public class Messages {
 
 	public static final String SEGMENTLIST = "segment.list";
 
-	//load a eklenecek
-	
+	// load a eklenecek
+
 	public static final String DATAHAVERELATIONS = "data.have.relations";
-	
-	
 
 }

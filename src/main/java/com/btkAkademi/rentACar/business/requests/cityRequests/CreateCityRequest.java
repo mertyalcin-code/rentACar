@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CreateCityRequest {
 	@NotBlank
-	@Size(max=250)
+	@Size(max = 250)
 	private String cityName;
 }

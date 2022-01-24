@@ -21,10 +21,10 @@ public class Result {
 	public String getMessage() {
 		return get(this.message);
 	}
-	
+
 	// for language
-	private String get(String message){		
-	return LanguageSelector.languageSelector(message);
-		
+	private String get(String message) {
+		return LanguageSelector.languageSelector(message);
+
 	}
 }

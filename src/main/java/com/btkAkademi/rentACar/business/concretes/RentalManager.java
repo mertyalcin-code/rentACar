@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,6 @@ import com.btkAkademi.rentACar.business.abstracts.CustomerService;
 import com.btkAkademi.rentACar.business.abstracts.IndividualCustomerService;
 import com.btkAkademi.rentACar.business.abstracts.InvoiceService;
 import com.btkAkademi.rentACar.business.abstracts.PaymentService;
-import com.btkAkademi.rentACar.business.abstracts.PromoCodeService;
 import com.btkAkademi.rentACar.business.abstracts.RentalService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CarListDto;
@@ -28,7 +26,6 @@ import com.btkAkademi.rentACar.business.dtos.MyRentalListDto;
 import com.btkAkademi.rentACar.business.dtos.PaymentListDto;
 import com.btkAkademi.rentACar.business.dtos.RentalAddResponse;
 import com.btkAkademi.rentACar.business.dtos.RentalListDto;
-import com.btkAkademi.rentACar.business.requests.paymentRequests.CalculateTotalPriceRequest;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequest;
 import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.btkAkademi.rentACar.core.adapters.creditScore.abstracts.CreditScoreAdapterService;
@@ -40,7 +37,6 @@ import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.SuccessResult;
-import com.btkAkademi.rentACar.dataAccess.abstracts.CarDao;
 import com.btkAkademi.rentACar.dataAccess.abstracts.RentalDao;
 import com.btkAkademi.rentACar.entities.concretes.City;
 import com.btkAkademi.rentACar.entities.concretes.Rental;
@@ -59,6 +55,7 @@ public class RentalManager implements RentalService {
 	private CarService carService;
 	private PaymentService paymentService;
 	private InvoiceService invoiceService;
+
 	// Dependency Injection
 	@Autowired
 
@@ -83,13 +80,13 @@ public class RentalManager implements RentalService {
 
 	// Lists all rentals
 	@Override
-	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {	
+	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<Rental> rentalList = this.rentalDao.findAll(pageable).getContent();
 		List<RentalListDto> response = rentalList.stream()
 				.map(rental -> modelMapperService.forDto().map(rental, RentalListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<RentalListDto>>(response,Messages.RENTALLIST);
+		return new SuccessDataResult<List<RentalListDto>>(response, Messages.RENTALLIST);
 	}
 
 	// Lists all rentals for one customer
@@ -98,41 +95,39 @@ public class RentalManager implements RentalService {
 		// customer yoksa hata versin
 		List<Rental> rentalList = this.rentalDao.findAllByCustomerId(id);
 		List<MyRentalListDto> response = new ArrayList<MyRentalListDto>();
-		for(Rental rental: rentalList) {
+		for (Rental rental : rentalList) {
 			MyRentalListDto responseItem = new MyRentalListDto();
 			responseItem.setRentalId(rental.getId());
 			responseItem.setRentDate(rental.getRentDate());
 			responseItem.setBrandName(carService.findCarById(rental.getCar().getId()).getData().getBrandName());
 			responseItem.setCarName(carService.findCarById(rental.getCar().getId()).getData().getCarName());
 			responseItem.setPickUpCityName(rental.getPickUpCity().getCityName());
-			if(paymentService.findAllByRentalId(rental.getId()).isSuccess()) {
-				double totalPrice=0;
+			if (paymentService.findAllByRentalId(rental.getId()).isSuccess()) {
+				double totalPrice = 0;
 				List<PaymentListDto> payments = paymentService.findAllByRentalId(rental.getId()).getData();
-				for(PaymentListDto payment:payments) {
-					totalPrice+=payment.getTotalPaymentAmount();
+				for (PaymentListDto payment : payments) {
+					totalPrice += payment.getTotalPaymentAmount();
 				}
 				responseItem.setTotalPayment(totalPrice);
 				responseItem.setReturnDate(rental.getReturnDate());
 			}
-			if(isRentalFinished(rental.getId())) {
+			if (isRentalFinished(rental.getId())) {
 				responseItem.setRentalFinished(true);
 				responseItem.setReturnCityName(rental.getReturnCity().getCityName());
-		
-				if(invoiceService.getInvoiceForIndividualCustomer(rental.getId()).isSuccess()
-						|| invoiceService.getInvoiceForCorporateCustomer(rental.getId()).isSuccess()
-						) {
-	
+
+				if (invoiceService.getInvoiceForIndividualCustomer(rental.getId()).isSuccess()
+						|| invoiceService.getInvoiceForCorporateCustomer(rental.getId()).isSuccess()) {
+
 					responseItem.setInvoiceCreated(true);
 				}
-			}
-			else {
+			} else {
 				responseItem.setRentalFinished(false);
 				responseItem.setInvoiceCreated(false);
 			}
 			response.add(responseItem);
 		}
-		
-		return new SuccessDataResult<List<MyRentalListDto>>(response,Messages.RENTALLIST);
+
+		return new SuccessDataResult<List<MyRentalListDto>>(response, Messages.RENTALLIST);
 	}
 
 	// finds specific rental
@@ -142,16 +137,28 @@ public class RentalManager implements RentalService {
 		if (rentalDao.existsById(id)) {
 			RentalListDto response = modelMapperService.forDto().map(rentalDao.findById(id).get(), RentalListDto.class);
 
-			return new SuccessDataResult<>(response,Messages.RENTALLIST);
-		}
-		else return new ErrorDataResult<>(Messages.RENTALNOTFOUND);
-		
+			return new SuccessDataResult<>(response, Messages.RENTALLIST);
+		} else
+			return new ErrorDataResult<>(Messages.RENTALNOTFOUND);
+
+	}
+
+	// finds cars avtive rental information
+	@Override
+	public DataResult<RentalListDto> findActiveRentalByCarId(int id) {
+		if (rentalDao.findByCarIdAndReturnDateIsNull(id) != null) {
+
+			RentalListDto response = modelMapperService.forDto().map(rentalDao.findByCarIdAndReturnDateIsNull(id),
+					RentalListDto.class);
+			return new SuccessDataResult<RentalListDto>(response, Messages.RENTALLIST);
+		} else
+			return new ErrorDataResult<RentalListDto>(Messages.RENTALNOTFOUND);
 
 	}
 
 	// Adds a new rental
 	@Override
-	public DataResult<RentalAddResponse>	 addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
+	public DataResult<RentalAddResponse> addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
 		CarListDto wantedCar = carService.findCarById(createRentalRequest.getCarId()).getData();
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess()
 				|| !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
@@ -174,7 +181,7 @@ public class RentalManager implements RentalService {
 		);
 
 		if (result != null) {
-			return new ErrorDataResult<RentalAddResponse>(result.getMessage())	;
+			return new ErrorDataResult<RentalAddResponse>(result.getMessage());
 		}
 
 		CarListDto car = carService.findCarById(createRentalRequest.getCarId()).getData();
@@ -189,12 +196,14 @@ public class RentalManager implements RentalService {
 		System.out.println(pickUpCity.getId());
 		rental.setPickUpCity(pickUpCity);
 		this.rentalDao.save(rental);
-		
-		return new SuccessDataResult<RentalAddResponse>(new RentalAddResponse(rental.getId(), rental.getCar().getId()), Messages.RENTALADD);
+
+		return new SuccessDataResult<RentalAddResponse>(new RentalAddResponse(rental.getId(), rental.getCar().getId()),
+				Messages.RENTALADD);
 	}
 
+	// adds rental for corporate customer
 	@Override
-	public DataResult<RentalAddResponse>	 addForCorporateCustomer(CreateRentalRequest createRentalRequest) {
+	public DataResult<RentalAddResponse> addForCorporateCustomer(CreateRentalRequest createRentalRequest) {
 		CarListDto wantedCar = carService.findCarById(createRentalRequest.getCarId()).getData();
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess()
 				|| !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
@@ -209,9 +218,10 @@ public class RentalManager implements RentalService {
 
 				checkIfCorporateCustomerHasEnoughCreditScore(
 						corporateCustomerService.findById(createRentalRequest.getCustomerId()).getData().getTaxNumber(),
-						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()));
+						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
+				checkIfDatesAreCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()));
 		if (result != null) {
-			return new ErrorDataResult<RentalAddResponse>(result.getMessage())	;
+			return new ErrorDataResult<RentalAddResponse>(result.getMessage());
 		}
 		CarListDto car = carService.findCarById(createRentalRequest.getCarId()).getData();
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
@@ -222,7 +232,8 @@ public class RentalManager implements RentalService {
 				City.class);
 		rental.setPickUpCity(pickUpCity);
 		this.rentalDao.save(rental);
-		return new SuccessDataResult<RentalAddResponse>(new RentalAddResponse(rental.getId(), rental.getCar().getId()), Messages.RENTALADD);
+		return new SuccessDataResult<RentalAddResponse>(new RentalAddResponse(rental.getId(), rental.getCar().getId()),
+				Messages.RENTALADD);
 	}
 
 	// Updates rental
@@ -277,9 +288,7 @@ public class RentalManager implements RentalService {
 	private Result checkIfDatesAreCorrect(LocalDate rentDate, LocalDate returnDate) {
 		if (!rentDate.isBefore(returnDate) || rentDate.isAfter(LocalDate.now())) {
 			return new ErrorResult(Messages.RENTALDATEERROR);
-
 		}
-
 		return new SuccessResult();
 	}
 
@@ -358,26 +367,18 @@ public class RentalManager implements RentalService {
 		return new SuccessResult();
 	}
 
-	//Find Available cars for same segment and same city
+	// Find Available cars for same segment and same city
 	private DataResult<CarListDto> findAvailableCar(int SegmentId, int cityId) {
 		if (carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).isSuccess()) {
 			CarListDto car = carService
-					.findCarById(carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).getData().get(0)).getData();
+					.findCarById(carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).getData().get(0))
+					.getData();
 			return new SuccessDataResult<CarListDto>(car);
 		} else
 			return new ErrorDataResult<CarListDto>();
 	}
 
-	@Override
-	public DataResult<RentalListDto> findActiveRentalByCarId(int id) {
-		if(rentalDao.findByCarIdAndReturnDateIsNull(id)!=null) {
-			
-			RentalListDto response = modelMapperService.forDto().map(rentalDao.findByCarIdAndReturnDateIsNull(id), RentalListDto.class);
-			return new SuccessDataResult<RentalListDto>(response,Messages.RENTALLIST);
-		}else return new ErrorDataResult<RentalListDto>(Messages.RENTALNOTFOUND);
-	
-	}
-	//Controls rentals return date is null
+	// Controls rentals return date is null
 	private boolean isRentalFinished(int rentalId) {
 		if (this.findById(rentalId).getData() != null) {
 			if (this.findById(rentalId).getData().getReturnDate() != null) {

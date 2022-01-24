@@ -10,18 +10,19 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AdminDataLoader implements CommandLineRunner{
+public class AdminDataLoader implements CommandLineRunner {
 	private UserDao userDao;
 
 	@Override
 	public void run(String... args) throws Exception {
 		this.loadEmployee();
-		
+
 	}
-	private void loadEmployee(){
-		String role="EMPLOYEE";
-		if(userDao.findByRole(role) == null) {
-			userDao.save(new User(0,"admin@admin.com","admin","EMPLOYEE"));
+
+	private void loadEmployee() {
+		String role = "EMPLOYEE";
+		if (userDao.findByRole(role) == null) {
+			userDao.save(new User(0, "admin@admin.com", "admin", "EMPLOYEE"));
 		}
 	}
 

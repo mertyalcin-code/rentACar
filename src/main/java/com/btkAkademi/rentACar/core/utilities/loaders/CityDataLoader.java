@@ -5,18 +5,15 @@ import java.util.HashSet;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import com.btkAkademi.rentACar.dataAccess.abstracts.BrandDao;
 import com.btkAkademi.rentACar.dataAccess.abstracts.CityDao;
-import com.btkAkademi.rentACar.dataAccess.abstracts.ColorDao;
 import com.btkAkademi.rentACar.entities.concretes.City;
-import com.btkAkademi.rentACar.entities.concretes.Color;
 
 import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
-public class CityDataLoader implements CommandLineRunner{
-	private CityDao	cityDao;
+public class CityDataLoader implements CommandLineRunner {
+	private CityDao cityDao;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -25,15 +22,15 @@ public class CityDataLoader implements CommandLineRunner{
 	}
 
 	private void loadCities() {
-		if(cityDao.count()==0) {
+		if (cityDao.count() == 0) {
 			HashSet<City> cities = new HashSet<>();
-			cities.add(new City(0,"Ankara",null,null,null));
-			cities.add(new City(0,"İzmir",null,null,null));
-			cities.add(new City(0,"İstanbul",null,null,null));
-			cities.add(new City(0,"Antalya",null,null,null));
-			cities.add(new City(0,"Konya",null,null,null));
+			cities.add(new City(0, "Ankara", null, null, null));
+			cities.add(new City(0, "İzmir", null, null, null));
+			cities.add(new City(0, "İstanbul", null, null, null));
+			cities.add(new City(0, "Antalya", null, null, null));
+			cities.add(new City(0, "Konya", null, null, null));
 			cityDao.saveAll(cities);
 		}
-		
+
 	}
 }

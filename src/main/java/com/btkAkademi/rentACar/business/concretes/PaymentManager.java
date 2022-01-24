@@ -53,8 +53,8 @@ public class PaymentManager implements PaymentService {
 
 	// Dependency injection
 	@Autowired
-	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService,@Lazy RentalService rentalService,
-			CarService carService, AdditionalServiceService additionalServiceService,
+	public PaymentManager(PaymentDao paymentDao, ModelMapperService modelMapperService,
+			@Lazy RentalService rentalService, CarService carService, AdditionalServiceService additionalServiceService,
 			BankAdapterService bankAdapterService, PromoCodeService promoCodeService,
 			AdditionalServiceItemService additionalServiceItemService) {
 		super();
@@ -76,7 +76,7 @@ public class PaymentManager implements PaymentService {
 		List<PaymentListDto> response = paymentList.stream()
 				.map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<>(response,Messages.PAYMENTLIST);
+		return new SuccessDataResult<>(response, Messages.PAYMENTLIST);
 
 	}
 
@@ -88,7 +88,7 @@ public class PaymentManager implements PaymentService {
 		List<PaymentListDto> response = paymentList.stream()
 				.map(payment -> modelMapperService.forDto().map(payment, PaymentListDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<>(response,Messages.PAYMENTLIST);
+		return new SuccessDataResult<>(response, Messages.PAYMENTLIST);
 	}
 
 	// finds specific payment
@@ -97,21 +97,21 @@ public class PaymentManager implements PaymentService {
 		if (paymentDao.existsById(id)) {
 			Payment payment = paymentDao.findById(id).get();
 			PaymentListDto response = modelMapperService.forDto().map(payment, PaymentListDto.class);
-			return new SuccessDataResult<PaymentListDto>(response,Messages.PAYMENTLIST);
+			return new SuccessDataResult<PaymentListDto>(response, Messages.PAYMENTLIST);
 		} else
 			return new ErrorDataResult<>();
 	}
 
+	// To Show Customer Total Amount Before Payment
 	@Override
 	public DataResult<Double> calculateTotalPriceForDisplay(CalculateTotalPriceRequest calculateTotalPriceRequest) {
 		RentalListDto rental = rentalService.findById(calculateTotalPriceRequest.getRentalId()).getData();
 		System.out.println(rental.getRentDate());
 		Double price = this.totalPriceCalculator(rental, calculateTotalPriceRequest.getReturnDate());
 		System.out.println(price);
-		return new SuccessDataResult<Double>(price,Messages.TOTALPRICECALCULATE);
+		return new SuccessDataResult<Double>(price, Messages.TOTALPRICECALCULATE);
 	}
 
-	
 	// adds a payment
 	@Override
 	public Result add(CreatePaymentRequest createPaymentRequest) {
@@ -125,14 +125,14 @@ public class PaymentManager implements PaymentService {
 		RentalListDto rental = rentalService.findById(rentalId).getData();
 
 		// calculates total amount
-		double totalPrice = totalPriceCalculator(rental,createPaymentRequest.getReturnDate());
+		double totalPrice = totalPriceCalculator(rental, createPaymentRequest.getReturnDate());
 
 		payment.setTotalPaymentAmount(totalPrice);
 
 		// Bussiness logic
-		Result result = BusinessRules.run(
-				bankAdapterService.checkIfLimitIsEnough(createPaymentRequest.getCardNo(), createPaymentRequest.getYear(),
-						createPaymentRequest.getMonth(), createPaymentRequest.getCvv(), totalPrice));
+		Result result = BusinessRules.run(bankAdapterService.checkIfLimitIsEnough(createPaymentRequest.getCardNo(),
+				createPaymentRequest.getYear(), createPaymentRequest.getMonth(), createPaymentRequest.getCvv(),
+				totalPrice));
 		if (result != null) {
 			return result;
 		}
@@ -167,10 +167,10 @@ public class PaymentManager implements PaymentService {
 	}
 
 	// To calculate total price
-	private double totalPriceCalculator(RentalListDto rental,LocalDate returnDate) {
+	private double totalPriceCalculator(RentalListDto rental, LocalDate returnDate) {
 
 		double totalPrice = 0.0;
-		System.out.println(rental.getRentDate()+" " +returnDate);
+		System.out.println(rental.getRentDate() + " " + returnDate);
 		// finds usage day
 		long days = ChronoUnit.DAYS.between(rental.getRentDate(), returnDate);
 
@@ -199,7 +199,5 @@ public class PaymentManager implements PaymentService {
 
 		return totalPrice;
 	}
-
-
 
 }

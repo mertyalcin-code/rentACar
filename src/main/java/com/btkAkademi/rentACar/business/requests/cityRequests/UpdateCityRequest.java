@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class UpdateCityRequest {
 	private int id;
 	@NotBlank
-	@Size(max=250)
+	@Size(max = 250)
 	private String cityName;
 }

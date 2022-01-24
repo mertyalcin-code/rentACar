@@ -22,6 +22,7 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 import lombok.var;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/languages")

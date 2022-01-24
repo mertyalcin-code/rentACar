@@ -24,7 +24,7 @@ import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 @CrossOrigin
 @RestControllerAdvice
 public class ExceptionHandling implements ErrorController{
-	
+	// For Validation Exceptions
 	@ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException argumentNotValidException){
@@ -35,7 +35,7 @@ public class ExceptionHandling implements ErrorController{
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(validationErrors,Messages.VALIDATIONERROR);
         return errorDataResult;
     }
-
+	// For Entities
     @ExceptionHandler(EntityNotFoundException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
     private ErrorResult handleEntityNotFound(EntityNotFoundException ex){
@@ -56,13 +56,15 @@ public class ExceptionHandling implements ErrorController{
 		ErrorResult error = new ErrorResult(Messages.FORMATERROR);
 		return error;
 	}
-
+	
+	// Generally for messages in our case
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public ErrorResult handHttpMessageExceptionError(HttpMessageNotReadableException httpMessageNotReadableException){
 		ErrorResult errorResult = new ErrorResult(Messages.FORMATERROR);
 		return errorResult;
 
 	}
+	// For Deletinh data which have relation in databas
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ErrorResult handHttpMessageExceptionError(DataIntegrityViolationException dataIntegrityViolationException){
 		ErrorResult errorResult = new ErrorResult(Messages.DATAHAVERELATIONS);

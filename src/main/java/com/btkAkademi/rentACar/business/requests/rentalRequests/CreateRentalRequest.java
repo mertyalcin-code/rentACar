@@ -2,8 +2,6 @@ package com.btkAkademi.rentACar.business.requests.rentalRequests;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.NotEmpty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

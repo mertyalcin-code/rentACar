@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.invoiceRequests.CreateInvoiceRe
 import com.btkAkademi.rentACar.business.requests.invoiceRequests.UpdateInvoiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/invoices")
@@ -32,11 +33,11 @@ public class InvoiceControllers {
 		super();
 		this.invoiceService = invoiceService;
 	}
+
 	@GetMapping("find-all")
 	public DataResult<List<InvoiceListDto>> findAll() {
 		return this.invoiceService.findAll();
 	}
-
 
 	@GetMapping("find-invoice-for-corporate-customer/{rentalId}")
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(@PathVariable int rentalId) {

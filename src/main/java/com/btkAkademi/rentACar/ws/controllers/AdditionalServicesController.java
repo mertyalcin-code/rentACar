@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.Creat
 import com.btkAkademi.rentACar.business.requests.additionalServiceRequests.UpdateAdditionalServiceRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/additional-services")
@@ -43,6 +44,7 @@ public class AdditionalServicesController {
 	public Result add(@RequestBody @Valid CreateAdditionalServiceRequest createAdditionalService) {
 		return this.additionalServiceService.add(createAdditionalService);
 	}
+
 	@PostMapping("add-all")
 	public Result addAll(@RequestBody @Valid List<CreateAdditionalServiceRequest> createAdditionalService) {
 		return this.additionalServiceService.addAll(createAdditionalService);

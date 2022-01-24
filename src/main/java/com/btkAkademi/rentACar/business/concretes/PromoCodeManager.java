@@ -44,50 +44,37 @@ public class PromoCodeManager implements PromoCodeService {
 		List<PromoCodeDto> response = promoCodeList.stream()
 				.map(promoCode -> modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<PromoCodeDto>>(response,Messages.PROMOCODELIST);
-	}
-
-	// finds all active codes
-	@Override
-	public DataResult<List<PromoCodeDto>> findAllNotExpired() {
-		/*
-		 * List<PromoCode> promoCodeList =
-		 * promoCodeDao.findAllActiveCodes(LocalDate.now()); List<PromoCodeDto> response
-		 * = promoCodeList.stream() .map(promoCode ->
-		 * modelMapperService.forDto().map(promoCode, PromoCodeDto.class))
-		 * .collect(Collectors.toList()); return new
-		 * SuccessDataResult<List<PromoCodeDto>>(response,Messages.LIST);
-		 */
-		return null;
+		return new SuccessDataResult<List<PromoCodeDto>>(response, Messages.PROMOCODELIST);
 	}
 
 	// finds by id
 	@Override
 	public DataResult<PromoCodeDto> findById(int promoCodeId) {
-		if(promoCodeDao.existsById(promoCodeId)) {
+		if (promoCodeDao.existsById(promoCodeId)) {
 			PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
 			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-			return new SuccessDataResult<PromoCodeDto>(response,Messages.PROMOCODELIST);
-		}else return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
-		
+			return new SuccessDataResult<PromoCodeDto>(response, Messages.PROMOCODELIST);
+		} else
+			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
+
 	}
 
 	// Finds by Code
 	@Override
 	public DataResult<PromoCodeDto> findByCode(String code) {
 		PromoCode promoCode = promoCodeDao.findByCode(code);
-		if (promoCode == null) {			
+		if (promoCode == null) {
 			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
-		}else {
+		} else {
 			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-			
-			Result result = BusinessRules.run(
-					checkIfCodeStillValid(response));
+
+			Result result = BusinessRules.run(checkIfCodeStillValid(response));
 			if (result != null) {
 				return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODEEXPIRED);
-			}else return new SuccessDataResult<PromoCodeDto>(response,Messages.PROMOCODELIST);
+			} else
+				return new SuccessDataResult<PromoCodeDto>(response, Messages.PROMOCODELIST);
 		}
-	
+
 	}
 
 	// Creates a new code
@@ -144,7 +131,8 @@ public class PromoCodeManager implements PromoCodeService {
 		} else
 			return new SuccessResult();
 	}
-	
+
+	// Controls the codes end date is passed
 	private Result checkIfCodeStillValid(PromoCodeDto code) {
 		if (code.getEndDate().isBefore(LocalDate.now())) {
 			return new ErrorResult(Messages.PROMOCODEEXPIRED);

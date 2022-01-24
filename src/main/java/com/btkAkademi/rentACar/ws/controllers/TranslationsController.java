@@ -21,6 +21,7 @@ import com.btkAkademi.rentACar.business.requests.translationRequests.DeleteTrans
 import com.btkAkademi.rentACar.business.requests.translationRequests.UpdateTranslationRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("api/translations")
@@ -32,12 +33,13 @@ public class TranslationsController {
 	public TranslationsController(TranslationService translationService) {
 		this.translationService = translationService;
 	}
-	
+
 	@GetMapping("find-all")
 	public DataResult<List<TranslationSearchListDto>> getAll() {
 		return this.translationService.getAll();
 	}
-	//find by id ekle
+
+	// find by id ekle
 	@PostMapping("add")
 	public Result add(@RequestBody @Valid CreateTranslationRequest createTranslationRequest) {
 		return this.translationService.add(createTranslationRequest);
@@ -52,7 +54,5 @@ public class TranslationsController {
 	public Result update(@RequestBody @Valid UpdateTranslationRequest updateTranslationRequest) {
 		return this.translationService.update(updateTranslationRequest);
 	}
-
-
 
 }

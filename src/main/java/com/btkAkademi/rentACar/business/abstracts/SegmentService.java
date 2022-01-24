@@ -9,9 +9,9 @@ import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
 
 public interface SegmentService {
-	
+
 	DataResult<List<SegmentListDto>> findAll();
-	
+
 	DataResult<SegmentListDto> findById(int id);
 
 	Result add(CreateSegmentRequest createSegmentRequest);

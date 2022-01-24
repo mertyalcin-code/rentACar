@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserListDto {
-		private int id;
-		private String email; 
-		private String role;
+	private int id;
+	private String email;
+	private String role;
 }

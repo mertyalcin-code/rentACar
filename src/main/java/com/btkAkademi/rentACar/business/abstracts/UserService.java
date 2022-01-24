@@ -9,6 +9,8 @@ import com.btkAkademi.rentACar.entities.concretes.User;
 
 public interface UserService {
 	DataResult<User> findByEmail(String Email);
+
 	DataResult<List<UserListDto>> findAll();
+
 	Result delete(int id);
 }

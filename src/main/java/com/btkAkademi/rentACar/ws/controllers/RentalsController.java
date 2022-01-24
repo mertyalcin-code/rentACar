@@ -24,6 +24,7 @@ import com.btkAkademi.rentACar.business.requests.rentalRequests.CreateRentalRequ
 import com.btkAkademi.rentACar.business.requests.rentalRequests.UpdateRentalRequest;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.Result;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/rentals")
@@ -49,6 +50,7 @@ public class RentalsController {
 	public DataResult<List<MyRentalListDto>> findAllByCustomerId(@PathVariable int id) {
 		return rentalService.findAllByCustomerId(id);
 	}
+
 	@GetMapping("find-active-rental-by-car-id/{id}")
 	public DataResult<RentalListDto> findActiveRentalByCarId(@PathVariable int id) {
 		return rentalService.findActiveRentalByCarId(id);
@@ -61,12 +63,14 @@ public class RentalsController {
 
 	// Adds a new rental
 	@PostMapping("add-for-individual-customer")
-	public DataResult<RentalAddResponse>	 addForIndividualCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
+	public DataResult<RentalAddResponse> addForIndividualCustomer(
+			@RequestBody @Valid CreateRentalRequest createRentalRequest) {
 		return this.rentalService.addForIndividualCustomer(createRentalRequest);
 	}
 
 	@PostMapping("add-for-corporate-customer")
-	public DataResult<RentalAddResponse>	 addForCorporateCustomer(@RequestBody @Valid CreateRentalRequest createRentalRequest) {
+	public DataResult<RentalAddResponse> addForCorporateCustomer(
+			@RequestBody @Valid CreateRentalRequest createRentalRequest) {
 		return this.rentalService.addForCorporateCustomer(createRentalRequest);
 	}
 
