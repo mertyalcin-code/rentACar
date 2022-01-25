@@ -62,7 +62,7 @@ public class BrandsController {
 
 	// deletes a brand
 	@DeleteMapping("delete/{id}")
-	public Result delete(@Valid @PathVariable int id) {
+	public Result delete(@PathVariable int id) {
 		return this.brandService.delete(id);
 	}
 

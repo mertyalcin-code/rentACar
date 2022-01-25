@@ -5,6 +5,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,8 +15,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCarRequest {
+	@NotNull
+	@Size(min=3,max=50)
 	private String carName;
+	
 	private int brandId;
+	
 	private int colorId;
 	@NotNull
 	@Min(0)

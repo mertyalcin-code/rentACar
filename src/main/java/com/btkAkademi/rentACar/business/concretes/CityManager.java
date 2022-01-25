@@ -50,12 +50,13 @@ public class CityManager implements CityService {
 	// Finds city with that id
 	@Override
 	public DataResult<CityListDto> findById(int id) {
-		if (cityDao.existsById(id)) {
-			City city = cityDao.findById(id).get();
-			CityListDto response = modelMapperService.forDto().map(city, CityListDto.class);
-			return new SuccessDataResult<CityListDto>(response, Messages.CITYLIST);
-		} else
-			return new ErrorDataResult<CityListDto>();
+		Result result = BusinessRules.run(checkIfCityIdExist(id));
+		if (result != null) {
+			return new ErrorDataResult<CityListDto>(result.getMessage());
+		}
+		City city = cityDao.findById(id).get();
+		CityListDto response = modelMapperService.forDto().map(city, CityListDto.class);
+		return new SuccessDataResult<CityListDto>(response, Messages.CITYLIST);
 	}
 
 	// Creates a new city in the database
@@ -73,10 +74,7 @@ public class CityManager implements CityService {
 	// update
 	@Override
 	public Result update(UpdateCityRequest updateCityRequest) {
-		Result result = BusinessRules.run(checkIfCityNameExists(updateCityRequest.getCityName()));
-		if (result != null) {
-			return result;
-		}
+
 		City city = this.modelMapperService.forRequest().map(updateCityRequest, City.class);
 		this.cityDao.save(city);
 		return new SuccessResult(Messages.CITYUPDATE);
@@ -85,11 +83,14 @@ public class CityManager implements CityService {
 	// delete
 	@Override
 	public Result delete(int id) {
-		if (cityDao.existsById(id)) {
-			cityDao.deleteById(id);
-			return new SuccessResult(Messages.CITYDELETE);
+		Result result = BusinessRules.run(checkIfCityIdExist(id));
+		if (result != null) {
+			return new ErrorDataResult<CityListDto>(result.getMessage());
 		}
-		return new ErrorResult(Messages.CITYNOTFOUND);
+
+		cityDao.deleteById(id); //if there is a relation it will give error 
+		return new SuccessResult(Messages.CITYDELETE);
+
 	}
 
 	// Helpers
@@ -98,6 +99,14 @@ public class CityManager implements CityService {
 	private Result checkIfCityNameExists(String cityName) {
 		if (cityDao.findByCityName(cityName) != null) {
 			return new ErrorResult(Messages.CITYNAMEEXISTS);
+		}
+		return new SuccessResult();
+	}
+
+	// controls that city exists or not
+	private Result checkIfCityIdExist(int id) {
+		if (!cityDao.existsById(id)) {
+			return new ErrorResult(Messages.CITYNOTFOUND);
 		}
 		return new SuccessResult();
 	}

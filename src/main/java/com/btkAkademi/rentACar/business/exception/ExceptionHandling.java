@@ -52,7 +52,7 @@ public class ExceptionHandling implements ErrorController{
 		return errorResult;
 
 	}
-	// For Deleting data which have relation in databas
+	// For Deleting data which have relation in database
 	@ExceptionHandler(DataIntegrityViolationException.class)
 	public ErrorResult handHttpMessageExceptionError(DataIntegrityViolationException dataIntegrityViolationException){
 		ErrorResult errorResult = new ErrorResult(Messages.DATAHAVERELATIONS);
