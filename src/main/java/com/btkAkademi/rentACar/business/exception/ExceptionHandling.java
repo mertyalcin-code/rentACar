@@ -35,19 +35,8 @@ public class ExceptionHandling implements ErrorController{
         ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(validationErrors,Messages.VALIDATIONERROR);
         return errorDataResult;
     }
-	// For Entities
-    @ExceptionHandler(EntityNotFoundException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-    private ErrorResult handleEntityNotFound(EntityNotFoundException ex){
-        return new ErrorResult("Data not found!");
-    }
-    
-    @ExceptionHandler(NoSuchElementException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorResult handleNoSuchElementException(NoSuchElementException exception){
-		ErrorResult error = new ErrorResult(Messages.DATANOTFOUND);
-		return error;
-	}
+	
+	// for NullPointerException 
     @ExceptionHandler(NullPointerException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorResult handleNullPointerException(NullPointerException exception){
@@ -55,13 +44,6 @@ public class ExceptionHandling implements ErrorController{
 		return error;
 	}
 
-
-	@ExceptionHandler(SerializationException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ErrorResult handleSerializationException(SerializationException serializationException){
-		ErrorResult error = new ErrorResult(Messages.FORMATERROR);
-		return error;
-	}
 	
 	// Generally for messages in our case
 	@ExceptionHandler(HttpMessageNotReadableException.class)

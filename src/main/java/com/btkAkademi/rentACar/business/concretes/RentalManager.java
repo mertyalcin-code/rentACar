@@ -179,7 +179,7 @@ public class RentalManager implements RentalService {
 								.getNationalityNo(),
 						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
 				checkIfCustomerAgeIsEnough(createRentalRequest.getCustomerId(), createRentalRequest.getCarId()),
-				checkIfDatesAreCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate())
+				checkIfDatesAreCorrectForAdd(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate())
 
 		);
 
@@ -224,7 +224,7 @@ public class RentalManager implements RentalService {
 				checkIfCorporateCustomerHasEnoughCreditScore(
 						corporateCustomerService.findById(createRentalRequest.getCustomerId()).getData().getTaxNumber(),
 						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
-				checkIfDatesAreCorrect(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()));
+				checkIfDatesAreCorrectForAdd(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()));
 		if (result != null) {
 			return new ErrorDataResult<RentalAddResponse>(result.getMessage());
 		}
@@ -250,7 +250,7 @@ public class RentalManager implements RentalService {
 		Result result = BusinessRules.run(checkIfCityExist(updateRentalRequest.getReturnCityId()),
 				checkIfKilometersAreCorrect(rentalFromDb.getRentedKilometer(),
 						updateRentalRequest.getReturnedKilometer()),
-				checkIfDatesAreCorrect(rentalFromDb.getRentDate(), updateRentalRequest.getReturnDate()));
+				checkIfDatesAreCorrectForUpdate(rentalFromDb.getRentDate(), updateRentalRequest.getReturnDate()));
 		if (result != null) {
 			return result;
 		}
@@ -292,8 +292,15 @@ public class RentalManager implements RentalService {
 	// Helpers
 
 	// Dates validation
-	private Result checkIfDatesAreCorrect(LocalDate rentDate, LocalDate returnDate) {
+	private Result checkIfDatesAreCorrectForAdd(LocalDate rentDate, LocalDate returnDate) {
 		if (!rentDate.isBefore(returnDate) || rentDate.isBefore(LocalDate.now())) {
+			return new ErrorResult(Messages.RENTALDATEERROR);
+		}
+		return new SuccessResult();
+	}
+	// Dates validation for update
+	private Result checkIfDatesAreCorrectForUpdate(LocalDate rentDate, LocalDate returnDate) {
+		if (!rentDate.isBefore(returnDate)) {
 			return new ErrorResult(Messages.RENTALDATEERROR);
 		}
 		return new SuccessResult();

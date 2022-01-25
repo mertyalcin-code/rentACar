@@ -44,11 +44,12 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	}
 	// Lists all corporate customer
 	@Override
-	public DataResult<List<CorporateCustomerListDto>> findAll(int pageNo, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
-		List<CorporateCustomer> corporateCustomers = this.corporateCustomerDao.findAll(pageable).getContent();
-		List<CorporateCustomerListDto> response = corporateCustomers.stream().map(
-				corporateCustomer -> modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class))
+	public DataResult<List<CorporateCustomerListDto>> findAll(int pageNo, int pageSize) {	
+		List<CorporateCustomer> corporateCustomers = this.corporateCustomerDao.findAll(PageRequest.of(pageNo - 1, pageSize)).getContent();
+		
+		List<CorporateCustomerListDto> response = corporateCustomers.stream()
+				.map(corporateCustomer -> modelMapperService.forDto()
+						.map(corporateCustomer, CorporateCustomerListDto.class))
 				.collect(Collectors.toList());
 
 		return new SuccessDataResult<List<CorporateCustomerListDto>>(response, Messages.CUSTOMERLIST);
@@ -69,14 +70,15 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// Adds a new corporate customer
 	@Override
 	public Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest) {
-		Result result = BusinessRules.run(checkIfCompanyNameExists(createCorporateCustomerRequest.getCompanyName()),
+		Result result = BusinessRules.run(
+				checkIfCompanyNameExists(createCorporateCustomerRequest.getCompanyName()),
 				checkIfEmailExists(createCorporateCustomerRequest.getEmail()));
-
 		if (result != null) {
 			return result;
 		}
 
-		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(createCorporateCustomerRequest,
+		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest()
+				.map(createCorporateCustomerRequest,
 				CorporateCustomer.class);
 		corporateCustomer.setRole(Role.CORPORATE_CUSTOMER.getRole());
 		this.corporateCustomerDao.save(corporateCustomer);
@@ -118,7 +120,6 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	// checks there is a registered user with that email
 	private Result checkIfEmailExists(String email) {
-		System.out.println(userService.findByEmail(email).getData());
 		if (userService.findByEmail(email).getData()!=null) {
 			return new ErrorResult(Messages.EMAILERROR);
 		}

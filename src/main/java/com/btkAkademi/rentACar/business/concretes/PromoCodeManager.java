@@ -86,7 +86,7 @@ public class PromoCodeManager implements PromoCodeService {
 			return result;
 		}
 		PromoCode promoCode = this.modelMapperService.forRequest().map(createPromoCodeRequest, PromoCode.class);
-
+		promoCode.setId(0);
 		this.promoCodeDao.save(promoCode);
 		return new SuccessResult(Messages.PROMOCODEADD);
 
