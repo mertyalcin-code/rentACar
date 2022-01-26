@@ -172,7 +172,8 @@ public class RentalManager implements RentalService {
 			} else
 				return new ErrorDataResult<RentalAddResponse>(Messages.NOAVAILABLECARINTHISSEGMENT);
 		}
-		Result result = BusinessRules.run( // nationaly id hatası alıyoruz customer yok ise
+		
+		Result result = BusinessRules.run( 
 				checkIfCustomerExist(createRentalRequest.getCustomerId()),
 				checkIfIndividualCustomerHasEnoughCreditScore(
 						individualCustomerService.findById(createRentalRequest.getCustomerId()).getData()
@@ -182,6 +183,7 @@ public class RentalManager implements RentalService {
 				checkIfDatesAreCorrectForAdd(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate())
 
 		);
+		
 
 		if (result != null) {
 			return new ErrorDataResult<RentalAddResponse>(result.getMessage());

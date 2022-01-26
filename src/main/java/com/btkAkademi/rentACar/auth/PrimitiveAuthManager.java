@@ -53,7 +53,7 @@ public class PrimitiveAuthManager implements AuthService {
 
 	}
 
-	// checks if password correct
+	// checks if password correct //fluid pattern ile mi 
 	private Result checkIfUsersPasswordIsCorrect(String email, String password) {		
 		User user = userService.findByEmail(email).getData();		
 		if (user!=null && !password.equals(user.getPassword())) {
