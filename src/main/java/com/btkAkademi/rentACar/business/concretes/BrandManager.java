@@ -51,18 +51,21 @@ public class BrandManager implements BrandService {
 	// Finds brand by id
 	@Override
 	public DataResult<BrandListDto> findById(int id) {
-		if (brandDao.existsById(id)) {
-			Brand brand = this.brandDao.findById(id).get();
-			BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
-			return new SuccessDataResult<BrandListDto>(response, Messages.BRANDLIST);
-		} else
-			return new ErrorDataResult<>(Messages.BRANDNOTFOUND);
+		Result result = BusinessRules.run(checkIfBrandIdExists(id));
+		if (result != null) {
+			return new ErrorDataResult<BrandListDto>(result.getMessage());
+		}
+
+		Brand brand = this.brandDao.findById(id).get();
+		BrandListDto response = modelMapperService.forDto().map(brand, BrandListDto.class);
+		return new SuccessDataResult<BrandListDto>(response, Messages.BRANDLIST);
+
 	}
 
 	// Adds a new brand
 	@Override
 	public Result add(CreateBrandRequest createBrandRequest) {
-		
+
 		Result result = BusinessRules.run(checkIfBrandNameExists(createBrandRequest.getName()),
 				checkIfBrandLimitExceeded(BrandManager.limit));
 		if (result != null) {
@@ -96,11 +99,12 @@ public class BrandManager implements BrandService {
 	// Deletes brand by id
 	@Override
 	public Result delete(int id) {
-		if (brandDao.existsById(id)) {
-			brandDao.deleteById(id);
-			return new SuccessResult(Messages.BRANDDELETE);
-		} else
-			return new ErrorResult(Messages.BRANDNOTFOUND);
+		Result result = BusinessRules.run(checkIfBrandIdExists(id));
+		if (result != null) {
+			return result;
+		}
+		brandDao.deleteById(id);
+		return new SuccessResult(Messages.BRANDDELETE);
 
 	}
 
@@ -127,12 +131,9 @@ public class BrandManager implements BrandService {
 
 	// Checks is there a brand with that id
 	private Result checkIfBrandIdExists(int id) {
-
 		if (!this.brandDao.existsById(id)) {
 			return new ErrorResult(Messages.BRANDNOTFOUND);
-
 		}
-
 		return new SuccessResult();
 	}
 

@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.btkAkademi.rentACar.business.abstracts.CorporateCustomerService;
@@ -42,14 +41,15 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 		this.modelMapperService = modelMapperService;
 		this.userService = userService;
 	}
+
 	// Lists all corporate customer
 	@Override
-	public DataResult<List<CorporateCustomerListDto>> findAll(int pageNo, int pageSize) {	
-		List<CorporateCustomer> corporateCustomers = this.corporateCustomerDao.findAll(PageRequest.of(pageNo - 1, pageSize)).getContent();
-		
-		List<CorporateCustomerListDto> response = corporateCustomers.stream()
-				.map(corporateCustomer -> modelMapperService.forDto()
-						.map(corporateCustomer, CorporateCustomerListDto.class))
+	public DataResult<List<CorporateCustomerListDto>> findAll(int pageNo, int pageSize) {
+		List<CorporateCustomer> corporateCustomers = this.corporateCustomerDao
+				.findAll(PageRequest.of(pageNo - 1, pageSize)).getContent();
+
+		List<CorporateCustomerListDto> response = corporateCustomers.stream().map(
+				corporateCustomer -> modelMapperService.forDto().map(corporateCustomer, CorporateCustomerListDto.class))
 				.collect(Collectors.toList());
 
 		return new SuccessDataResult<List<CorporateCustomerListDto>>(response, Messages.CUSTOMERLIST);
@@ -58,27 +58,27 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// finds by id
 	@Override
 	public DataResult<CorporateCustomerListDto> findById(int id) {
-		if (corporateCustomerDao.existsById(id)) {
-			CorporateCustomer corporateCustomer = corporateCustomerDao.findById(id).get();
-			CorporateCustomerListDto response = modelMapperService.forDto().map(corporateCustomer,
-					CorporateCustomerListDto.class);
-			return new SuccessDataResult<>(response, Messages.CUSTOMERLIST);
-		} else
-			return new ErrorDataResult<CorporateCustomerListDto>(Messages.CUSTOMERNOTFOUND);
+		Result result = BusinessRules.run(checkIfCustomerIdExists(id));
+		if (result != null) {
+			return new ErrorDataResult<CorporateCustomerListDto>(result.getMessage());
+		}
+		CorporateCustomer corporateCustomer = corporateCustomerDao.findById(id).get();
+		CorporateCustomerListDto response = modelMapperService.forDto().map(corporateCustomer,
+				CorporateCustomerListDto.class);
+		return new SuccessDataResult<>(response, Messages.CUSTOMERLIST);
+
 	}
 
 	// Adds a new corporate customer
 	@Override
 	public Result add(CreateCorporateCustomerRequest createCorporateCustomerRequest) {
-		Result result = BusinessRules.run(
-				checkIfCompanyNameExists(createCorporateCustomerRequest.getCompanyName()),
+		Result result = BusinessRules.run(checkIfCompanyNameExists(createCorporateCustomerRequest.getCompanyName()),
 				checkIfEmailExists(createCorporateCustomerRequest.getEmail()));
 		if (result != null) {
 			return result;
 		}
 
-		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest()
-				.map(createCorporateCustomerRequest,
+		CorporateCustomer corporateCustomer = this.modelMapperService.forRequest().map(createCorporateCustomerRequest,
 				CorporateCustomer.class);
 		corporateCustomer.setRole(Role.CORPORATE_CUSTOMER.getRole());
 		this.corporateCustomerDao.save(corporateCustomer);
@@ -100,11 +100,13 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 	// delete
 	@Override
 	public Result delete(int id) {
-		if (corporateCustomerDao.existsById(id)) {
-			corporateCustomerDao.deleteById(id);
-			return new SuccessResult(Messages.CUSTOMERDELETE);
+		Result result = BusinessRules.run(checkIfCustomerIdExists(id));
+		if (result != null) {
+			return result;
 		}
-		return new ErrorResult(Messages.CUSTOMERNOTFOUND);
+		corporateCustomerDao.deleteById(id);
+		return new SuccessResult(Messages.CUSTOMERDELETE);
+
 	}
 
 	// Helpers
@@ -120,8 +122,16 @@ public class CorporateCustomerManager implements CorporateCustomerService {
 
 	// checks there is a registered user with that email
 	private Result checkIfEmailExists(String email) {
-		if (userService.findByEmail(email).getData()!=null) {
+		if (userService.findByEmail(email).getData() != null) {
 			return new ErrorResult(Messages.EMAILERROR);
+		}
+		return new SuccessResult();
+	}
+
+	// Checks is there a customer with that id
+	private Result checkIfCustomerIdExists(int id) {
+		if (!this.corporateCustomerDao.existsById(id)) {
+			return new ErrorResult(Messages.CUSTOMERNOTFOUND);
 		}
 		return new SuccessResult();
 	}

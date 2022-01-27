@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.btkAkademi.rentACar.business.abstracts.UserService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.UserListDto;
+import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
@@ -32,20 +33,27 @@ public class UserManager implements UserService {
 		this.userDao = userDao;
 		this.modelMapperService = modelMapperService;
 	}
-	//finds user by id
+
+	// finds user by id
 	@Override
-	public DataResult<UserListDto> findById(int  id) {
-		if(userDao.existsById(id)) {
-			UserListDto response = modelMapperService.forDto().map(this.userDao.findById(id).get(), UserListDto.class);
-			return new SuccessDataResult<UserListDto>(response,Messages.USERLIST);
-		}else return new ErrorDataResult<UserListDto>();
-		
+	public DataResult<UserListDto> findById(int id) {
+		Result result = BusinessRules.run(checkIsUsersExistsById(id));
+		if (result != null) {
+			return new ErrorDataResult<UserListDto>(result.getMessage());
+		}
+		UserListDto response = modelMapperService.forDto().map(this.userDao.findById(id).get(), UserListDto.class);
+		return new SuccessDataResult<UserListDto>(response, Messages.USERLIST);
+
 	}
+
 	// Finds User By Email
 	@Override
-	public DataResult<User> findByEmail(String Email) {
-
-		return new SuccessDataResult<User>(userDao.findByEmail(Email), Messages.USERFOUND);
+	public DataResult<User> findByEmail(String email) {
+		Result result = BusinessRules.run(checkIsUsersExistsByEmail(email));
+		if (result != null) {
+			return new ErrorDataResult<User>(result.getMessage());
+		}
+		return new SuccessDataResult<User>(userDao.findByEmail(email), Messages.USERFOUND);
 	}
 
 	// Finds all users in the system
@@ -61,13 +69,29 @@ public class UserManager implements UserService {
 	// Deletes a user if there is no relation
 	@Override
 	public Result delete(int id) {
-		if (userDao.existsById(id)) {
-			userDao.deleteById(id);
-			return new SuccessResult(Messages.CUSTOMERDELETE);
-		} else
-			return new ErrorResult(Messages.NOTFOUND);
+		Result result = BusinessRules.run(checkIsUsersExistsById(id));
+		if (result != null) {
+			return result;
+		}
+		userDao.deleteById(id);
+		return new SuccessResult(Messages.CUSTOMERDELETE);
+
 	}
 
+	// Checks is there a user with that id
+	private Result checkIsUsersExistsById(int id) {
+		if (!this.userDao.existsById(id)) {
+			return new ErrorResult(Messages.USERNOTFOUND);
+		}
+		return new SuccessResult();
+	}
 
+	// Checks is there a user with that id
+	private Result checkIsUsersExistsByEmail(String email) {
+		if (this.userDao.findByEmail(email) == null) {
+			return new ErrorResult(Messages.USERNOTFOUND);
+		}
+		return new SuccessResult();
+	}
 
 }

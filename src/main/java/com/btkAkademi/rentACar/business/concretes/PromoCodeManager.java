@@ -50,12 +50,13 @@ public class PromoCodeManager implements PromoCodeService {
 	// finds by id
 	@Override
 	public DataResult<PromoCodeDto> findById(int promoCodeId) {
-		if (promoCodeDao.existsById(promoCodeId)) {
-			PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
-			PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
-			return new SuccessDataResult<PromoCodeDto>(response, Messages.PROMOCODELIST);
-		} else
-			return new ErrorDataResult<PromoCodeDto>(Messages.PROMOCODENOTFOUND);
+		Result result = BusinessRules.run(checkIfPromoCodeExistsById(promoCodeId));
+		if (result != null) {
+			return new ErrorDataResult<PromoCodeDto>(result.getMessage());
+		}
+		PromoCode promoCode = promoCodeDao.findById(promoCodeId).get();
+		PromoCodeDto response = modelMapperService.forDto().map(promoCode, PromoCodeDto.class);
+		return new SuccessDataResult<PromoCodeDto>(response, Messages.PROMOCODELIST);
 
 	}
 
@@ -108,11 +109,12 @@ public class PromoCodeManager implements PromoCodeService {
 	// Delete
 	@Override
 	public Result delete(int id) {
-		if (promoCodeDao.existsById(id)) {
-			promoCodeDao.deleteById(id);
-			return new SuccessResult(Messages.PROMOCODEDELETE);
-		} else
-			return new ErrorResult();
+		Result result = BusinessRules.run(checkIfPromoCodeExistsById(id));
+		if (result != null) {
+			return result;
+		}
+		promoCodeDao.deleteById(id);
+		return new SuccessResult(Messages.PROMOCODEDELETE);
 
 	}
 
@@ -138,5 +140,13 @@ public class PromoCodeManager implements PromoCodeService {
 			return new ErrorResult(Messages.PROMOCODEEXPIRED);
 		} else
 			return new SuccessResult();
+	}
+
+	// Checks is there a promo code with that id
+	private Result checkIfPromoCodeExistsById(int id) {
+		if (!this.promoCodeDao.existsById(id)) {
+			return new ErrorResult(Messages.PROMOCODENOTFOUND);
+		}
+		return new SuccessResult();
 	}
 }

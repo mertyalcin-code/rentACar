@@ -85,10 +85,10 @@ public class CityManager implements CityService {
 	public Result delete(int id) {
 		Result result = BusinessRules.run(checkIfCityIdExist(id));
 		if (result != null) {
-			return new ErrorDataResult<CityListDto>(result.getMessage());
+			return result;
 		}
 
-		cityDao.deleteById(id); //if there is a relation it will give error 
+		cityDao.deleteById(id); // if there is a relation it will give error
 		return new SuccessResult(Messages.CITYDELETE);
 
 	}

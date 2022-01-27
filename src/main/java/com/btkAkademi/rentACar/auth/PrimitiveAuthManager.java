@@ -7,6 +7,7 @@ import com.btkAkademi.rentACar.business.abstracts.UserService;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.CityListDto;
 import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
+import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
@@ -18,12 +19,15 @@ import com.btkAkademi.rentACar.entities.concretes.User;
 @Service
 public class PrimitiveAuthManager implements AuthService {
 	private UserService userService;
+	private ModelMapperService modelMapperService;
 
 	@Autowired
-	public PrimitiveAuthManager(UserService userService) {
+	public PrimitiveAuthManager(UserService userService, ModelMapperService modelMapperService) {
 		super();
 		this.userService = userService;
+		this.modelMapperService = modelMapperService;
 	}
+
 
 	@Override
 	public DataResult<LoginResponse> login(LoginRequest loginRequest) {
@@ -36,13 +40,11 @@ public class PrimitiveAuthManager implements AuthService {
 		}
 		
 		User user = userService.findByEmail(loginRequest.getEmail()).getData();
-		LoginResponse response = new LoginResponse();
-		response.setId(user.getId());
-		response.setEmail(user.getEmail());
-		response.setRole(user.getRole());
+		LoginResponse response = modelMapperService.forDto().map(user, LoginResponse.class);
 		return new SuccessDataResult<LoginResponse>(response, Messages.LOGINSUCCESS);
 
 	}
+
 
 	// controls there is a user with that email
 	private Result checkIfUserExistsByEmail(String email) {

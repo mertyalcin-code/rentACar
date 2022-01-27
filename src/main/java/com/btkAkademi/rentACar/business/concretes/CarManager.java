@@ -114,14 +114,16 @@ public class CarManager implements CarService {
 
 	// Finds Car by id
 	@Override
-	public DataResult<CarListDto> findCarById(int id) {
-		if (carDao.existsById(id)) {
+	public DataResult<CarListDto> findById(int id) {
+		Result result = BusinessRules.run(checkIfCarIdExists(id));
+		if (result != null) {
+			return new ErrorDataResult<CarListDto>(result.getMessage());
+		}
 
-			CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
+		CarListDto response = modelMapperService.forDto().map(carDao.findById(id).get(), CarListDto.class);
 
-			return new SuccessDataResult<CarListDto>(response, Messages.CARLIST);
-		} else
-			return new ErrorDataResult<>(Messages.CARNOTFOUND);
+		return new SuccessDataResult<CarListDto>(response, Messages.CARLIST);
+
 	}
 
 	// Adds a new car
@@ -155,9 +157,25 @@ public class CarManager implements CarService {
 		return new SuccessResult(Messages.CARUPDATE);
 	}
 
+	// Deletes a car
+	@Override
+	public Result delete(int id) {
+		Result result = BusinessRules.run(checkIfCarIdExists(id));
+		if (result != null) {
+			return result;
+		}
+		carDao.deleteById(id);
+		return new SuccessResult(Messages.CARDELETE);
+
+	}
+
 	// Updates cars kilometer
 	@Override
 	public Result updateCarKilometer(int carId, int kilometer) {
+		Result result = BusinessRules.run(checkIfCarIdExists(carId));
+		if (result != null) {
+			return result;
+		}
 		Car car = carDao.findById(carId).get();
 		car.setKilometer(kilometer);
 		carDao.save(car);
@@ -168,22 +186,15 @@ public class CarManager implements CarService {
 	// Updates cars location
 	@Override
 	public Result updateCarCity(int carId, int cityId) {
+		Result result = BusinessRules.run(checkIfCarIdExists(carId));
+		if (result != null) {
+			return result;
+		}
 		Car car = carDao.findById(carId).get();
 		City city = modelMapperService.forRequest().map(cityService.findById(cityId).getData(), City.class);
 		car.setCity(city);
 		carDao.save(car);
 		return new SuccessResult("success");
-	}
-
-	// Deletes a car
-	@Override
-	public Result delete(int id) {
-		if (carDao.existsById(id)) {
-			carDao.deleteById(id);
-			return new SuccessResult(Messages.CARDELETE);
-		}
-
-		return new ErrorResult(Messages.CARNOTFOUND);
 	}
 
 	// Helpers

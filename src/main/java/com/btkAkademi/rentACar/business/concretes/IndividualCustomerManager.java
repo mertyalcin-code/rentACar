@@ -37,6 +37,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	private IndividualCustomerDao individualCustomerDao;
 	private ModelMapperService modelMapperService;
 	private UserService userService;
+
 	// Dependency Injection
 	@Autowired
 	public IndividualCustomerManager(IndividualCustomerDao individualCustomerDao, ModelMapperService modelMapperService,
@@ -46,7 +47,6 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		this.modelMapperService = modelMapperService;
 		this.userService = userService;
 	}
-
 
 	// Lists all individual customers according to page
 	@Override
@@ -63,13 +63,15 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	// find by id
 	@Override
 	public DataResult<IndividualCustomerListDto> findById(int id) {
-		if (individualCustomerDao.existsById(id)) {
-			IndividualCustomer individualCustomer = individualCustomerDao.findById(id).get();
-			IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer,
-					IndividualCustomerListDto.class);
-			return new SuccessDataResult<IndividualCustomerListDto>(response, Messages.CUSTOMERLIST);
-		} else
-			return new ErrorDataResult<IndividualCustomerListDto>(Messages.CUSTOMERNOTFOUND);
+		Result result = BusinessRules.run(checkIfCustomerIdExists(id));
+		if (result != null) {
+			return new ErrorDataResult<IndividualCustomerListDto>(result.getMessage());
+		}
+		IndividualCustomer individualCustomer = individualCustomerDao.findById(id).get();
+		IndividualCustomerListDto response = modelMapperService.forDto().map(individualCustomer,
+				IndividualCustomerListDto.class);
+		return new SuccessDataResult<IndividualCustomerListDto>(response, Messages.CUSTOMERLIST);
+
 	}
 
 	// Adds a new individual customer
@@ -110,11 +112,13 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	// Delete a customer
 	@Override
 	public Result delete(int id) {
-		if (individualCustomerDao.existsById(id)) {
-			individualCustomerDao.deleteById(id);
-			return new SuccessResult();
-		} else
-			return new ErrorResult(Messages.CUSTOMERNOTFOUND);
+		Result result = BusinessRules.run(checkIfCustomerIdExists(id));
+		if (result != null) {
+			return result;
+		}
+		individualCustomerDao.deleteById(id);
+		return new SuccessResult();
+
 	}
 
 	// Helpers
@@ -122,7 +126,7 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 	// Checks anyone registered with that email before
 	private Result checkIfEmailExists(String email) {
 		System.out.println(userService.findByEmail(email).getData());
-		if (userService.findByEmail(email).getData()!=null) {
+		if (userService.findByEmail(email).getData() != null) {
 			return new ErrorResult(Messages.EMAILERROR);
 		}
 		return new SuccessResult();
@@ -133,6 +137,14 @@ public class IndividualCustomerManager implements IndividualCustomerService {
 		int Age = Period.between(birthDate, LocalDate.now()).getYears();
 		if (Age < ageLimit) {
 			return new ErrorResult(Messages.AGENOTENOUGH);
+		}
+		return new SuccessResult();
+	}
+
+	// Checks is there a customer with that id
+	private Result checkIfCustomerIdExists(int id) {
+		if (!this.individualCustomerDao.existsById(id)) {
+			return new ErrorResult(Messages.CUSTOMERNOTFOUND);
 		}
 		return new SuccessResult();
 	}

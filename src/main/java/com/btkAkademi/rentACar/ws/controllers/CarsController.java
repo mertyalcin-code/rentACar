@@ -62,7 +62,7 @@ public class CarsController {
 
 	@GetMapping("find-by-id/{id}")
 	public DataResult<CarListDto> findById(@PathVariable int id) {
-		return this.carService.findCarById(id);
+		return this.carService.findById(id);
 	}
 
 	// adds a new car

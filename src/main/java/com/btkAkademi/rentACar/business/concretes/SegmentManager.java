@@ -49,12 +49,12 @@ public class SegmentManager implements SegmentService {
 	// finds a segment
 	@Override
 	public DataResult<SegmentListDto> findById(int id) {
-		if (segmentDao.existsById(id)) {
-			SegmentListDto response = modelMapperService.forDto().map(segmentDao.findById(id).get(),
-					SegmentListDto.class);
-			return new SuccessDataResult<SegmentListDto>(response, Messages.SEGMENTLIST);
-		} else
-			return new ErrorDataResult<SegmentListDto>(Messages.NOTFOUND);
+		Result result = BusinessRules.run(checkIfSegmentExistsById(id));
+		if (result != null) {
+			return new ErrorDataResult<SegmentListDto>(result.getMessage());
+		}
+		SegmentListDto response = modelMapperService.forDto().map(segmentDao.findById(id).get(), SegmentListDto.class);
+		return new SuccessDataResult<SegmentListDto>(response, Messages.SEGMENTLIST);
 
 	}
 
@@ -81,17 +81,27 @@ public class SegmentManager implements SegmentService {
 	// deletes a new segment
 	@Override
 	public Result delete(int id) {
-		if (segmentDao.existsById(id)) {
-			segmentDao.deleteById(id);
-			return new SuccessResult(Messages.SEGMENTDELETE);
-		} else
-			return new ErrorResult(Messages.SEGMENTNOTFOUND);
+		Result result = BusinessRules.run(checkIfSegmentExistsById(id));
+		if (result != null) {
+			return result;
+		}
+		segmentDao.deleteById(id);
+		return new SuccessResult(Messages.SEGMENTDELETE);
+
 	}
 
 	// controls if there is a segment with that name
 	private Result CheckIfSegmentNameAlreadyExists(String SegmentName) {
 		if (segmentDao.findBySegmentName(SegmentName) != null) {
 			return new ErrorResult(Messages.SEGMENTNAMEALREADYEXISTS);
+		}
+		return new SuccessResult();
+	}
+
+	// Checks is there a segment with that id
+	private Result checkIfSegmentExistsById(int id) {
+		if (!this.segmentDao.existsById(id)) {
+			return new ErrorResult(Messages.SEGMENTNOTFOUND);
 		}
 		return new SuccessResult();
 	}

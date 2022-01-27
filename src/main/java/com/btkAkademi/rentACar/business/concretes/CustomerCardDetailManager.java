@@ -54,13 +54,15 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 	// Find Payment by id
 	@Override
 	public DataResult<CustomerCardDetailListDto> findById(int id) {
-		if (customerCardDetailDao.existsById(id)) {
-			CustomerCardDetail customerPaymentDetail = customerCardDetailDao.findById(id).get();
-			CustomerCardDetailListDto response = modelMapperService.forDto().map(customerPaymentDetail,
-					CustomerCardDetailListDto.class);
-			return new SuccessDataResult<CustomerCardDetailListDto>(response, Messages.CREDITCARDLIST);
+		Result result = BusinessRules.run(checkIfCardIdExists(id));
+		if (result != null) {
+			return new ErrorDataResult<CustomerCardDetailListDto>(result.getMessage());
 		}
-		return new ErrorDataResult<CustomerCardDetailListDto>(Messages.CREDITCARDNOTFOUND);
+		CustomerCardDetail customerPaymentDetail = customerCardDetailDao.findById(id).get();
+		CustomerCardDetailListDto response = modelMapperService.forDto().map(customerPaymentDetail,
+				CustomerCardDetailListDto.class);
+		return new SuccessDataResult<CustomerCardDetailListDto>(response, Messages.CREDITCARDLIST);
+
 	}
 
 	// adds new credit cart info
@@ -88,11 +90,13 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 	// deletes a credit cart info
 	@Override
 	public Result delete(int id) {
-		if (customerCardDetailDao.existsById(id)) {
-			customerCardDetailDao.deleteById(id);
-			return new SuccessResult(Messages.CREDITCARDELETE);
+		Result result = BusinessRules.run(checkIfCardIdExists(id));
+		if (result != null) {
+			return result;
 		}
-		return new ErrorResult(Messages.CREDITCARDNOTFOUND);
+		customerCardDetailDao.deleteById(id);
+		return new SuccessResult(Messages.CREDITCARDELETE);
+
 	}
 
 	private Result checkIfCardNoExist(String cardNo) {
@@ -100,6 +104,14 @@ public class CustomerCardDetailManager implements CustomerCardDetailService { //
 			return new ErrorResult(Messages.CREDITCARDALREADYEXISTS);
 		} else
 			return new SuccessResult();
+	}
+
+	// Checks is there a card with that id
+	private Result checkIfCardIdExists(int id) {
+		if (!this.customerCardDetailDao.existsById(id)) {
+			return new ErrorResult(Messages.CREDITCARDNOTFOUND);
+		}
+		return new SuccessResult();
 	}
 
 }

@@ -130,7 +130,7 @@ public class PaymentManager implements PaymentService {
 		payment.setTotalPaymentAmount(totalPrice);
 
 		// Bussiness logic
-		Result result = BusinessRules.run(bankAdapterService.checkIfLimitIsEnough(createPaymentRequest.getCardNo(),
+		Result result = BusinessRules.run(bankAdapterService.makePayment(createPaymentRequest.getCardNo(),
 				createPaymentRequest.getYear(), createPaymentRequest.getMonth(), createPaymentRequest.getCvv(),
 				totalPrice));
 		if (result != null) {
@@ -178,7 +178,7 @@ public class PaymentManager implements PaymentService {
 		if (days == 0)
 			days = 1;
 		// calculates total usage price by day
-		totalPrice += days * carService.findCarById(rental.getCarId()).getData().getDailyPrice();
+		totalPrice += days * carService.findById(rental.getCarId()).getData().getDailyPrice();
 
 		// discount
 		if (rental.getPromoCodeId() != 0) {

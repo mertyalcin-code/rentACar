@@ -48,12 +48,16 @@ public class ColorManager implements ColorService {
 	// Finds Color with id
 	@Override
 	public DataResult<ColorListDto> findById(int id) {
-		if (colorDao.existsById(id)) {
-			Color color = colorDao.findById(id).get();
-			ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
-			return new SuccessDataResult<>(response, Messages.COLORLIST);
-		} else
-			return new ErrorDataResult<>(Messages.COLORNOTFOUND);
+		Result result = BusinessRules.run(checkIfColorIdExists(id));
+
+		if (result != null) {
+
+			return new ErrorDataResult<ColorListDto>(result.getMessage());
+		}
+
+		Color color = colorDao.findById(id).get();
+		ColorListDto response = modelMapperService.forDto().map(color, ColorListDto.class);
+		return new SuccessDataResult<>(response, Messages.COLORLIST);
 
 	}
 
@@ -93,11 +97,15 @@ public class ColorManager implements ColorService {
 	// Delete
 	@Override
 	public Result delete(int id) {
-		if (colorDao.existsById(id)) {
-			colorDao.deleteById(id);
-			return new SuccessResult(Messages.COLORDELETE);
-		} else
-			return new ErrorResult(Messages.COLORNOTFOUND);
+		Result result = BusinessRules.run(checkIfColorIdExists(id));
+
+		if (result != null) {
+
+			return result;
+		}
+
+		colorDao.deleteById(id);
+		return new SuccessResult(Messages.COLORDELETE);
 
 	}
 

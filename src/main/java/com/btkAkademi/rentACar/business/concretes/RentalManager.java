@@ -57,6 +57,7 @@ public class RentalManager implements RentalService {
 	private PaymentService paymentService;
 	private InvoiceService invoiceService;
 	private WordService wordService;
+
 	// Dependency Injection
 	@Autowired
 	public RentalManager(RentalDao rentalDao, ModelMapperService modelMapperService, CustomerService customerService,
@@ -77,8 +78,9 @@ public class RentalManager implements RentalService {
 		this.paymentService = paymentService;
 		this.invoiceService = invoiceService;
 		this.wordService = wordService;
-	
+
 	}
+
 	// Lists all rentals
 	@Override
 	public DataResult<List<RentalListDto>> findAll(int pageNo, int pageSize) {
@@ -89,8 +91,6 @@ public class RentalManager implements RentalService {
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<RentalListDto>>(response, Messages.RENTALLIST);
 	}
-
-
 
 	// Lists all rentals for one customer
 	@Override
@@ -103,8 +103,8 @@ public class RentalManager implements RentalService {
 			MyRentalListDto responseItem = new MyRentalListDto();
 			responseItem.setRentalId(rental.getId());
 			responseItem.setRentDate(rental.getRentDate());
-			responseItem.setBrandName(carService.findCarById(rental.getCar().getId()).getData().getBrandName());
-			responseItem.setCarName(carService.findCarById(rental.getCar().getId()).getData().getCarName());
+			responseItem.setBrandName(carService.findById(rental.getCar().getId()).getData().getBrandName());
+			responseItem.setCarName(carService.findById(rental.getCar().getId()).getData().getCarName());
 			responseItem.setPickUpCityName(rental.getPickUpCity().getCityName());
 			if (paymentService.findAllByRentalId(rental.getId()).isSuccess()) {
 				double totalPrice = 0;
@@ -163,7 +163,7 @@ public class RentalManager implements RentalService {
 	// Adds a new rental
 	@Override
 	public DataResult<RentalAddResponse> addForIndividualCustomer(CreateRentalRequest createRentalRequest) {
-		CarListDto wantedCar = carService.findCarById(createRentalRequest.getCarId()).getData();
+		CarListDto wantedCar = carService.findById(createRentalRequest.getCarId()).getData();
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess()
 				|| !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
 			CarListDto car = findAvailableCar(wantedCar.getSegmentId(), wantedCar.getCityId()).getData();
@@ -172,24 +172,22 @@ public class RentalManager implements RentalService {
 			} else
 				return new ErrorDataResult<RentalAddResponse>(Messages.NOAVAILABLECARINTHISSEGMENT);
 		}
-		
-		Result result = BusinessRules.run( 
-				checkIfCustomerExist(createRentalRequest.getCustomerId()),
+
+		Result result = BusinessRules.run(checkIfCustomerExist(createRentalRequest.getCustomerId()),
 				checkIfIndividualCustomerHasEnoughCreditScore(
 						individualCustomerService.findById(createRentalRequest.getCustomerId()).getData()
 								.getNationalityNo(),
-						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
+						carService.findById(createRentalRequest.getCarId()).getData().getFindexScore()),
 				checkIfCustomerAgeIsEnough(createRentalRequest.getCustomerId(), createRentalRequest.getCarId()),
 				checkIfDatesAreCorrectForAdd(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate())
 
 		);
-		
 
 		if (result != null) {
 			return new ErrorDataResult<RentalAddResponse>(result.getMessage());
 		}
 
-		CarListDto car = carService.findCarById(createRentalRequest.getCarId()).getData();
+		CarListDto car = carService.findById(createRentalRequest.getCarId()).getData();
 
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		// if we don't this ReturnedKilometer will be 0
@@ -211,7 +209,7 @@ public class RentalManager implements RentalService {
 	// adds rental for corporate customer
 	@Override
 	public DataResult<RentalAddResponse> addForCorporateCustomer(CreateRentalRequest createRentalRequest) {
-		CarListDto wantedCar = carService.findCarById(createRentalRequest.getCarId()).getData();
+		CarListDto wantedCar = carService.findById(createRentalRequest.getCarId()).getData();
 		if (!checkIfIsCarInMaintanance(createRentalRequest.getCarId()).isSuccess()
 				|| !checkIfIsCarAlreadyRented(createRentalRequest.getCarId()).isSuccess()) {
 			CarListDto car = findAvailableCar(wantedCar.getSegmentId(), wantedCar.getCityId()).getData();
@@ -225,12 +223,12 @@ public class RentalManager implements RentalService {
 
 				checkIfCorporateCustomerHasEnoughCreditScore(
 						corporateCustomerService.findById(createRentalRequest.getCustomerId()).getData().getTaxNumber(),
-						carService.findCarById(createRentalRequest.getCarId()).getData().getFindexScore()),
+						carService.findById(createRentalRequest.getCarId()).getData().getFindexScore()),
 				checkIfDatesAreCorrectForAdd(createRentalRequest.getRentDate(), createRentalRequest.getReturnDate()));
 		if (result != null) {
 			return new ErrorDataResult<RentalAddResponse>(result.getMessage());
 		}
-		CarListDto car = carService.findCarById(createRentalRequest.getCarId()).getData();
+		CarListDto car = carService.findById(createRentalRequest.getCarId()).getData();
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		// if we don't this ReturnedKilometer will be 0
 		rental.setReturnedKilometer(null);
@@ -300,6 +298,7 @@ public class RentalManager implements RentalService {
 		}
 		return new SuccessResult();
 	}
+
 	// Dates validation for update
 	private Result checkIfDatesAreCorrectForUpdate(LocalDate rentDate, LocalDate returnDate) {
 		if (!rentDate.isBefore(returnDate)) {
@@ -376,7 +375,7 @@ public class RentalManager implements RentalService {
 		int age = Period
 				.between(individualCustomerService.findById(customerId).getData().getBirthDate(), LocalDate.now())
 				.getYears();
-		int minAge = carService.findCarById(carId).getData().getMinAge();
+		int minAge = carService.findById(carId).getData().getMinAge();
 		if (age < minAge) {
 			return new ErrorResult(Messages.AGENOTENOUGH);
 		}
@@ -387,7 +386,7 @@ public class RentalManager implements RentalService {
 	private DataResult<CarListDto> findAvailableCar(int SegmentId, int cityId) {
 		if (carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).isSuccess()) {
 			CarListDto car = carService
-					.findCarById(carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).getData().get(0))
+					.findById(carService.findAvailableCarsBySegmentIdAndCityId(SegmentId, cityId).getData().get(0))
 					.getData();
 			return new SuccessDataResult<CarListDto>(car);
 		} else

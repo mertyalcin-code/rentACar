@@ -54,6 +54,7 @@ public class InvoiceManager implements InvoiceService {
 	private AdditionalServiceService additionalServiceService;
 	private AdditionalServiceItemService additionalServiceItemService;
 	private UserService userService;
+
 	// Dependency Injection
 	@Autowired
 	public InvoiceManager(InvoiceDao invoiceDao, ModelMapperService modelMapperService,
@@ -72,18 +73,20 @@ public class InvoiceManager implements InvoiceService {
 		this.additionalServiceItemService = additionalServiceItemService;
 		this.userService = userService;
 	}
+
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceIndividualCustomerDto> getInvoiceForIndividualCustomer(int rentalId) {
 		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),
-				checkIfInvoiceExistsByRentalId(rentalId),checkIfCustomerIndividual(rentalId)
-				);
+				checkIfInvoiceExistsByRentalId(rentalId), checkIfCustomerIndividual(rentalId));
 		if (result != null) {
 			return new ErrorDataResult<>(result.getMessage());
 		}
+
 		Invoice invoice = invoiceDao.findByRentalId(rentalId);
 		RentalListDto rental = rentalService.findById(rentalId).getData();
 		IndividualCustomerListDto customer = individualCustomerService.findById(rental.getCustomerId()).getData();
+
 		List<AdditionalServiceListDto> additionalServices = additionalServiceService.findAllByRentalId(rentalId)
 				.getData();
 		List<AdditionalServiceItemListDto> additionalServiceItems = new ArrayList<AdditionalServiceItemListDto>();
@@ -111,13 +114,11 @@ public class InvoiceManager implements InvoiceService {
 		return new SuccessDataResult<InvoiceIndividualCustomerDto>(responseCustomerDto, Messages.INVOICELIST);
 	}
 
-
-
 	// prepares a dto with the information required for the invoice
 	@Override
 	public DataResult<InvoiceCorporateCustomerDto> getInvoiceForCorporateCustomer(int rentalId) {
 		Result result = BusinessRules.run(checkIfRentalIsFinished(rentalId), checkIfPaymentIsMade(rentalId),
-				checkIfInvoiceExistsByRentalId(rentalId),checkIfCustomerCorporate(rentalId)
+				checkIfInvoiceExistsByRentalId(rentalId), checkIfCustomerCorporate(rentalId)
 
 		);
 		if (result != null) {
@@ -190,11 +191,13 @@ public class InvoiceManager implements InvoiceService {
 	// Deletes an invoice request
 	@Override
 	public Result delete(int id) {
-		if (invoiceDao.existsById(id)) {
-			invoiceDao.deleteById(id);
-			return new SuccessResult(Messages.INVOICEDELETE);
-		} else
-			return new ErrorResult();
+		Result result = BusinessRules.run(checkIfInvoiceExistsById(id));
+		if (result != null) {
+			return result;
+		}
+		invoiceDao.deleteById(id);
+		return new SuccessResult(Messages.INVOICEDELETE);
+
 	}
 	// Helpers
 
@@ -232,18 +235,29 @@ public class InvoiceManager implements InvoiceService {
 		} else
 			return new ErrorResult(Messages.PAYMENTNOTFOUND);
 	}
+
 	private Result checkIfCustomerIndividual(int rentalId) {
-		int customerId=rentalService.findById(rentalId).getData().getCustomerId();
-		if(userService.findById(customerId).getData().getRole().equals(Role.INDIVIDUAL_CUSTOMER.getRole())) {
+		int customerId = rentalService.findById(rentalId).getData().getCustomerId();
+		if (userService.findById(customerId).getData().getRole().equals(Role.INDIVIDUAL_CUSTOMER.getRole())) {
 			return new SuccessResult();
-		}else return new ErrorResult(Messages.NOTFOUND);
+		} else
+			return new ErrorResult(Messages.NOTFOUND);
 	}
+
 	private Result checkIfCustomerCorporate(int rentalId) {
-		int customerId=rentalService.findById(rentalId).getData().getCustomerId();
-		
-		if(userService.findById(customerId).getData().getRole().equals(Role.CORPORATE_CUSTOMER.getRole())) {
+		int customerId = rentalService.findById(rentalId).getData().getCustomerId();
+
+		if (userService.findById(customerId).getData().getRole().equals(Role.CORPORATE_CUSTOMER.getRole())) {
 			return new SuccessResult();
-		}else return new ErrorResult(Messages.NOTFOUND);
+		} else
+			return new ErrorResult(Messages.NOTFOUND);
+	}
+
+	private Result checkIfInvoiceExistsById(int id) {
+		if (invoiceDao.existsById(id)) {
+			return new SuccessResult();
+		} else
+			return new ErrorResult(Messages.INVOICENOTFOUND);
 	}
 
 }

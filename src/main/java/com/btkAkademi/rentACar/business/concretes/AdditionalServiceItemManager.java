@@ -11,6 +11,7 @@ import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.business.dtos.AdditionalServiceItemListDto;
 import com.btkAkademi.rentACar.business.requests.additionalServiceItemRequests.CreateAdditionalServiceItemRequest;
 import com.btkAkademi.rentACar.business.requests.additionalServiceItemRequests.UpdateAdditionalServiceItemRequest;
+import com.btkAkademi.rentACar.core.utilities.business.BusinessRules;
 import com.btkAkademi.rentACar.core.utilities.mapping.ModelMapperService;
 import com.btkAkademi.rentACar.core.utilities.results.DataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
@@ -36,6 +37,32 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 		this.additionalServiceItemDao = additionalServiceItemDao;
 	}
 
+	// finds all Service
+	@Override
+	public DataResult<List<AdditionalServiceItemListDto>> findAll() {
+		List<AdditionalServiceItem> additionalServiceItems = this.additionalServiceItemDao.findAll();
+		List<AdditionalServiceItemListDto> response = additionalServiceItems.stream()
+				.map(additionalServiceItem -> modelMapperService.forDto().map(additionalServiceItem,
+						AdditionalServiceItemListDto.class))
+				.collect(Collectors.toList());
+
+		return new SuccessDataResult<>(response, Messages.ADDITIONALSERVICEITEMLIST);
+	}
+
+	// Finds by id
+	@Override
+	public DataResult<AdditionalServiceItemListDto> findById(int id) {
+		Result result = BusinessRules.run(checkIfAdditionalServiceItemExistById(id));
+		if (result != null) {
+			return new ErrorDataResult<AdditionalServiceItemListDto>(result.getMessage());
+		}
+		AdditionalServiceItem item = additionalServiceItemDao.findById(id).get();
+		AdditionalServiceItemListDto response = modelMapperService.forDto().map(item,
+				AdditionalServiceItemListDto.class);
+		return new SuccessDataResult<AdditionalServiceItemListDto>(response, Messages.ADDITIONALSERVICEITEMLIST);
+
+	}
+
 	// Defines Additional Service element To System
 	@Override
 	public Result add(CreateAdditionalServiceItemRequest createAdditionalServiceItemRequest) {
@@ -43,19 +70,6 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 				.map(createAdditionalServiceItemRequest, AdditionalServiceItem.class);
 		this.additionalServiceItemDao.save(additionalServiceItem);
 		return new SuccessResult(Messages.ADDITIONALSERVICEITEMADDED);
-	}
-
-	// Finds by id
-	@Override
-	public DataResult<AdditionalServiceItemListDto> findById(int id) {
-		if (additionalServiceItemDao.existsById(id)) {
-			AdditionalServiceItem item = additionalServiceItemDao.findById(id).get();
-			AdditionalServiceItemListDto response = modelMapperService.forDto().map(item,
-					AdditionalServiceItemListDto.class);
-			return new SuccessDataResult<AdditionalServiceItemListDto>(response, Messages.ADDITIONALSERVICEITEMLIST);
-		} else
-			return new ErrorDataResult<AdditionalServiceItemListDto>(Messages.ADDITIONALSERVICEITEMNOTFOUND);
-
 	}
 
 	// Updates a service
@@ -70,23 +84,22 @@ public class AdditionalServiceItemManager implements AdditionalServiceItemServic
 	// delete service if there is no relation
 	@Override
 	public Result delete(int id) {
-		if (additionalServiceItemDao.existsById(id)) {
-			additionalServiceItemDao.deleteById(id);
-			return new SuccessResult(Messages.ADDITIONALSERVICEITEMDELETED);
-		} else
-			return new ErrorResult(Messages.ADDITIONALSERVICEITEMNOTFOUND);
+		Result result = BusinessRules.run(checkIfAdditionalServiceItemExistById(id));
+		if (result != null) {
+			return result;
+		}
+
+		additionalServiceItemDao.deleteById(id);
+		return new SuccessResult(Messages.ADDITIONALSERVICEITEMDELETED);
+
 	}
 
-	// finds all Service
-	@Override
-	public DataResult<List<AdditionalServiceItemListDto>> findAll() {
-		List<AdditionalServiceItem> additionalServiceItems = this.additionalServiceItemDao.findAll();
-		List<AdditionalServiceItemListDto> response = additionalServiceItems.stream()
-				.map(additionalServiceItem -> modelMapperService.forDto().map(additionalServiceItem,
-						AdditionalServiceItemListDto.class))
-				.collect(Collectors.toList());
+	private Result checkIfAdditionalServiceItemExistById(int id) {
+		if (additionalServiceItemDao.existsById(id)) {
+			return new SuccessResult();
+		} else
+			return new ErrorResult(Messages.ADDITIONALSERVICEITEMNOTFOUND);
 
-		return new SuccessDataResult<>(response, Messages.ADDITIONALSERVICEITEMLIST);
 	}
 
 }

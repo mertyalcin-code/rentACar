@@ -69,13 +69,14 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	// finds one specific maintenance
 	@Override
 	public DataResult<CarMaintenanceListDto> findById(int id) {
-		if (carMaintananceDao.existsById(id)) {
-			CarMaintenance carMaintenance = carMaintananceDao.findById(id).get();
-			CarMaintenanceListDto response = modelMapperService.forDto().map(carMaintenance,
-					CarMaintenanceListDto.class);
-			return new SuccessDataResult<CarMaintenanceListDto>(response, Messages.CARMAINTENANCELIST);
+		Result result = BusinessRules.run(checkIfCarMaintenanceExistById(id));
+		if (result != null) {
+			return new ErrorDataResult<CarMaintenanceListDto>(result.getMessage());
 		}
-		return new ErrorDataResult<CarMaintenanceListDto>(Messages.CARMAINTENANCENOTFOUND);
+		CarMaintenance carMaintenance = carMaintananceDao.findById(id).get();
+		CarMaintenanceListDto response = modelMapperService.forDto().map(carMaintenance, CarMaintenanceListDto.class);
+		return new SuccessDataResult<CarMaintenanceListDto>(response, Messages.CARMAINTENANCELIST);
+
 	}
 
 	// Sends the car to maintenance
@@ -115,11 +116,13 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 	// Delete
 	@Override
 	public Result delete(int id) {
-		if (carMaintananceDao.existsById(id)) {
-			carMaintananceDao.deleteById(id);
-			return new SuccessResult(Messages.CARMAINTENANCEDELETE);
-		} else
-			return new ErrorResult(Messages.CARMAINTENANCENOTFOUND);
+		Result result = BusinessRules.run(checkIfCarMaintenanceExistById(id));
+		if (result != null) {
+			return result;
+		}
+		carMaintananceDao.deleteById(id);
+		return new SuccessResult(Messages.CARMAINTENANCEDELETE);
+
 	}
 
 	// Returns Error Result if car is in maintenance
@@ -133,7 +136,7 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 
 	// Checks if car is exists
 	private Result checkIfCarIsExists(int carId) {
-		if (!carService.findCarById(carId).isSuccess()) {
+		if (!carService.findById(carId).isSuccess()) {
 			return new ErrorResult(Messages.CARNOTFOUND);
 		} else
 			return new SuccessResult();
@@ -153,6 +156,13 @@ public class CarMaintenanceManager implements CarMaintenanceService {
 			return new ErrorResult(Messages.CARINMANTANANCE);
 		} else
 			return new SuccessResult();
+	}
+
+	private Result checkIfCarMaintenanceExistById(int id) {
+		if (carMaintananceDao.existsById(id)) {
+			return new SuccessResult();
+		} else
+			return new ErrorResult(Messages.CARMAINTENANCENOTFOUND);
 	}
 
 }

@@ -52,13 +52,14 @@ public class CarDamageManager implements CarDamageService {
 	// find specific damage of the car
 	@Override
 	public DataResult<CarDamageListDto> findById(int id) {
-		if (carDamageDao.existsById(id)) {
-			CarDamage carDamage = carDamageDao.findById(id).get();
-			CarDamageListDto response = modelMapperService.forDto().map(carDamage, CarDamageListDto.class);
-			return new SuccessDataResult<CarDamageListDto>(response, Messages.CARDAMAGELIST);
+		Result result = BusinessRules.run(checkIfCarDamageExistById(id));
+		if (result != null) {
+			return new ErrorDataResult<CarDamageListDto>(result.getMessage());
 		}
+		CarDamage carDamage = carDamageDao.findById(id).get();
+		CarDamageListDto response = modelMapperService.forDto().map(carDamage, CarDamageListDto.class);
+		return new SuccessDataResult<CarDamageListDto>(response, Messages.CARDAMAGELIST);
 
-		return new ErrorDataResult<CarDamageListDto>();
 	}
 
 	// Adds a damage to car
@@ -90,21 +91,31 @@ public class CarDamageManager implements CarDamageService {
 	// delete
 	@Override
 	public Result delete(int id) {
-		if (carDamageDao.existsById(id)) {
-			carDamageDao.deleteById(id);
-			return new SuccessResult(Messages.CARDAMAGEDELETE);
-		} else
-			return new ErrorResult(Messages.CARDAMAGENOTFOUND);
+		Result result = BusinessRules.run(checkIfCarDamageExistById(id));
+		if (result != null) {
+			return result;
+		}
+		carDamageDao.deleteById(id);
+		return new SuccessResult(Messages.CARDAMAGEDELETE);
+
 	}
 
 	// Helpers
 
 	// Checks if car is exists
 	private Result checkIfCarIsExists(int carId) {
-		if (!carService.findCarById(carId).isSuccess()) {
+		if (!carService.findById(carId).isSuccess()) {
 			return new ErrorResult(Messages.CARDAMAGENOTFOUND);
 		} else
 			return new SuccessResult();
+	}
+
+	// id check
+	private Result checkIfCarDamageExistById(int id) {
+		if (carDamageDao.existsById(id)) {
+			return new SuccessResult();
+		} else
+			return new ErrorResult(Messages.CARDAMAGENOTFOUND);
 	}
 
 }
