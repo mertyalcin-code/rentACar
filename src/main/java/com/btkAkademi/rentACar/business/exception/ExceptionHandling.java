@@ -26,19 +26,15 @@ import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
 public class ExceptionHandling implements ErrorController{
 	// For Validation Exceptions
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+
     public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException argumentNotValidException){
-        Map<String,String> validationErrors = new HashMap<String, String>();
-        for (FieldError fieldError : argumentNotValidException.getBindingResult().getFieldErrors()) {
-            validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-        }
-        ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(validationErrors,Messages.VALIDATIONERROR);
+        String message = argumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage();       
+        ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(message);
         return errorDataResult;
     }
 	
 	// for NullPointerException 
     @ExceptionHandler(NullPointerException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public ErrorResult handleNullPointerException(NullPointerException exception){
 		ErrorResult error = new ErrorResult(Messages.DATANOTFOUND);
 		return error;
