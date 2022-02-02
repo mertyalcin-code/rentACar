@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateCustomerCardDetailRequest {
+	
 	@NotBlank
 	@Size(min = 16, max = 16)
 	@Pattern(regexp = "[0-9]+",message = Messages.CREDITCARDNUMBERERROR)
@@ -30,6 +31,6 @@ public class CreateCustomerCardDetailRequest {
 	@Size(min = 3, max = 3)
 	@Pattern(regexp = "[0-9][0-9][0-9]",message = Messages.CREDITCARDCVVERROR)
 	private String cvv;
-	
 	private int customerId;
+	
 }

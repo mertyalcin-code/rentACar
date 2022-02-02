@@ -12,20 +12,19 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.btkAkademi.rentACar.business.constants.Messages;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorDataResult;
 import com.btkAkademi.rentACar.core.utilities.results.ErrorResult;
-@CrossOrigin
+
 @RestControllerAdvice
 public class ExceptionHandling implements ErrorController{
 	// For Validation Exceptions
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-
-    public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException argumentNotValidException){
+    public ErrorResult handleValidationException(MethodArgumentNotValidException argumentNotValidException){
         String message = argumentNotValidException.getBindingResult().getFieldErrors().get(0).getDefaultMessage();       
-        ErrorDataResult<Object> errorDataResult = new ErrorDataResult<Object>(message);
-        return errorDataResult;
+        ErrorResult errorResult = new ErrorResult(message);
+        return errorResult;
     }
 	
 	// for NullPointerException 
-    @ExceptionHandler(NullPointerException.class)
+    @ExceptionHandler(NullPointerException.class)    
 	public ErrorResult handleNullPointerException(NullPointerException exception){
 		ErrorResult error = new ErrorResult(Messages.DATANOTFOUND);
 		return error;
